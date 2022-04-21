@@ -35,3 +35,10 @@ Page.Button({
 		loadstring(game:HttpGet('https://pastebin.com/raw/HqWTLk2A'))()
 	end,
 })
+
+Page.Button({
+	Text = "Demon Slayer",
+	Callback = function()
+		loadstring(game:HttpGet('https://pastebin.com/yydA55H3'))()
+	end,
+})
