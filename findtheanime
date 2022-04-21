@@ -1,0 +1,54 @@
+local Material = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/MaterialLua/master/Module.lua"))()
+
+local X = Material.Load({
+	Title = "Anime Fighters Simulator",
+	Style = 1,
+	SizeX = 400,
+	SizeY = 350,
+	Theme = "Aqua",
+	ColorOverrides = {
+		MainFrame = Color3.fromRGB(235,235,235)
+	}
+})
+
+local Page = X.New({
+	Title = "Auto-Farm"
+})
+
+local mobs = {Naruto,Sasuke}
+local mob = nil
+local farm = false
+
+Page.Toggle({
+	Text = "On or Off",
+	Callback = function(value)
+		farm = value
+	end,
+	Enabled = false
+})
+Page.Button({
+	Text = "Naruto",
+	Callback = function()
+	
+		--10
+		loadstring(game:HttpGet('https://pastebin.com/raw/BGjPhxWv'))()
+		--20
+		loadstring(game:HttpGet('https://pastebin.com/raw/Zp5meuC9'))()
+		--30
+		loadstring(game:HttpGet('https://pastebin.com/raw/3smjZY5s'))()
+		--40
+		loadstring(game:HttpGet('https://pastebin.com/raw/Qp0eesu4'))()
+		--50
+		loadstring(game:HttpGet('https://pastebin.com/raw/zBytX9aZ'))()
+		--60
+		loadstring(game:HttpGet('https://pastebin.com/raw/JQFSWsFR'))()
+		--70
+		loadstring(game:HttpGet('https://pastebin.com/raw/n2aJvfPM'))()
+		--80
+		loadstring(game:HttpGet('https://pastebin.com/raw/pK4pefpC'))()
+		--90
+		loadstring(game:HttpGet('https://pastebin.com/raw/BGjPhxWv'))()
+		--100
+		loadstring(game:HttpGet('https://pastebin.com/raw/BGjPhxWv'))()
+	end,
+})
