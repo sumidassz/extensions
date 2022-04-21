@@ -26,6 +26,9 @@ Page.Button({
 	Text = "One Piece",
 	Callback = function()
 		loadstring(game:HttpGet('https://pastebin.com/raw/ULuN5TQx'))()
+		wait(1)
+		local a = game:GetService("Workspace").Fighters:FindFirstChild("134")
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(a.Position)
 	end,
 })
 
