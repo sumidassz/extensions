@@ -21,3 +21,10 @@ Page.Button({
 		loadstring(game:HttpGet('https://pastebin.com/raw/RwczxZij'))()
 	end,
 })
+
+Page.Button({
+	Text = "One Piece",
+	Callback = function()
+		loadstring(game:HttpGet('https://pastebin.com/raw/ULuN5TQx'))()
+	end,
+})
