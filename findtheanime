@@ -1,7 +1,7 @@
 local Material = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/MaterialLua/master/Module.lua"))()
 
 local X = Material.Load({
-	Title = "Anime Fighters Simulator",
+	Title = "Find The Anime by Sumidasso",
 	Style = 1,
 	SizeX = 400,
 	SizeY = 350,
@@ -12,20 +12,9 @@ local X = Material.Load({
 })
 
 local Page = X.New({
-	Title = "Auto-Farm"
+	Title = "All"
 })
 
-local mobs = {Naruto,Sasuke}
-local mob = nil
-local farm = false
-
-Page.Toggle({
-	Text = "On or Off",
-	Callback = function(value)
-		farm = value
-	end,
-	Enabled = false
-})
 Page.Button({
 	Text = "Naruto",
 	Callback = function()
@@ -47,8 +36,8 @@ Page.Button({
 		--80
 		loadstring(game:HttpGet('https://pastebin.com/raw/pK4pefpC'))()
 		--90
-		loadstring(game:HttpGet('https://pastebin.com/raw/BGjPhxWv'))()
+		loadstring(game:HttpGet('https://pastebin.com/raw/1C1nxtUs'))()
 		--100
-		loadstring(game:HttpGet('https://pastebin.com/raw/BGjPhxWv'))()
+		loadstring(game:HttpGet('https://pastebin.com/raw/tzM2mxKJ'))()
 	end,
 })
