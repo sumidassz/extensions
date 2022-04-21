@@ -18,26 +18,6 @@ local Page = X.New({
 Page.Button({
 	Text = "Naruto",
 	Callback = function()
-	
-		--10
-		loadstring(game:HttpGet('https://pastebin.com/raw/BGjPhxWv'))()
-		--20
-		loadstring(game:HttpGet('https://pastebin.com/raw/Zp5meuC9'))()
-		--30
-		loadstring(game:HttpGet('https://pastebin.com/raw/3smjZY5s'))()
-		--40
-		loadstring(game:HttpGet('https://pastebin.com/raw/Qp0eesu4'))()
-		--50
-		loadstring(game:HttpGet('https://pastebin.com/raw/zBytX9aZ'))()
-		--60
-		loadstring(game:HttpGet('https://pastebin.com/raw/JQFSWsFR'))()
-		--70
-		loadstring(game:HttpGet('https://pastebin.com/raw/n2aJvfPM'))()
-		--80
-		loadstring(game:HttpGet('https://pastebin.com/raw/pK4pefpC'))()
-		--90
-		loadstring(game:HttpGet('https://pastebin.com/raw/1C1nxtUs'))()
-		--100
-		loadstring(game:HttpGet('https://pastebin.com/raw/tzM2mxKJ'))()
+		loadstring(game:HttpGet('https://pastebin.com/raw/RwczxZij'))()
 	end,
 })
