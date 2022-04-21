@@ -28,3 +28,10 @@ Page.Button({
 		loadstring(game:HttpGet('https://pastebin.com/raw/ULuN5TQx'))()
 	end,
 })
+
+Page.Button({
+	Text = "Dragon Ball",
+	Callback = function()
+		loadstring(game:HttpGet('https://pastebin.com/raw/HqWTLk2A'))()
+	end,
+})
