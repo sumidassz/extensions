@@ -10,7 +10,7 @@ MainTab.TextField({
 		mainKey = tostring(Value)
 		if tostring(Value) == "r513uBZDZ5Oz9ijxoUuR" then 
 			wait(0.5)
-			loadstring(game:HttpGet("https://raw.githubusercontent.com/iSumidassz/dth/main/"..tostring(game.PlaceId)))()
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/Sumidasso/scripts/main/"..tostring(game.PlaceId)))()
 			game:GetService("StarterGui"):SetCore("SendNotification", { Title = "sTempest Opened!", Text = "Correct Key!", Icon = "rbxassetid://11425411459", Duration = 10 })
 		end
 	end,
