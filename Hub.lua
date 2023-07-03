@@ -80,7 +80,7 @@ MainTab.TextField({
 		if tostring(Value) == "r513uBZDZ5Oz9ijxoUuR" then 
 			wait(0.5)
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/Sumidasso/scripts/main/"..tostring(game.PlaceId)))()
-			game:GetService("StarterGui"):SetCore("SendNotification", { Title = "sTempest Opened!", Text = "Correct Key!", Icon = "rbxassetid://11425411459", Duration = 10 })
+			notification("Opening sTempest Hub! (Correct Key)", 5)
 		end
 	end,
 	Menu = {
