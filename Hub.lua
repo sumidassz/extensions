@@ -77,10 +77,10 @@ MainTab.TextField({
 	Text = "Put the Key",
 	Callback = function(Value)
 		mainKey = tostring(Value)
-		if tostring(Value) == "r513uBZDZ5Oz9ijxoUuR" then 
+		if tostring(Value) == "r513uBZDZ5Oz9ijxoUuR" then
+			notification("Opening sTempest Hub! (Correct Key)", 5)
 			wait(0.5)
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/Sumidasso/scripts/main/"..tostring(game.PlaceId)))()
-			notification("Opening sTempest Hub! (Correct Key)", 5)
 		end
 	end,
 	Menu = {
