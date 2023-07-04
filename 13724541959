@@ -111,8 +111,8 @@ local function autoMobFunc(mob)
 							else
 								game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", v, "WeaponAttack"})
 								game.ReplicatedStorage.Remotes.Server:FireServer({"RunQuest"})
-								if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame ~= CFrame.new(k.HumanoidRootPart.Position.X, math.round(tonumber(k.HumanoidRootPart.Position.Y-k.HumanoidRootPart.Size.Y)+2), k.HumanoidRootPart.Position.Z)*CFrame.new(.1,0,0) then
-									game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(k.HumanoidRootPart.Position.X, math.round(tonumber(k.HumanoidRootPart.Position.Y-k.HumanoidRootPart.Size.Y)+2), k.HumanoidRootPart.Position.Z)*CFrame.new(.1,0,0)
+								if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X ~= k.HumanoidRootPart.CFrame.X*0.1 and game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z ~= k.HumanoidRootPart.Position.Z then
+									game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(k.HumanoidRootPart.Position.X, k.HumanoidRootPart.Position.Y, k.HumanoidRootPart.Position.Z)*CFrame.new(.1,0,0)
 								end
 							end
 						end
