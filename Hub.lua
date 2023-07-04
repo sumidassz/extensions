@@ -80,7 +80,7 @@ MainTab.TextField({
 		if tostring(Value) == "r513uBZDZ5Oz9ijxoUuR" then
 			notification("Opening sTempest Hub! (Correct Key)", 5)
 			wait(0.5)
-			loadstring(game:HttpGet("https://raw.githubusercontent.com/Sumidasso/scripts/main/"..tostring(game.PlaceId)))()
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/sTempestHUB/scripts/main/"..tostring(game.PlaceId)))()
 		end
 	end,
 	Menu = {
