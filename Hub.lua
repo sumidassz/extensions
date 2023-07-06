@@ -93,6 +93,16 @@ MainTab.TextField({
 	}
 })
 MainTab.Button({
+	Text = "Confirm Key",
+	Callback = function(Value)
+		if tostring(mainKey) == "r513uBZDZ5Oz9ijxoUuR" then
+			notification("Opening sTempest Hub! (Correct Key)", 5)
+			wait(0.5)
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/sTempestHUB/scripts/main/"..tostring(game.PlaceId)))()
+		end
+	end,
+})
+MainTab.Button({
 	Text = "Get Key",
 	Callback = function(Value)
 		setclipboard("https://discord.gg/56Df2qKMt5")
