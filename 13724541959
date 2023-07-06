@@ -85,6 +85,7 @@ local mobSelected = ""
 local chooseTextFieldOne = {}
 local mobArrayTable = {}
 local autoSkillB = false
+
 local function getNearest(mob)
     local dist, thing = math.huge
     for i, v in next, workspace.Client.Mobs:GetChildren() do
@@ -144,7 +145,7 @@ local function mobDropdown(dropdown)
 		end
 	end
 end
-MainTab.DataTable({ Text = "Main", Callback = function(ChipSet) table.foreach(ChipSet, function(Option, Value) if Option == "Auto Attack" then mobBoolean = Value end if Option == "only Attack" then tpBool = Value end if Option == "Auto Skill" then autoSkillB = Value end end) end, Options = { ["Auto Attack"] = false, ["only Attack"] = false, ["Auto Skills"] = false }})
+MainTab.DataTable({ Text = "Main", Callback = function(ChipSet) table.foreach(ChipSet, function(Option, Value) if Option == "Auto Attack" then mobBoolean = Value end if Option == "only Attack" then tpBool = Value end if Option == "Auto Skill" then autoSkillB = Value end end) end, Options = { ["Auto Attack"] = false, ["only Attack"] = false, ["Auto Skill"] = false }})
 
 
 
