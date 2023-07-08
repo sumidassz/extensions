@@ -146,11 +146,12 @@ local autoTopSee = false
 local autoSB = false
 local autoCollect = false
 MainTab.Button({ Text = "Refresh the enemys", Callback = function(v) mobDropdown(dropdownMob) end })
-MainTab.DataTable({ Text = "Main", Callback = function(ChipSet) table.foreach(ChipSet, function(Option, Value) if Option == "Auto Equip Best" then autoChallenge = Value end if Option == "Auto Collect" then autoCollect = Value end if Option == "Auto Sukuna Boost" then autoSB = Value end end) end, Options = { ["Auto Equip Best"] = false, ["Auto Collect"] = false, ["Auto Sukuna Boost"] = false}})
+MainTab.DataTable({ Text = "Main", Callback = function(ChipSet) table.foreach(ChipSet, function(Option, Value) if Option == "Auto RankUP" then autoChallenge = Value end if Option == "Auto Collect" then autoCollect = Value end if Option == "Auto Sukuna Boost" then autoSB = Value end end) end, Options = { ["Auto RankUP"] = false, ["Auto Collect"] = false, ["Auto Sukuna Boost"] = false}})
 
 local c1 = coroutine.create(function() while true do if mobBoolean == true then autoMobFunc(mobSelected) end wait() end end) coroutine.resume(c1)
-local c2 = coroutine.create(function() while true do if autoChallenge == true then autoEquipBestFunc() end wait(1) end end) coroutine.resume(c2)
+--local c2 = coroutine.create(function() while true do if autoChallenge == true then autoEquipBestFunc() end wait(1) end end) coroutine.resume(c2)
 local c542 = coroutine.create(function() while true do if autoSB == true then autoSukunaBoostFunc() end wait(1) end end) coroutine.resume(c542)
+local c5442 = coroutine.create(function() while true do if autoChallenge == true then game.ReplicatedStorage.Remotes.Server:FireServer({"RankUp"}) end wait(1) end end) coroutine.resume(c5442)
 local c3 = coroutine.create(function() while true do if tpBool == true then game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", v, "WeaponAttack"})  end wait() end end) coroutine.resume(c3) -- game.ReplicatedStorage.Remotes.Server:FireServer({"BuyGrimoire"})
 local c4 = coroutine.create(function() while true do if autoCollect == true then for i, v in pairs(workspace.Debris:GetChildren()) do if v:FindFirstChild("UID") then v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame end end end wait(0.1) end end) coroutine.resume(c4)
 
