@@ -97,6 +97,9 @@ local function autoMobFunc(mob)
 									game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", m, "WeaponAttack"})
 								else
 									game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", v, "WeaponAttack"})
+									if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X ~= k.HumanoidRootPart.CFrame.X*0.1 and game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z ~= k.HumanoidRootPart.Position.Z then
+										game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(k.HumanoidRootPart.Position.X, k.HumanoidRootPart.Position.Y, k.HumanoidRootPart.Position.Z)*CFrame.new(.1,0,0)
+									end
 								end
 							end
 						end
@@ -148,10 +151,24 @@ local autoCollect = false
 MainTab.Button({ Text = "Refresh the enemys", Callback = function(v) mobDropdown(dropdownMob) end })
 MainTab.DataTable({ Text = "Main", Callback = function(ChipSet) table.foreach(ChipSet, function(Option, Value) if Option == "Auto RankUP" then autoChallenge = Value end if Option == "Auto Collect" then autoCollect = Value end if Option == "Auto Sukuna Boost" then autoSB = Value end end) end, Options = { ["Auto RankUP"] = false, ["Auto Collect"] = false, ["Auto Sukuna Boost"] = false}})
 
+local function refreshRankUP()
+	if game.Players.LocalPlayer.PlayerGui.UI.OffSet:FindFirstChild("RMain") then game.Players.LocalPlayer.PlayerGui.UI.OffSet.RMain:Destroy() end
+	local a = game.Players.LocalPlayer.PlayerGui.UI.OffSet.Frames.Rank.Main:Clone()
+	a.Parent = game.Players.LocalPlayer.PlayerGui.UI.OffSet
+	a.Name = "RMain"
+	a.RankButton:Destroy()
+	a.RobuxButton:Destroy()
+	a.Visual:Destroy()
+	a.Visual:Destroy()
+	a.NextMultiplier:Destroy()
+	a.Size = UDim2.new(0.25, 0, 0.25, 0)
+	a.Position = UDim2.new(0.125, 0, 0.925, 0)
+end
+
 local c1 = coroutine.create(function() while true do if mobBoolean == true then autoMobFunc(mobSelected) end wait() end end) coroutine.resume(c1)
 --local c2 = coroutine.create(function() while true do if autoChallenge == true then autoEquipBestFunc() end wait(1) end end) coroutine.resume(c2)
 local c542 = coroutine.create(function() while true do if autoSB == true then autoSukunaBoostFunc() end wait(1) end end) coroutine.resume(c542)
-local c5442 = coroutine.create(function() while true do if autoChallenge == true then game.ReplicatedStorage.Remotes.Server:FireServer({"RankUp"}) end wait(1) end end) coroutine.resume(c5442)
+local c5442 = coroutine.create(function() while true do if autoChallenge == true then game.ReplicatedStorage.Remotes.Server:FireServer({"RankUp"}) refreshRankUP() end wait(1) end end) coroutine.resume(c5442)
 local c3 = coroutine.create(function() while true do if tpBool == true then game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", v, "WeaponAttack"})  end wait() end end) coroutine.resume(c3) -- game.ReplicatedStorage.Remotes.Server:FireServer({"BuyGrimoire"})
 local c4 = coroutine.create(function() while true do if autoCollect == true then for i, v in pairs(workspace.Debris:GetChildren()) do if v:FindFirstChild("UID") then v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame end end end wait(0.1) end end) coroutine.resume(c4)
 
@@ -171,6 +188,9 @@ plus1Clone.ImageTransparency = 1
 plus1Clone.Amount.TextTransparency = 1
 plus1Clone.Icon.ImageTransparency = 1
 plus1Clone.Parent = game.Players.LocalPlayer.PlayerGui.UI.OffSet.Main.Currency
+wait()
+if game.Players.LocalPlayer.PlayerGui.UI.OffSet.Main.Currency:FindFirstChild("Divine") then game.Players.LocalPlayer.PlayerGui.UI.OffSet.Main.Currency.Divine:Destroy() end
+if game.Players.LocalPlayer.PlayerGui.UI.OffSet.Main.Currency:FindFirstChild("+1") then game.Players.LocalPlayer.PlayerGui.UI.OffSet.Main.Currency["+1"]:Destroy() end
 
 wait(1.5)
 
