@@ -107,13 +107,11 @@ local function autoMobFunc(mob)
 				for _, k in pairs(workspace.Client.Mobs:GetChildren()) do
 					if k:FindFirstChild("HumanoidRootPart") and k:FindFirstChild("HumanoidRootPart"):FindFirstChild("DefaultHud") and k:FindFirstChild("HumanoidRootPart"):FindFirstChild("DefaultHud"):FindFirstChild("Username") then
 						if k.HumanoidRootPart.DefaultHud.Username.Text == tostring(mob) and v.Name == k.Name and v.Name == tostring(getNearest(mob)) then
-							if k.HumanoidRootPart.DefaultHud.Enabled == true then
-								game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", v, "WeaponAttack"})
-								game.ReplicatedStorage.Remotes.Server:FireServer({"RunQuest"})
-								if autoSkillB == true then game.ReplicatedStorage.Remotes.Server:FireServer({"Skill", "Use", v}) end
-								if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X ~= k.HumanoidRootPart.CFrame.X*0.1 and game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z ~= k.HumanoidRootPart.Position.Z then
-									game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(k.HumanoidRootPart.Position.X, k.HumanoidRootPart.Position.Y, k.HumanoidRootPart.Position.Z)*CFrame.new(.1,0,0)
-								end
+							game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", v, "WeaponAttack"})
+							game.ReplicatedStorage.Remotes.Server:FireServer({"RunQuest"})
+							if autoSkillB == true then game.ReplicatedStorage.Remotes.Server:FireServer({"Skill", "Use", v}) end
+							if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X ~= k.HumanoidRootPart.CFrame.X*0.1 and game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z ~= k.HumanoidRootPart.Position.Z then
+								game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(k.HumanoidRootPart.Position.X, k.HumanoidRootPart.Position.Y, k.HumanoidRootPart.Position.Z)*CFrame.new(.1,0,0)
 							end
 						end
 					end
