@@ -116,9 +116,6 @@ local function autoMobFunc(mob)
 								end
 							end
 						end
-						if k.HumanoidRootPart.DefaultHud.Enabled == false then
-							game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", m, "WeaponAttack"})
-						end
 					end
 				end
 			end
