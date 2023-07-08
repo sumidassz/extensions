@@ -186,26 +186,6 @@ local c5442 = coroutine.create(function() while true do if autoChallenge == true
 local c3 = coroutine.create(function() while true do if tpBool == true then game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", v, "WeaponAttack"})  end wait() end end) coroutine.resume(c3) -- game.ReplicatedStorage.Remotes.Server:FireServer({"BuyGrimoire"})
 local c4 = coroutine.create(function() while true do if autoCollect == true then for i, v in pairs(workspace.Debris:GetChildren()) do if v:FindFirstChild("UID") then v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame end end end wait(0.1) end end) coroutine.resume(c4)
 
-if game.Players.LocalPlayer.PlayerGui.UI.OffSet.Main.Currency:FindFirstChild("Divine") then game.Players.LocalPlayer.PlayerGui.UI.OffSet.Main.Currency.Divine:Destroy() end
-if game.Players.LocalPlayer.PlayerGui.UI.OffSet.Main.Currency:FindFirstChild("+1") then game.Players.LocalPlayer.PlayerGui.UI.OffSet.Main.Currency["+1"]:Destroy() end
-wait(1)
-local divineClone = game.Players.LocalPlayer.PlayerGui.UI.OffSet.Main.Currency.Gems:Clone()
-local plus1Clone = game.Players.LocalPlayer.PlayerGui.UI.OffSet.Main.Currency.Gems:Clone()
-divineClone.Name = "Divine"
-divineClone.Icon.Image = "rbxassetid://13838536594"
-divineClone.ImageColor3 = Color3.fromRGB(50, 40, 255)
-divineClone.Amount.Text = game.Players.LocalPlayer.PlayerGui.UI.OffSet.Frames.Backpack.BackpackList["Divine Stone"].Frame.Amount.Text
-divineClone.Icon.Size = UDim2.new(0.22, 0, 1.05, 0)
-divineClone.Parent = game.Players.LocalPlayer.PlayerGui.UI.OffSet.Main.Currency
-plus1Clone.Name = "+1"
-plus1Clone.ImageTransparency = 1
-plus1Clone.Amount.TextTransparency = 1
-plus1Clone.Icon.ImageTransparency = 1
-plus1Clone.Parent = game.Players.LocalPlayer.PlayerGui.UI.OffSet.Main.Currency
-wait()
-if game.Players.LocalPlayer.PlayerGui.UI.OffSet.Main.Currency:FindFirstChild("Divine") then game.Players.LocalPlayer.PlayerGui.UI.OffSet.Main.Currency.Divine:Destroy() end
-if game.Players.LocalPlayer.PlayerGui.UI.OffSet.Main.Currency:FindFirstChild("+1") then game.Players.LocalPlayer.PlayerGui.UI.OffSet.Main.Currency["+1"]:Destroy() end
-
 wait(1.5)
 
 local VirtualUser=game:service'VirtualUser'
