@@ -166,7 +166,7 @@ local function autoDungeonFunc(afterWorld)
 	for i, v in pairs(clientFolder:GetChildren()) do
 		if #world:GetChildren() >= 1 then
 			game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", world[getNearestAlla().Name], "WeaponAttack"})
-			if autoSkillB == true then game.ReplicatedStorage.Remotes.Server:FireServer({"Skill", "Use", world[getNearestAlla().Name]}) end
+			if Toggles.AutoSkillToggle.Value == true then game.ReplicatedStorage.Remotes.Server:FireServer({"Skill", "Use", world[getNearestAlla().Name]}) end
 			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getNearestAlla().HumanoidRootPart.CFrame*CFrame.new(0.1,0,0)
 		end
 	end
