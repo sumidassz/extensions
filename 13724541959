@@ -1,97 +1,99 @@
-local Material = loadstring(game:HttpGet("https://pastebin.com/raw/mGx5KLfU"))()
-local Menu = Material.Load({ Title = "Tempest Hub - Anime World", Style = 2, SizeX = 355, SizeY = 405, Theme = "Aqua", ColorOverrides = { MainFrame = Color3.fromRGB(235,235,235) }})
-local MainTab = Menu.New({ Title = "Main" })
-local BossTab = Menu.New({ Title = "Boss/Dungeon" })
-local MiscTab = Menu.New({ Title = "Misc" })
+local Library = loadstring(game:HttpGet('https://pastebin.com/raw/qYTfV8u7'))()
 
--- NOTIFICATION
+local Window = Library:CreateWindow({
+    Title = 'sTempestHub | [DUNGEON] Anime World',
+    Center = true, 
+    AutoShow = true,
+})
 
-local function notification(notificationText, time)
-	local screenGui = Instance.new("ScreenGui", game.Players.LocalPlayer.PlayerGui)
-	local notificationFrame = Instance.new("Frame", screenGui)
-	local uiCorner1 = Instance.new("UICorner", notificationFrame)
-	local notificationTextFrame = Instance.new("Frame", notificationFrame)
-	local nothing = Instance.new("Frame", notificationTextFrame)
-	local sliderFrame = Instance.new("Frame", notificationFrame)
-	local uiCorner2 = Instance.new("UICorner", sliderFrame)
-	local textLabel = Instance.new("TextLabel", notificationFrame)
-	local NotificationTextLabelNothingMorePLS = Instance.new("TextLabel", notificationTextFrame)
-	local NotificationTextLabelNothingMorePLSS = Instance.new("ImageButton", notificationTextFrame)
-	local uiCorner3 = Instance.new("UICorner", notificationTextFrame)
-	
-	notificationFrame.BackgroundColor3 = Color3.new(255, 255, 255)
-	notificationFrame.Size = UDim2.new(0.125, 0, 0.09, 0)
-	notificationFrame.Position = UDim2.new(0.87115, 0, 0.9, 0)
-	uiCorner1.CornerRadius = UDim.new(0.25, 0)
-	
-	sliderFrame.BackgroundColor3 = Color3.new(0.686275, 0.686275, 0.686275)
-	sliderFrame.Size = UDim2.new(0.9, 0,0.05, 0)
-	sliderFrame.Position = UDim2.new(0.05, 0, 0.85, 0)
-	uiCorner2.CornerRadius = UDim.new(1, 0)
-	
-	textLabel.Text = tostring(notificationText)
-	textLabel.TextScaled = true
-	textLabel.TextColor3 = Color3.new(0.686275, 0.686275, 0.686275)
-	textLabel.BackgroundTransparency = 1
-	textLabel.Size = UDim2.new(0.9, 0, 0.55, 0)
-	textLabel.Position = UDim2.new(0.05, 0, 0.25, 0)
-	textLabel.Font = Enum.Font.FredokaOne
-	
-	notificationTextFrame.Size = UDim2.new(1, 0, 0.25, 0)
-	notificationTextFrame.Position = UDim2.new(0,0,0,0)
-	uiCorner3.CornerRadius = UDim.new(0.1, 0)
-	
-	nothing.Size = UDim2.new(1, 0, 0.25, 0)
-	nothing.Position = UDim2.new(0,0,0.75,0)
-	nothing.BorderSizePixel = 0
-	
-	NotificationTextLabelNothingMorePLS.ZIndex = 50
-	NotificationTextLabelNothingMorePLS.Size = UDim2.new(0.975, 0, 0.75, 0)
-	NotificationTextLabelNothingMorePLS.Position = UDim2.new(0.025, 0, 0.125, 0)
-	NotificationTextLabelNothingMorePLS.BorderSizePixel = 0
-	NotificationTextLabelNothingMorePLS.Text = "Notification"
-	NotificationTextLabelNothingMorePLS.TextScaled = true
-	NotificationTextLabelNothingMorePLS.TextColor3 = Color3.new(1, 1, 1)
-	NotificationTextLabelNothingMorePLS.Font = Enum.Font.FredokaOne
-	NotificationTextLabelNothingMorePLS.TextXAlignment = Enum.TextXAlignment.Left
-	
-	NotificationTextLabelNothingMorePLSS.ZIndex = 50
-	NotificationTextLabelNothingMorePLSS.Size = UDim2.new(0.065, 0, 0.6, 0)
-	NotificationTextLabelNothingMorePLSS.Position = UDim2.new(0.9175, 0, 0.2, 0)
-	NotificationTextLabelNothingMorePLSS.BorderSizePixel = 0
-	NotificationTextLabelNothingMorePLSS.Image = "rbxassetid://10200710743"
-	NotificationTextLabelNothingMorePLSS.AutoButtonColor = false
-	
-	local tweenService = game.TweenService
-	local infoTween = TweenInfo.new(tonumber(time), Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 1, false, 0)
-	local tween = tweenService:Create(sliderFrame, infoTween, {Size = UDim2.new(0, 0, 0.05, 0)})
-	tween:Play()
-	
-	NotificationTextLabelNothingMorePLSS.MouseButton1Click:Connect(function()
-		tween:Destroy()
-		screenGui:Destroy()
-	end)
-	
-	wait(tonumber(time-0.35))
-	screenGui:Destroy()
+local Tabs = {
+    Main = Window:AddTab('Main'), 
+}
+
+local autoFarmGroupBox = Tabs.Main:AddLeftGroupbox('Auto Farm')
+local miscGroupBox = Tabs.Main:AddLeftGroupbox('Misc')
+local autoDungeonBossGroupBox = Tabs.Main:AddRightGroupbox('Auto Dungeon/Raid')
+
+--local TabBox = Tabs.Main:AddLeftTabbox()
+
+local mobArrayTable = {}
+local function mobDropdown(dropdown)
+	table.clear(mobArrayTable)
+	for i, k in pairs(workspace.Client.Mobs:GetChildren()) do
+		if k:FindFirstChild("HumanoidRootPart") and k:FindFirstChild("HumanoidRootPart"):FindFirstChild("DefaultHud") and k:FindFirstChild("HumanoidRootPart"):FindFirstChild("DefaultHud"):FindFirstChild("Username") then
+			if not table.find(mobArrayTable, k.HumanoidRootPart.DefaultHud.Username.Text) then
+				table.insert(mobArrayTable, k.HumanoidRootPart.DefaultHud.Username.Text)
+				dropdown:SetValues(mobArrayTable)
+			end
+		end
+	end
 end
 
-notification("Tempest Hub opened! Thank you for using us!", 1.5)
+autoFarmGroupBox:AddToggle('AutoOFarmToggle', {
+    Text = 'only Farm',
+    Default = false,
+    Tooltip = 'Enable/Disabled auto farm',
+})
 
--- END NOTIFICATION
+autoFarmGroupBox:AddToggle('AutoFarmToggle', {
+    Text = 'Auto Farm',
+    Default = false,
+    Tooltip = 'Enable/Disabled auto farm',
+})
 
-local mobBoolean = false
-local autoChallenge = false
-local tpBool = false
-local mobSelected = ""
-local chooseTextFieldOne = {}
-local mobArrayTable = {}
-local autoSkillB = false
+autoFarmGroupBox:AddToggle('AutoSkillToggle', {
+    Text = 'Auto Skill',
+    Default = false,
+    Tooltip = 'Enable/Disabled auto skill',
+})
 
-local function getNearest(mob)
+autoFarmGroupBox:AddDropdown('autoFarmDropdown', {
+
+    Values = mobArrayTable,
+    Default = 1, 
+    Multi = true,
+
+    Text = 'Choose the enemy',
+    Tooltip = 'You can choose multiples enemys',
+})
+
+autoFarmGroupBox:AddButton('Refresh the enemies', function()
+    mobDropdown(Options.autoFarmDropdown)
+end)
+
+miscGroupBox:AddToggle('AutoCollectToggle', {
+    Text = 'Auto Collect',
+    Default = false,
+    Tooltip = 'Enable/Disabled auto collect',
+})
+
+autoDungeonBossGroupBox:AddToggle('AutoDungeonToggle', {
+    Text = 'Auto Dungeon',
+    Default = false,
+    Tooltip = 'Enable/Disabled auto dungeon',
+})
+
+autoDungeonBossGroupBox:AddToggle('AutoBossToggle', {
+    Text = 'Auto Boss',
+    Default = false,
+    Tooltip = 'Enable/Disabled auto boss',
+})
+
+autoDungeonBossGroupBox:AddDropdown('afterWorldDropdown', {
+
+    Values = {"Piece World", "Dragon World", "Ninja World", "Bizarre World", "Slayer World", "Academy World"},
+    Default = 1, 
+    Multi = false,
+
+    Text = 'Choose a world',
+    Tooltip = 'Choose the world to TP after raid or dungeon',
+})
+
+mobDropdown(Options.autoFarmDropdown)
+local function getNearestAll(array)
     local dist, thing = math.huge
     for i, v in next, workspace.Client.Mobs:GetChildren() do
-        if v.HumanoidRootPart.DefaultHud.Username.Text == tostring(mob) and v.HumanoidRootPart.DefaultHud.Enabled == true then
+        if v.HumanoidRootPart.DefaultHud.Enabled == true and table.find(array, v.HumanoidRootPart.DefaultHud.Username.Text) then
             local mag =
                 (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).magnitude
             if mag < dist then
@@ -102,7 +104,7 @@ local function getNearest(mob)
     end
     return thing
 end
-local function getNearestAll()
+local function getNearestAlla()
     local dist, thing = math.huge
     for i, v in next, workspace.Client.Mobs:GetChildren() do
         if v.HumanoidRootPart.DefaultHud.Enabled == true then
@@ -116,23 +118,16 @@ local function getNearestAll()
     end
     return thing
 end
-local function autoMobFunc(mob)
+local function autoMobFunc(array)
 	for l, world in pairs(workspace.Server.Mobs:GetChildren()) do
 		for i, v in pairs(workspace.Server.Mobs[tostring(world)]:GetChildren()) do
 			if game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
 				for _, k in pairs(workspace.Client.Mobs:GetChildren()) do
-					if k:FindFirstChild("HumanoidRootPart") and k:FindFirstChild("HumanoidRootPart"):FindFirstChild("DefaultHud") and k:FindFirstChild("HumanoidRootPart"):FindFirstChild("DefaultHud"):FindFirstChild("Username") then
-						if k.HumanoidRootPart.DefaultHud.Username.Text == tostring(mob) and v.Name == k.Name and v.Name == tostring(getNearest(mob)) then
-							if k.HumanoidRootPart.DefaultHud.Enabled == false then
-								game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", m, "WeaponAttack"})
-							else
-								game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", v, "WeaponAttack"})
-								game.ReplicatedStorage.Remotes.Server:FireServer({"RunQuest"})
-								if autoSkillB == true then game.ReplicatedStorage.Remotes.Server:FireServer({"Skill", "Use", v}) end
-								if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X ~= k.HumanoidRootPart.CFrame.X*0.1 and game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z ~= k.HumanoidRootPart.Position.Z then
-									game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(k.HumanoidRootPart.Position.X, k.HumanoidRootPart.Position.Y, k.HumanoidRootPart.Position.Z)*CFrame.new(.1,0,0)
-								end
-							end
+					if table.find(array, k.HumanoidRootPart.DefaultHud.Username.Text) and v.Name == k.Name and k == getNearestAll(array) and workspace.Client.Mobs:FindFirstChild(tostring(getNearestAll(array))) then
+						game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", world:FindFirstChild(tostring(getNearestAll(array))), "WeaponAttack"})
+						if Toggles.AutoSkillToggle.Value == true then game.ReplicatedStorage.Remotes.Server:FireServer({"Skill", "Use", world:FindFirstChild(tostring(getNearestAll(array)))}) end
+						if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X ~= getNearestAll(array).HumanoidRootPart.CFrame.X*0.1 and game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z ~= getNearestAll(array).HumanoidRootPart.Position.Z then
+							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(getNearestAll(array).HumanoidRootPart.Position.X, getNearestAll(array).HumanoidRootPart.Position.Y, getNearestAll(array).HumanoidRootPart.Position.Z)*CFrame.new(.1,0,0)
 						end
 					end
 				end
@@ -164,38 +159,15 @@ local function autoBossFunc(afterWorld, db)
 		end
 	end
 end
-
-local function autoEquipBestFunc()
-	game.ReplicatedStorage.Remotes.Server:FireServer({"WeaponStatus", "Best", ""})
-	game.ReplicatedStorage.Remotes.Server:FireServer({"PetStatus", "Best", ""})
-end
-
-local function autoSukunaBoostFunc()
-	game.ReplicatedStorage.Remotes.Server:FireServer({"ClickerBoost", "Completed", 4})
-end
-
-local function mobDropdown(dropdown)
-	table.clear(mobArrayTable)
-	for i, k in pairs(workspace.Client.Mobs:GetChildren()) do
-		if k:FindFirstChild("HumanoidRootPart") and k:FindFirstChild("HumanoidRootPart"):FindFirstChild("DefaultHud") and k:FindFirstChild("HumanoidRootPart"):FindFirstChild("DefaultHud"):FindFirstChild("Username") then
-			if not table.find(mobArrayTable, k.HumanoidRootPart.DefaultHud.Username.Text) then
-				table.insert(mobArrayTable, k.HumanoidRootPart.DefaultHud.Username.Text)
-				dropdown:SetOptions(mobArrayTable)
-			end
-		end
-	end
-end
-MainTab.DataTable({ Text = "Main", Callback = function(ChipSet) table.foreach(ChipSet, function(Option, Value) if Option == "Auto Attack" then mobBoolean = Value end if Option == "only Attack" then tpBool = Value end if Option == "Auto Skill" then autoSkillB = Value end end) end, Options = { ["Auto Attack"] = false, ["only Attack"] = false, ["Auto Skill"] = false }})
-
 local function autoDungeonFunc(afterWorld)
 	game.ReplicatedStorage.Remotes.Server:FireServer({"Dungeon", "Enter"})
 	local world = workspace.Server.Mobs.Dungeon
 	local clientFolder = workspace.Client.Mobs
 	for i, v in pairs(clientFolder:GetChildren()) do
 		if #world:GetChildren() >= 1 then
-			game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", world[getNearestAll().Name], "WeaponAttack"})
-			if autoSkillB == true then game.ReplicatedStorage.Remotes.Server:FireServer({"Skill", "Use", world[getNearestAll().Name]}) end
-			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getNearestAll().HumanoidRootPart.CFrame*CFrame.new(0.1,0,0)
+			game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", world[getNearestAlla().Name], "WeaponAttack"})
+			if autoSkillB == true then game.ReplicatedStorage.Remotes.Server:FireServer({"Skill", "Use", world[getNearestAlla().Name]}) end
+			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getNearestAlla().HumanoidRootPart.CFrame*CFrame.new(0.1,0,0)
 		end
 	end
 	if game.Players.LocalPlayer.PlayerGui.UI.OffSet.Waves.Left.Shadow.Text == "60:58" and afterWorld ~= "" then 
@@ -205,27 +177,21 @@ local function autoDungeonFunc(afterWorld)
 	end
 end
 
-local dropdownMob = MainTab.Dropdown({ Text = "Choose a enemy", Callback = function(v) mobSelected = tostring(v) end, Options = mobArrayTable })
-mobDropdown(dropdownMob)
-MainTab.TextField({
-    Text = "Browse for the enemy",
-    Callback = function(Value)
-        if table.find(mobArrayTable, Value) then chooseTextFieldOne = {tostring(Value)} dropdownMob:SetOptions(chooseTextFieldOne) end
+local mobsArraySelected = {}
+table.clear(mobsArraySelected)
+Options.autoFarmDropdown:OnChanged(function()
+    for key, value in next, Options.autoFarmDropdown.Value do
+        if not table.find(mobsArraySelected, key) then
+        	table.insert(mobsArraySelected, key)
+        end
     end
-})
-local afterWorldSelected = ""
-local autoBoss = false
-local autoDungeon = false
-local autoCollect = false
-MainTab.Button({ Text = "Refresh the enemys", Callback = function(v) mobDropdown(dropdownMob) end })
-MiscTab.DataTable({ Text = "Main", Callback = function(ChipSet) table.foreach(ChipSet, function(Option, Value) if Option == "Auto Collect" then autoCollect = Value end end) end, Options = { ["Auto Collect"] = false }})
-BossTab.DataTable({ Text = "Main", Callback = function(ChipSet) table.foreach(ChipSet, function(Option, Value) if Option == "Auto Dungeon" then autoDungeon = Value end if Option == "Auto Boss" then autoBoss = Value end end) end, Options = { ["Auto Dungeon"] = false, ["Auto Boss"] = false }})
-BossTab.Dropdown({ Text = "TP World after dungeon or raid", Callback = function(v) afterWorldSelected = tostring(v) end, Options = {"Piece World", "Dragon World", "Ninja World", "Bizarre World", "Slayer World", "Academy World"} })
-local c1 = coroutine.create(function() while true do if mobBoolean == true then autoMobFunc(mobSelected) end wait() end end) coroutine.resume(c1)
-local c2 = coroutine.create(function() while true do if autoDungeon == true then autoDungeonFunc(afterWorldSelected) end wait() end end) coroutine.resume(c2)
-local c542 = coroutine.create(function() while true do if autoBoss == true then autoBossFunc(afterWorldSelected, autoDungeon) end wait() end end) coroutine.resume(c542)
-local c3 = coroutine.create(function() while true do if tpBool == true then game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", v, "WeaponAttack"})  end wait() end end) coroutine.resume(c3) -- game.ReplicatedStorage.Remotes.Server:FireServer({"BuyGrimoire"})
-local c4 = coroutine.create(function() while true do if autoCollect == true then for i, v in pairs(workspace.Debris:GetChildren()) do if v:FindFirstChild("UID") then v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame end end end wait(0.1) end end) coroutine.resume(c4)
+end)
+
+local c1 = coroutine.create(function() while true do if Toggles.AutoFarmToggle.Value == true then autoMobFunc(mobsArraySelected) end wait() end end) coroutine.resume(c1)
+local c2 = coroutine.create(function() while true do if Toggles.AutoOFarmToggle.Value == true then game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", m, "WeaponAttack"}) end wait() end end) coroutine.resume(c2)
+local c3 = coroutine.create(function() while true do if Toggles.AutoCollectToggle.Value == true then for i, v in pairs(workspace.Debris:GetChildren()) do if v:FindFirstChild("UID") then v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame end end end wait(0.1) end end) coroutine.resume(c3)
+local c4 = coroutine.create(function() while true do if Toggles.AutoBossToggle.Value == true then autoBossFunc(Options.afterWorldDropdown.Value, Toggles.AutoDungeonToggle.Value) end wait() end end) coroutine.resume(c4)
+local c5 = coroutine.create(function() while true do if Toggles.AutoDungeonToggle.Value == true then autoDungeonFunc(Options.afterWorldDropdown.Value) end wait() end end) coroutine.resume(c5)
 
 wait(1.5)
 
@@ -234,5 +200,3 @@ game:service'Players'.LocalPlayer.Idled:connect(function()
 VirtualUser:CaptureController()
 VirtualUser:ClickButton2(Vector2.new())
 end)
-
-notification("Anti AFK Enabled!", 1.5)
