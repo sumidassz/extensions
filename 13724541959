@@ -187,16 +187,19 @@ local function mobDropdown(dropdown)
 end
 MainTab.DataTable({ Text = "Main", Callback = function(ChipSet) table.foreach(ChipSet, function(Option, Value) if Option == "Auto Attack" then mobBoolean = Value end if Option == "only Attack" then tpBool = Value end if Option == "Auto Skill" then autoSkillB = Value end end) end, Options = { ["Auto Attack"] = false, ["only Attack"] = false, ["Auto Skill"] = false }})
 
-local function autoDungeonFunc()
+local function autoDungeonFunc(afterWorld)
 	game.ReplicatedStorage.Remotes.Server:FireServer({"Dungeon", "Enter"})
 	local world = workspace.Server.Mobs.Dungeon
 	local clientFolder = workspace.Client.Mobs
 	for i, v in pairs(clientFolder:GetChildren()) do
-		if #world:GetChildren() > 1 then
+		if #world:GetChildren() >= 1 then
 			game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", world[getNearestAll().Name], "WeaponAttack"})
 			if autoSkillB == true then game.ReplicatedStorage.Remotes.Server:FireServer({"Skill", "Use", world[getNearestAll().Name]}) end
 			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getNearestAll().HumanoidRootPart.CFrame*CFrame.new(0.1,0,0)
 		end
+	end
+	if game.Players.LocalPlayer.PlayerGui.UI.OffSet.Waves.Left.Shadow.Text == "60:58" then 
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Server.Zones[tostring(afterWorld)].CFrame
 	end
 end
 
@@ -215,9 +218,9 @@ local autoCollect = false
 MainTab.Button({ Text = "Refresh the enemys", Callback = function(v) mobDropdown(dropdownMob) end })
 MiscTab.DataTable({ Text = "Main", Callback = function(ChipSet) table.foreach(ChipSet, function(Option, Value) if Option == "Auto Collect" then autoCollect = Value end end) end, Options = { ["Auto Collect"] = false }})
 BossTab.DataTable({ Text = "Main", Callback = function(ChipSet) table.foreach(ChipSet, function(Option, Value) if Option == "Auto Dungeon" then autoDungeon = Value end if Option == "Auto Boss" then autoBoss = Value end end) end, Options = { ["Auto Dungeon"] = false, ["Auto Boss"] = false }})
-BossTab.Dropdown({ Text = "Choose the world after raid boss", Callback = function(v) afterWorldSelected = tostring(v) end, Options = {"Piece World", "Dragon World", "Ninja World", "Bizarre World", "Slayer World", "Academy World"} })
+BossTab.Dropdown({ Text = "TP World after dungeon or raid", Callback = function(v) afterWorldSelected = tostring(v) end, Options = {"Piece World", "Dragon World", "Ninja World", "Bizarre World", "Slayer World", "Academy World"} })
 local c1 = coroutine.create(function() while true do if mobBoolean == true then autoMobFunc(mobSelected) end wait() end end) coroutine.resume(c1)
-local c2 = coroutine.create(function() while true do if autoDungeon == true then autoDungeonFunc() end wait() end end) coroutine.resume(c2)
+local c2 = coroutine.create(function() while true do if autoDungeon == true then autoDungeonFunc(afterWorldSelected) end wait() end end) coroutine.resume(c2)
 local c542 = coroutine.create(function() while true do if autoBoss == true then autoBossFunc(afterWorldSelected, autoDungeon) end wait() end end) coroutine.resume(c542)
 local c3 = coroutine.create(function() while true do if tpBool == true then game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", v, "WeaponAttack"})  end wait() end end) coroutine.resume(c3) -- game.ReplicatedStorage.Remotes.Server:FireServer({"BuyGrimoire"})
 local c4 = coroutine.create(function() while true do if autoCollect == true then for i, v in pairs(workspace.Debris:GetChildren()) do if v:FindFirstChild("UID") then v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame end end end wait(0.1) end end) coroutine.resume(c4)
