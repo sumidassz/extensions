@@ -1,6 +1,8 @@
 local Material = loadstring(game:HttpGet("https://pastebin.com/raw/mGx5KLfU"))()
 local Menu = Material.Load({ Title = "Tempest Hub - Anime World", Style = 2, SizeX = 355, SizeY = 405, Theme = "Aqua", ColorOverrides = { MainFrame = Color3.fromRGB(235,235,235) }})
 local MainTab = Menu.New({ Title = "Main" })
+local BossTab = Menu.New({ Title = "Boss/Dungeon" })
+local MiscTab = Menu.New({ Title = "Misc" })
 
 -- NOTIFICATION
 
@@ -100,6 +102,20 @@ local function getNearest(mob)
     end
     return thing
 end
+local function getNearestAll()
+    local dist, thing = math.huge
+    for i, v in next, workspace.Client.Mobs:GetChildren() do
+        if v.HumanoidRootPart.DefaultHud.Enabled == true then
+            local mag =
+                (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).magnitude
+            if mag < dist then
+                dist = mag
+                thing = v
+            end
+        end
+    end
+    return thing
+end
 local function autoMobFunc(mob)
 	for l, world in pairs(workspace.Server.Mobs:GetChildren()) do
 		for i, v in pairs(workspace.Server.Mobs[tostring(world)]:GetChildren()) do
@@ -124,26 +140,30 @@ local function autoMobFunc(mob)
 		end
 	end
 end
-local function autoBossFunc(afterWorld)
-	for _, world in pairs(workspace.Server.Mobs:GetChildren()) do
-		if #world:GetChildren() == 1 then
-			for p, mobServer in pairs(world:GetChildren()) do
-				for i, mobClient in pairs(workspace.Client.Mobs:GetChildren()) do
-					if #workspace.Client.Mobs:GetChildren() > 1 then
-						game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = mobServer.CFrame*CFrame.new(0.1,0,0)
-					elseif #workspace.Client.Mobs:GetChildren() == 1 then
-						game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", mobServer, "WeaponAttack"})
-						if autoSkillB == true then game.ReplicatedStorage.Remotes.Server:FireServer({"Skill", "Use", mobServer}) end
-						if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X ~= mobClient.HumanoidRootPart.CFrame.X*0.1 and game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z ~= mobClient.HumanoidRootPart.Position.Z then
-							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(mobClient.HumanoidRootPart.Position.X, mobClient.HumanoidRootPart.Position.Y, mobClient.HumanoidRootPart.Position.Z)*CFrame.new(.1,0,0)
+local function autoBossFunc(afterWorld, db)
+	if db == true and #workspace.Server.Mobs.Dungeon:GetChildren() >= 1 then
+		break
+	elseif #workspace.Server.Mobs.Dungeon:GetChildren() < 1 then
+		for _, world in pairs(workspace.Server.Mobs:GetChildren()) do
+			if #world:GetChildren() == 1 then
+				for p, mobServer in pairs(world:GetChildren()) do
+					for i, mobClient in pairs(workspace.Client.Mobs:GetChildren()) do
+						if #workspace.Client.Mobs:GetChildren() > 1 then
+							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = mobServer.CFrame*CFrame.new(0.1,0,0)
+						elseif #workspace.Client.Mobs:GetChildren() == 1 then
+							game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", mobServer, "WeaponAttack"})
+							if autoSkillB == true then game.ReplicatedStorage.Remotes.Server:FireServer({"Skill", "Use", mobServer}) end
+							if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X ~= mobClient.HumanoidRootPart.CFrame.X*0.1 and game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z ~= mobClient.HumanoidRootPart.Position.Z then
+								game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(mobClient.HumanoidRootPart.Position.X, mobClient.HumanoidRootPart.Position.Y, mobClient.HumanoidRootPart.Position.Z)*CFrame.new(.1,0,0)
+							end
 						end
 					end
 				end
 			end
 		end
-	end
-	if #workspace.Client.Mobs:GetChildren() == 0 then
-		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Server.Zones[tostring(afterWorld)].CFrame
+		if #workspace.Client.Mobs:GetChildren() == 0 then
+			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Server.Zones[tostring(afterWorld)].CFrame
+		end
 	end
 end
 
@@ -169,7 +189,18 @@ local function mobDropdown(dropdown)
 end
 MainTab.DataTable({ Text = "Main", Callback = function(ChipSet) table.foreach(ChipSet, function(Option, Value) if Option == "Auto Attack" then mobBoolean = Value end if Option == "only Attack" then tpBool = Value end if Option == "Auto Skill" then autoSkillB = Value end end) end, Options = { ["Auto Attack"] = false, ["only Attack"] = false, ["Auto Skill"] = false }})
 
-
+local function autoDungeonFunc()
+	game.ReplicatedStorage.Remotes.Server:FireServer({"Dungeon", "Enter"})
+	local world = workspace.Server.Mobs.Dungeon
+	local clientFolder = workspace.Client.Mobs
+	for i, v in pairs(clientFolder:GetChildren()) do
+		if #world:GetChildren() > 1 then
+			game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", world[getNearestAll().Name], "WeaponAttack"})
+			if autoSkillB == true then game.ReplicatedStorage.Remotes.Server:FireServer({"Skill", "Use", world[getNearestAll().Name]}) end
+			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getNearestAll().HumanoidRootPart.CFrame*CFrame.new(0.1,0,0)
+		end
+	end
+end
 
 local dropdownMob = MainTab.Dropdown({ Text = "Choose a enemy", Callback = function(v) mobSelected = tostring(v) end, Options = mobArrayTable })
 mobDropdown(dropdownMob)
@@ -181,13 +212,15 @@ MainTab.TextField({
 })
 local afterWorldSelected = ""
 local autoBoss = false
+local autoDungeon = false
 local autoCollect = false
 MainTab.Button({ Text = "Refresh the enemys", Callback = function(v) mobDropdown(dropdownMob) end })
-MainTab.DataTable({ Text = "Main", Callback = function(ChipSet) table.foreach(ChipSet, function(Option, Value) if Option == "Auto Collect" then autoCollect = Value end if Option == "Auto Boss" then autoBoss = Value end end) end, Options = { ["Auto Collect"] = false, ["Auto Boss"] = false }})
-MainTab.Dropdown({ Text = "Choose the world after raid boss", Callback = function(v) afterWorldSelected = tostring(v) end, Options = {"Piece World", "Dragon World", "Ninja World", "Bizarre World", "Slayer World", "Academy World"} })
+MiscTab.DataTable({ Text = "Main", Callback = function(ChipSet) table.foreach(ChipSet, function(Option, Value) if Option == "Auto Collect" then autoCollect = Value end end) end, Options = { ["Auto Collect"] = false }})
+BossTab.DataTable({ Text = "Main", Callback = function(ChipSet) table.foreach(ChipSet, function(Option, Value) if Option == "Auto Dungeon" then autoDungeon = Value end if Option == "Auto Boss" then autoBoss = Value end end) end, Options = { ["Auto Dungeon"] = false, ["Auto Boss"] = false }})
+BossTab.Dropdown({ Text = "Choose the world after raid boss", Callback = function(v) afterWorldSelected = tostring(v) end, Options = {"Piece World", "Dragon World", "Ninja World", "Bizarre World", "Slayer World", "Academy World"} })
 local c1 = coroutine.create(function() while true do if mobBoolean == true then autoMobFunc(mobSelected) end wait() end end) coroutine.resume(c1)
-local c2 = coroutine.create(function() while true do if autoChallenge == true then autoEquipBestFunc() end wait(1) end end) coroutine.resume(c2)
-local c542 = coroutine.create(function() while true do if autoBoss == true then autoBossFunc(afterWorldSelected) end wait() end end) coroutine.resume(c542)
+local c2 = coroutine.create(function() while true do if autoDungeon == true then autoDungeonFunc() end wait() end end) coroutine.resume(c2)
+local c542 = coroutine.create(function() while true do if autoBoss == true then autoBossFunc(afterWorldSelected, autoDungeon) end wait() end end) coroutine.resume(c542)
 local c3 = coroutine.create(function() while true do if tpBool == true then game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", v, "WeaponAttack"})  end wait() end end) coroutine.resume(c3) -- game.ReplicatedStorage.Remotes.Server:FireServer({"BuyGrimoire"})
 local c4 = coroutine.create(function() while true do if autoCollect == true then for i, v in pairs(workspace.Debris:GetChildren()) do if v:FindFirstChild("UID") then v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame end end end wait(0.1) end end) coroutine.resume(c4)
 
