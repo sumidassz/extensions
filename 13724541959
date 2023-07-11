@@ -141,9 +141,7 @@ local function autoMobFunc(mob)
 	end
 end
 local function autoBossFunc(afterWorld, db)
-	if db == true and #workspace.Server.Mobs.Dungeon:GetChildren() >= 1 then
-		break
-	elseif #workspace.Server.Mobs.Dungeon:GetChildren() < 1 then
+	if #workspace.Server.Mobs.Dungeon:GetChildren() < 1 then
 		for _, world in pairs(workspace.Server.Mobs:GetChildren()) do
 			if #world:GetChildren() == 1 then
 				for p, mobServer in pairs(world:GetChildren()) do
