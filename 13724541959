@@ -108,7 +108,7 @@ autoBossGroupBox:AddDropdown('afterWorldDropdown', {
     Tooltip = 'Choose the world to TP after boss raid',
 })
 
-autoDungeonGroupBox:AddDropdown('afterWorldDDropdown', {
+autoDungeonGroupBox:AddDropdown('afterWorldDungeonDropdown', {
 
     Values = {"Piece World", "Dragon World", "Ninja World", "Bizarre World", "Slayer World", "Academy World"},
     Default = 1, 
@@ -134,7 +134,7 @@ autoDungeonGroupBox:AddDropdown('artefactExitDropdown', {
     Default = 1, 
     Multi = false,
 
-    Text = 'Choose artefact to equp when wxit',
+    Text = 'Choose artefact to equp when exit',
     Tooltip = 'Choose the artefact to equip when exit the dungeon',
 })
 
