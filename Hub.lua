@@ -67,8 +67,8 @@ local function notification(notificationText, time)
 	wait(tonumber(time-0.35))
 	screenGui:Destroy()
 end
-notification("Get key in official discord! (already coppied)", 5)
-setclipboard("https://discord.gg/56Df2qKMt5")
+notification("Get key in official discord! (already coppied)", 2)
+setclipboard("https://discord.gg/56Df2qKMt5");
 local Material = loadstring(game:HttpGet("https://pastebin.com/raw/vtqFazmD"))()
 local Menu = Material.Load({ Title = "sTempest Hub (KeySystem)", Style = 2, SizeX = 325, SizeY = 200, Theme = "Aqua", ColorOverrides = { MainFrame = Color3.fromRGB(235,235,235) }})
 local MainTab = Menu.New({ Title = "Key" })
@@ -78,9 +78,11 @@ MainTab.TextField({
 	Callback = function(Value)
 		mainKey = tostring(Value)
 		if tostring(Value) == "r513uBZDZ5Oz9ijxoUuR" then
-			notification("Opening sTempest Hub! (Correct Key)", 5)
+			notification("Opening sTempest Hub! (Correct Key)", 2)
 			wait(0.5)
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/sTempestHUB/scripts/main/"..tostring(game.PlaceId)))()
+			wait(0.5)
+			Menu:Destroy()
 		end
 	end,
 	Menu = {
