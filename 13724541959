@@ -13,7 +13,8 @@ local Tabs = {
 
 local autoFarmGroupBox = Tabs.Main:AddLeftGroupbox('Auto Farm')
 local miscGroupBox = Tabs.Main:AddLeftGroupbox('Misc')
-local autoDungeonBossGroupBox = Tabs.Main:AddRightGroupbox('Auto Dungeon/Raid')
+local autoBossGroupBox = Tabs.Main:AddRightGroupbox('Auto Boss Raid')
+local autoDungeonGroupBox = Tabs.Main:AddRightGroupbox('Auto Dungeon')
 
 local totalEnergyBox = Tabs.LB:AddLeftGroupbox('Total Energy')
 local petsHatchedBox = Tabs.LB:AddLeftGroupbox('Pets Hatched')
@@ -23,6 +24,8 @@ local timePlayedBox = Tabs.LB:AddRightGroupbox('Time Played')
 -- MAIN
 
 local mobArrayTable = {}
+local artefactsArray = {}
+
 local function mobDropdown(dropdown)
 	table.clear(mobArrayTable)
 	for i, k in pairs(workspace.Client.Mobs:GetChildren()) do
@@ -31,6 +34,16 @@ local function mobDropdown(dropdown)
 				table.insert(mobArrayTable, k.HumanoidRootPart.DefaultHud.Username.Text)
 				dropdown:SetValues(mobArrayTable)
 			end
+		end
+	end
+end
+
+local function artefactsDropdown(dropdown)
+	table.clear(artefactsArray)
+	for i, v in pairs(game.Players.LocalPlayer.PlayerGui.UI.OffSet.Frames.Artefacts.Frame.Gradient.List:GetChildren()) do
+		if v:IsA("ImageLabel") and not table.find(artefactsArray, v.Name) then
+			table.insert(artefactsArray, v.Name)
+			dropdown:SetValues(artefactsArray)
 		end
 	end
 end
@@ -73,28 +86,65 @@ miscGroupBox:AddToggle('AutoCollectToggle', {
     Tooltip = 'Enable/Disabled auto collect',
 })
 
-autoDungeonBossGroupBox:AddToggle('AutoDungeonToggle', {
+autoDungeonGroupBox:AddToggle('AutoDungeonToggle', {
     Text = 'Auto Dungeon',
     Default = false,
     Tooltip = 'Enable/Disabled auto dungeon',
 })
 
-autoDungeonBossGroupBox:AddToggle('AutoBossToggle', {
+autoBossGroupBox:AddToggle('AutoBossToggle', {
     Text = 'Auto Boss',
     Default = false,
     Tooltip = 'Enable/Disabled auto boss',
 })
 
-autoDungeonBossGroupBox:AddDropdown('afterWorldDropdown', {
+autoBossGroupBox:AddDropdown('afterWorldDropdown', {
 
     Values = {"Piece World", "Dragon World", "Ninja World", "Bizarre World", "Slayer World", "Academy World"},
     Default = 1, 
     Multi = false,
 
     Text = 'Choose a world',
-    Tooltip = 'Choose the world to TP after raid or dungeon',
+    Tooltip = 'Choose the world to TP after boss raid',
 })
 
+autoDungeonGroupBox:AddDropdown('afterWorldDDropdown', {
+
+    Values = {"Piece World", "Dragon World", "Ninja World", "Bizarre World", "Slayer World", "Academy World"},
+    Default = 1, 
+    Multi = false,
+
+    Text = 'Choose a world',
+    Tooltip = 'Choose the world to TP after dungeon',
+})
+
+autoDungeonGroupBox:AddDropdown('artefactEnterDropdown', {
+
+    Values = artefactsArray,
+    Default = 1, 
+    Multi = false,
+
+    Text = 'Choose artefact to equp when enter',
+    Tooltip = 'Choose the artefact to equip when enter the dungeon',
+})
+
+autoDungeonGroupBox:AddDropdown('artefactExitDropdown', {
+
+    Values = artefactsArray,
+    Default = 1, 
+    Multi = false,
+
+    Text = 'Choose artefact to equp when wxit',
+    Tooltip = 'Choose the artefact to equip when exit the dungeon',
+})
+
+autoDungeonGroupBox:AddButton('Refresh the artefacts', function()
+    artefactsDropdown(Options.artefactEnterDropdown)
+    artefactsDropdown(Options.artefactExitDropdown)
+end)
+
+artefactsDropdown(Options.artefactEnterDropdown)
+artefactsDropdown(Options.artefactExitDropdown)
 mobDropdown(Options.autoFarmDropdown)
 local function getNearestAll(array)
     local dist, thing = math.huge
@@ -163,12 +213,13 @@ local function autoBossFunc(afterWorld, db)
 		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Server.Zones[tostring(afterWorld)].CFrame
 	end
 end
-local function autoDungeonFunc(afterWorld)
+local function autoDungeonFunc(afterWorld, artefactEnter, artefactExit)
 	game.ReplicatedStorage.Remotes.Server:FireServer({"Dungeon", "Enter"})
 	local world = workspace.Server.Mobs.Dungeon
 	local clientFolder = workspace.Client.Mobs
 	for i, v in pairs(clientFolder:GetChildren()) do
 		if #world:GetChildren() >= 1 then
+			game.ReplicatedStorage.Remotes.Server:FireServer({"ArtefactStatus", "Equip", tostring(artefactEnter)})
 			game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", world[getNearestAlla().Name], "WeaponAttack"})
 			if Toggles.AutoSkillToggle.Value == true then game.ReplicatedStorage.Remotes.Server:FireServer({"Skill", "Use", world[getNearestAlla().Name]}) end
 			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getNearestAlla().HumanoidRootPart.CFrame*CFrame.new(0.1,0,0)
@@ -179,6 +230,7 @@ local function autoDungeonFunc(afterWorld)
 		wait(0.5)
 		game.Players.LocalPlayer.PlayerGui.UI.OffSet.Waves.Left.Shadow.Text = "60:57"
 		game.ReplicatedStorage.Remotes.Server:FireServer({"Dungeon", "Exit"})
+		game.ReplicatedStorage.Remotes.Server:FireServer({"ArtefactStatus", "Equip", tostring(artefactExit)})
 	end
 end
 
@@ -298,7 +350,7 @@ local c1 = coroutine.create(function() while true do if Toggles.AutoFarmToggle.V
 local c2 = coroutine.create(function() while true do if Toggles.AutoOFarmToggle.Value == true then game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", m, "WeaponAttack"}) end wait() end end) coroutine.resume(c2)
 local c3 = coroutine.create(function() while true do if Toggles.AutoCollectToggle.Value == true then for i, v in pairs(workspace.Debris:GetChildren()) do if v:FindFirstChild("UID") then v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame end end end wait(0.1) end end) coroutine.resume(c3)
 local c4 = coroutine.create(function() while true do if Toggles.AutoBossToggle.Value == true then autoBossFunc(Options.afterWorldDropdown.Value, Toggles.AutoDungeonToggle.Value) end wait(0.1) end end) coroutine.resume(c4)
-local c5 = coroutine.create(function() while true do if Toggles.AutoDungeonToggle.Value == true then autoDungeonFunc(Options.afterWorldDropdown.Value) end wait() end end) coroutine.resume(c5)
+local c5 = coroutine.create(function() while true do if Toggles.AutoDungeonToggle.Value == true then autoDungeonFunc(Options.afterWorldDDropdown.Value, Options.artefactEnterDropdown.Value, Options.artefactExitDropdown.Value) end wait() end end) coroutine.resume(c5)
 
 wait(1.5)
 
