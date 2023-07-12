@@ -279,16 +279,6 @@ totalGemsBox:AddButton('Refresh the top', function()
     seeTopRefresh(arrayGems, Options.totalGemsDropdown, "TotalGems", Options.gamepassesDropdown3.Value)
 end)
 
-timePlayedBox:AddDropdown('gamepassesDropdown4', {
-
-    Values = {"F2P", "P2W"},
-    Default = 1, 
-    Multi = false,
-
-    Text = '',
-    Tooltip = 'Select F2P or P2W',
-})
-
 timePlayedBox:AddDropdown('timePlayedDropdown', {
 
     Values = arrayTime,
@@ -300,7 +290,7 @@ timePlayedBox:AddDropdown('timePlayedDropdown', {
 })
 
 timePlayedBox:AddButton('Refresh the top', function()
-    seeTopRefresh(arrayTime, Options.timePlayedDropdown, "TimePlayed", Options.gamepassesDropdown4.Value)
+    seeTopRefresh(arrayTime, Options.timePlayedDropdown, "TimePlayed", "P2W")
 end)
 
 local c1 = coroutine.create(function() while true do if Toggles.AutoFarmToggle.Value == true then autoMobFunc(mobsArraySelected) end wait() end end) coroutine.resume(c1)
