@@ -8,13 +8,19 @@ local Window = Library:CreateWindow({
 
 local Tabs = {
     Main = Window:AddTab('Main'), 
+    LB = Window:AddTab('Leaderboards'), 
 }
 
 local autoFarmGroupBox = Tabs.Main:AddLeftGroupbox('Auto Farm')
 local miscGroupBox = Tabs.Main:AddLeftGroupbox('Misc')
 local autoDungeonBossGroupBox = Tabs.Main:AddRightGroupbox('Auto Dungeon/Raid')
 
---local TabBox = Tabs.Main:AddLeftTabbox()
+local totalEnergyBox = Tabs.LB:AddLeftGroupbox('Total Energy')
+local petsHatchedBox = Tabs.LB:AddLeftGroupbox('Pets Hatched')
+local totalGemsBox = Tabs.LB:AddRightGroupbox('Total Gems')
+local timePlayedBox = Tabs.LB:AddRightGroupbox('Time Played')
+
+-- MAIN
 
 local mobArrayTable = {}
 local function mobDropdown(dropdown)
@@ -136,27 +142,25 @@ local function autoMobFunc(array)
 	end
 end
 local function autoBossFunc(afterWorld, db)
-	if #workspace.Server.Mobs.Dungeon:GetChildren() < 1 then
-		for _, world in pairs(workspace.Server.Mobs:GetChildren()) do
-			if #world:GetChildren() == 1 then
-				for p, mobServer in pairs(world:GetChildren()) do
-					for i, mobClient in pairs(workspace.Client.Mobs:GetChildren()) do
-						if #workspace.Client.Mobs:GetChildren() > 1 then
-							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = mobServer.CFrame*CFrame.new(0.1,0,0)
-						elseif #workspace.Client.Mobs:GetChildren() == 1 then
-							game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", mobServer, "WeaponAttack"})
-							if autoSkillB == true then game.ReplicatedStorage.Remotes.Server:FireServer({"Skill", "Use", mobServer}) end
-							if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X ~= mobClient.HumanoidRootPart.CFrame.X*0.1 and game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z ~= mobClient.HumanoidRootPart.Position.Z then
-								game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(mobClient.HumanoidRootPart.Position.X, mobClient.HumanoidRootPart.Position.Y, mobClient.HumanoidRootPart.Position.Z)*CFrame.new(.1,0,0)
-							end
+	for _, world in pairs(workspace.Server.Mobs:GetChildren()) do
+		if #world:GetChildren() == 1 then
+			for p, mobServer in pairs(world:GetChildren()) do
+				for i, mobClient in pairs(workspace.Client.Mobs:GetChildren()) do
+					if #workspace.Client.Mobs:GetChildren() > 1 then
+						game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = mobServer.CFrame*CFrame.new(0.1,0,0)
+					elseif #workspace.Client.Mobs:GetChildren() == 1 then
+						game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", mobServer, "WeaponAttack"})
+						if Toggles.AutoSkillToggle.Value == true then game.ReplicatedStorage.Remotes.Server:FireServer({"Skill", "Use", mobServer}) end
+						if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X ~= mobClient.HumanoidRootPart.CFrame.X*0.1 and game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z ~= mobClient.HumanoidRootPart.Position.Z then
+							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(mobClient.HumanoidRootPart.Position.X, mobClient.HumanoidRootPart.Position.Y, mobClient.HumanoidRootPart.Position.Z)*CFrame.new(.1,0,0)
 						end
 					end
 				end
 			end
 		end
-		if #workspace.Client.Mobs:GetChildren() == 0 and afterWorld ~= "" then
-			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Server.Zones[tostring(afterWorld)].CFrame
-		end
+	end
+	if #workspace.Client.Mobs:GetChildren() == 0 and afterWorld ~= "" then
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Server.Zones[tostring(afterWorld)].CFrame
 	end
 end
 local function autoDungeonFunc(afterWorld)
@@ -187,10 +191,122 @@ Options.autoFarmDropdown:OnChanged(function()
     end
 end)
 
+-- LEADERBOARDS
+
+local arrayPets, arrayEnergy, arrayGems, arrayTime = {}, {}, {}, {}
+
+local function seeTopRefresh(array, dropdown, whatyouwant, gamepasses)
+	if gamepasses == "F2P" or gamepasses == "P2W" then
+		table.clear(array)
+		for i, v in pairs(workspace.Server.Leaderboards[tostring(whatyouwant)].Frame.UI[tostring(gamepasses)]:GetChildren()) do
+			if v:IsA("Frame") and v:FindFirstChild("UID") then
+				table.insert(array, v.UID.Text)
+				dropdown:SetValues(array)
+			end
+		end
+	end
+end
+
+totalEnergyBox:AddDropdown('gamepassesDropdown', {
+
+    Values = {"F2P", "P2W"},
+    Default = 1, 
+    Multi = false,
+
+    Text = '',
+    Tooltip = 'Select F2P or P2W',
+})
+
+totalEnergyBox:AddDropdown('totalEnergyDropdown', {
+
+    Values = arrayEnergy,
+    Default = 1, 
+    Multi = false,
+
+    Text = '',
+    Tooltip = 'See the top',
+})
+
+totalEnergyBox:AddButton('Refresh the top', function()
+    seeTopRefresh(arrayEnergy, Options.totalEnergyDropdown, "TotalEnergy", Options.gamepassesDropdown.Value)
+end)
+
+petsHatchedBox:AddDropdown('gamepassesDropdown2', {
+
+    Values = {"F2P", "P2W"},
+    Default = 1, 
+    Multi = false,
+
+    Text = '',
+    Tooltip = 'Select F2P or P2W',
+})
+
+petsHatchedBox:AddDropdown('petsHatchedDropdown', {
+
+    Values = arrayPets,
+    Default = 1, 
+    Multi = false,
+
+    Text = '',
+    Tooltip = 'See the top',
+})
+
+petsHatchedBox:AddButton('Refresh the top', function()
+    seeTopRefresh(arrayPets, Options.petsHatchedDropdown, "PetsHatched", Options.gamepassesDropdown2.Value)
+end)
+
+totalGemsBox:AddDropdown('gamepassesDropdown3', {
+
+    Values = {"F2P", "P2W"},
+    Default = 1, 
+    Multi = false,
+
+    Text = '',
+    Tooltip = 'Select F2P or P2W',
+})
+
+totalGemsBox:AddDropdown('totalGemsDropdown', {
+
+    Values = arrayGems,
+    Default = 1, 
+    Multi = false,
+
+    Text = '',
+    Tooltip = 'See the top',
+})
+
+totalGemsBox:AddButton('Refresh the top', function()
+    seeTopRefresh(arrayGems, Options.totalGemsDropdown, "TotalGems", Options.gamepassesDropdown3.Value)
+end)
+
+timePlayedBox:AddDropdown('gamepassesDropdown4', {
+
+    Values = {"F2P", "P2W"},
+    Default = 1, 
+    Multi = false,
+
+    Text = '',
+    Tooltip = 'Select F2P or P2W',
+})
+
+timePlayedBox:AddDropdown('timePlayedDropdown', {
+
+    Values = arrayTime,
+    Default = 1, 
+    Multi = false,
+
+    Text = '',
+    Tooltip = 'See the top',
+})
+
+timePlayedBox:AddButton('Refresh the top', function()
+    seeTopRefresh(arrayTime, Options.timePlayedDropdown, "TimePlayed", Options.gamepassesDropdown4.Value)
+end)
+
 local c1 = coroutine.create(function() while true do if Toggles.AutoFarmToggle.Value == true then autoMobFunc(mobsArraySelected) end wait() end end) coroutine.resume(c1)
 local c2 = coroutine.create(function() while true do if Toggles.AutoOFarmToggle.Value == true then game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", m, "WeaponAttack"}) end wait() end end) coroutine.resume(c2)
 local c3 = coroutine.create(function() while true do if Toggles.AutoCollectToggle.Value == true then for i, v in pairs(workspace.Debris:GetChildren()) do if v:FindFirstChild("UID") then v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame end end end wait(0.1) end end) coroutine.resume(c3)
-local c4 = coroutine.create(function() while true do if Toggles.AutoBossToggle.Value == true then autoBossFunc(Options.afterWorldDropdown.Value, Toggles.AutoDungeonToggle.Value) end wait() end end) coroutine.resume(c4)
+local c4 = coroutine.create(function() while true do if Toggles.AutoBossToggle.Value == true then autoBossFunc(Options.afterWorldDropdown.Value, Toggles.AutoDungeonToggle.Value) end wait(0.1) end end) coroutine.resume(c4)
 local c5 = coroutine.create(function() while true do if Toggles.AutoDungeonToggle.Value == true then autoDungeonFunc(Options.afterWorldDropdown.Value) end wait() end end) coroutine.resume(c5)
 
 wait(1.5)
