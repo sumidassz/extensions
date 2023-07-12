@@ -178,6 +178,7 @@ local function autoDungeonFunc(afterWorld)
 		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Server.Zones[tostring(afterWorld)].CFrame
 		wait(0.5)
 		game.Players.LocalPlayer.PlayerGui.UI.OffSet.Waves.Left.Shadow.Text = "60:57"
+		game.ReplicatedStorage.Remotes.Server:FireServer({"Dungeon", "Exit"})
 	end
 end
 
