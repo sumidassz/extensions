@@ -100,7 +100,7 @@ autoBossGroupBox:AddToggle('AutoBossToggle', {
 
 autoBossGroupBox:AddDropdown('afterWorldDropdown', {
 
-    Values = {"Piece World", "Dragon World", "Ninja World", "Bizarre World", "Slayer World", "Academy World"},
+    Values = {"Piece World", "Dragon World", "Ninja World", "Bizarre World", "Slayer World", "Academy World", "Jujutsu World"},
     Default = 1, 
     Multi = false,
 
@@ -110,7 +110,7 @@ autoBossGroupBox:AddDropdown('afterWorldDropdown', {
 
 autoDungeonGroupBox:AddDropdown('afterWorldDungeonDropdown', {
 
-    Values = {"Piece World", "Dragon World", "Ninja World", "Bizarre World", "Slayer World", "Academy World"},
+    Values = {"Piece World", "Dragon World", "Ninja World", "Bizarre World", "Slayer World", "Academy World", "Jujutsu World"},
     Default = 1, 
     Multi = false,
 
@@ -180,6 +180,7 @@ local function autoMobFunc(array)
 			if game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
 				for _, k in pairs(workspace.Client.Mobs:GetChildren()) do
 					if table.find(array, k.HumanoidRootPart.DefaultHud.Username.Text) and v.Name == k.Name and k == getNearestAll(array) and workspace.Client.Mobs:FindFirstChild(tostring(getNearestAll(array))) then
+						game.ReplicatedStorage.Remotes.Server:FireServer({"RunQuest"})
 						game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", world:FindFirstChild(tostring(getNearestAll(array))), "WeaponAttack"})
 						if Toggles.AutoSkillToggle.Value == true then game.ReplicatedStorage.Remotes.Server:FireServer({"Skill", "Use", world:FindFirstChild(tostring(getNearestAll(array)))}) end
 						if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X ~= getNearestAll(array).HumanoidRootPart.CFrame.X*0.1 and game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z ~= getNearestAll(array).HumanoidRootPart.Position.Z then
@@ -191,7 +192,7 @@ local function autoMobFunc(array)
 		end
 	end
 end
-local function autoBossFunc(afterWorld, db)
+local function autoBossFunc(afterWorld)
 	for _, world in pairs(workspace.Server.Mobs:GetChildren()) do
 		if #world:GetChildren() == 1 then
 			for p, mobServer in pairs(world:GetChildren()) do
@@ -217,17 +218,19 @@ local function autoDungeonFunc(afterWorld, artefactEnter, artefactExit)
 	game.ReplicatedStorage.Remotes.Server:FireServer({"Dungeon", "Enter"})
 	local world = workspace.Server.Mobs.Dungeon
 	local clientFolder = workspace.Client.Mobs
-	for i, v in pairs(clientFolder:GetChildren()) do
-		if #world:GetChildren() >= 1 then
-			game.ReplicatedStorage.Remotes.Server:FireServer({"ArtefactStatus", "Equip", tostring(artefactEnter)})
-			game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", world[getNearestAlla().Name], "WeaponAttack"})
-			if Toggles.AutoSkillToggle.Value == true then game.ReplicatedStorage.Remotes.Server:FireServer({"Skill", "Use", world[getNearestAlla().Name]}) end
-			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getNearestAlla().HumanoidRootPart.CFrame*CFrame.new(0.1,0,0)
+	--for p, k in pairs(world:GetChildren()) do
+		for i, v in pairs(clientFolder:GetChildren()) do
+			if #world:GetChildren() >= 1 and world:FindFirstChild(tostring(getNearestAlla())) then
+				if table.find(artefactsArray, artefactEnter) then game.ReplicatedStorage.Remotes.Server:FireServer({"ArtefactStatus", "Equip", tostring(artefactEnter)}) end
+				game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", world[getNearestAlla().Name], "WeaponAttack"})
+				if Toggles.AutoSkillToggle.Value == true then game.ReplicatedStorage.Remotes.Server:FireServer({"Skill", "Use", world[getNearestAlla().Name]}) end
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getNearestAlla().HumanoidRootPart.CFrame*CFrame.new(0.1,0,0)
+			end
 		end
-	end
+	--end
 	if game.Players.LocalPlayer.PlayerGui.UI.OffSet.Waves.Left.Shadow.Text == "60:58" and afterWorld ~= "" then 
 		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Server.Zones[tostring(afterWorld)].CFrame
-		game.ReplicatedStorage.Remotes.Server:FireServer({"ArtefactStatus", "Equip", tostring(artefactExit)})
+		if table.find(artefactsArray, artefactExit) then game.ReplicatedStorage.Remotes.Server:FireServer({"ArtefactStatus", "Equip", tostring(artefactExit)}) end
 		wait(0.5)
 		game.Players.LocalPlayer.PlayerGui.UI.OffSet.Waves.Left.Shadow.Text = "60:57"
 		game.ReplicatedStorage.Remotes.Server:FireServer({"Dungeon", "Exit"})
@@ -348,7 +351,7 @@ timePlayedBox:AddButton('Refresh the top', function()
 end)
 
 local c1 = coroutine.create(function() while true do if Toggles.AutoFarmToggle.Value == true then autoMobFunc(mobsArraySelected) end wait() end end) coroutine.resume(c1)
-local c2 = coroutine.create(function() while true do if Toggles.AutoOFarmToggle.Value == true then game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", m, "WeaponAttack"}) end wait() end end) coroutine.resume(c2)
+local c2 = coroutine.create(function() while true do if Toggles.AutoOFarmToggle.Value == true then if Toggles.AutoDungeonToggle.Value == true and #workspace.Server.Mobs.Dungeon:GetChildren() == 0 then game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", m, "WeaponAttack"}) elseif Toggles.AutoDungeonToggle.Value == false then game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", m, "WeaponAttack"}) end end wait() end end) coroutine.resume(c2)
 local c3 = coroutine.create(function() while true do if Toggles.AutoCollectToggle.Value == true then for i, v in pairs(workspace.Debris:GetChildren()) do if v:FindFirstChild("UID") then v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame end end end wait(0.1) end end) coroutine.resume(c3)
 local c4 = coroutine.create(function() while true do if Toggles.AutoBossToggle.Value == true then autoBossFunc(Options.afterWorldDropdown.Value) end wait(0.1) end end) coroutine.resume(c4)
 local c5 = coroutine.create(function() while true do if Toggles.AutoDungeonToggle.Value == true then autoDungeonFunc(Options.afterWorldDungeonDropdown.Value, Options.artefactEnterDropdown.Value, Options.artefactExitDropdown.Value) end wait() end end) coroutine.resume(c5)
