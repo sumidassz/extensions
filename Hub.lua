@@ -82,7 +82,7 @@ MainTab.TextField({
 			wait(0.5)
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/sTempestHUB/scripts/main/"..tostring(game.PlaceId)))()
 			wait(0.5)
-			Menu:Destroy()
+			table.clear(Menu)
 		end
 	end,
 	Menu = {
