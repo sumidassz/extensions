@@ -205,24 +205,26 @@ end
 local function autoBossFunc(afterWorld, array)
 	if array ~= nil then
 		for _, world in pairs(workspace.Server.Mobs:GetChildren()) do
-			if table.find(array, world.Name) and #world:GetChildren() == 1 then
-				for p, mobServer in pairs(world:GetChildren()) do
-					for i, mobClient in pairs(workspace.Client.Mobs:GetChildren()) do
-						if #workspace.Client.Mobs:GetChildren() > 1 then
-							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = mobServer.CFrame*CFrame.new(0.1,0,0)
-						elseif #workspace.Client.Mobs:GetChildren() == 1 then
-							game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", mobServer, "WeaponAttack"})
-							if Toggles.AutoSkillToggle.Value == true then game.ReplicatedStorage.Remotes.Server:FireServer({"Skill", "Use", mobServer}) end
-							if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X ~= mobClient.HumanoidRootPart.CFrame.X*0.1 and game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z ~= mobClient.HumanoidRootPart.Position.Z then
-								game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(mobClient.HumanoidRootPart.Position.X, mobClient.HumanoidRootPart.Position.Y, mobClient.HumanoidRootPart.Position.Z)*CFrame.new(.1,0,0)
+			if table.find(array, world.Name) then 
+				if #world:GetChildren() == 1 then
+					for p, mobServer in pairs(world:GetChildren()) do
+						for i, mobClient in pairs(workspace.Client.Mobs:GetChildren()) do
+							if #workspace.Client.Mobs:GetChildren() > 1 then
+								game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = mobServer.CFrame*CFrame.new(0.1,0,0)
+							elseif #workspace.Client.Mobs:GetChildren() == 1 then
+								game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", mobServer, "WeaponAttack"})
+								if Toggles.AutoSkillToggle.Value == true then game.ReplicatedStorage.Remotes.Server:FireServer({"Skill", "Use", mobServer}) end
+								if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X ~= mobClient.HumanoidRootPart.CFrame.X*0.1 and game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z ~= mobClient.HumanoidRootPart.Position.Z then
+									game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(mobClient.HumanoidRootPart.Position.X, mobClient.HumanoidRootPart.Position.Y, mobClient.HumanoidRootPart.Position.Z)*CFrame.new(.1,0,0)
+								end
 							end
 						end
 					end
 				end
 			end
-		end
-		if #workspace.Client.Mobs:GetChildren() == 0 and afterWorld ~= "" then
-			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Server.Zones[tostring(afterWorld)].CFrame
+			if world.Name ~= "Dungeon" and #workspace.Client.Mobs:GetChildren() == 0 and #world:GetChildren() == 0 and afterWorld ~= "" then
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Server.Zones[tostring(afterWorld)].CFrame
+			end
 		end
 	end
 end
@@ -376,7 +378,7 @@ end)
 local c1 = coroutine.create(function() while true do if Toggles.AutoFarmToggle.Value == true then autoMobFunc(mobsArraySelected) end wait() end end) coroutine.resume(c1)
 local c2 = coroutine.create(function() while true do if Toggles.AutoOFarmToggle.Value == true then if Toggles.AutoDungeonToggle.Value == true and #workspace.Server.Mobs.Dungeon:GetChildren() == 0 then game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", m, "WeaponAttack"}) elseif Toggles.AutoDungeonToggle.Value == false then game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", m, "WeaponAttack"}) end end wait() end end) coroutine.resume(c2)
 local c3 = coroutine.create(function() while true do if Toggles.AutoCollectToggle.Value == true then for i, v in pairs(workspace.Debris:GetChildren()) do if v:FindFirstChild("UID") then v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame end end end wait(0.1) end end) coroutine.resume(c3)
-local c4 = coroutine.create(function() while true do if Toggles.AutoBossToggle.Value == true then autoBossFunc(Options.afterWorldDropdown.Value, arrayWorldToRaid) end wait(0.1) end end) coroutine.resume(c4)
+local c4 = coroutine.create(function() while true do if Toggles.AutoBossToggle.Value == true then autoBossFunc(Options.afterWorldDropdown.Value, arrayWorldToRaid, Toggles.AutoDungeonToggle.Value) end wait(0.1) end end) coroutine.resume(c4)
 local c5 = coroutine.create(function() while true do if Toggles.AutoDungeonToggle.Value == true then autoDungeonFunc(Options.afterWorldDungeonDropdown.Value, Options.artefactEnterDropdown.Value, Options.artefactExitDropdown.Value) end wait() end end) coroutine.resume(c5)
 
 wait(1.5)
