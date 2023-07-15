@@ -81,8 +81,6 @@ MainTab.TextField({
 			notification("Opening sTempest Hub! (Correct Key)", 2)
 			wait(0.5)
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/sTempestHUB/scripts/main/"..tostring(game.PlaceId)))()
-			wait(0.5)
-			table.clear(Menu)
 		end
 	end,
 	Menu = {
