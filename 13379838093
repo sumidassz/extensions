@@ -230,11 +230,11 @@ local function onlyEnergyFunc(areaChoosed)
 		end
 	end
 	if areaChoosed == "x4" then 
-		if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position-workspace.Server.AreaMultiplier["Hollow Dimension"].Part.Position).magnitude > 40 then
-			game.ReplicatedStorage.Remotes.Server:FireServer({"TeleportZone", "Hollow Dimension"})
+		if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position-workspace.Server.AreaMultiplier["Leaf Village"].Part.Position).magnitude > 40 then
+			game.ReplicatedStorage.Remotes.Server:FireServer({"TeleportZone", "Leaf Village"})
 			wait(0.1)
-			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Server.AreaMultiplier["Hollow Dimension"].Part.CFrame 
-		elseif (game.Players.LocalPlayer.Character.HumanoidRootPart.Position-workspace.Server.AreaMultiplier["Hollow Dimension"].Part.Position).magnitude <= 40 then
+			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Server.AreaMultiplier["Leaf Village"].Part.CFrame 
+		elseif (game.Players.LocalPlayer.Character.HumanoidRootPart.Position-workspace.Server.AreaMultiplier["Leaf Village"].Part.Position).magnitude <= 40 then
 			return
 		end
 	end
