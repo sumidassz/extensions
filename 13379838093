@@ -424,11 +424,18 @@ a.NextMultiplier:Destroy()
 a.Size = UDim2.new(0.25, 0, 0.25, 0)
 a.Position = UDim2.new(0.125, 0, 0.925, 0)
 
-local c1 = coroutine.create(function() while true do if Toggles.AutoFarmToggle.Value == true then autoMobFunc(mobsArraySelected, Toggles.withTPToggle.Value, Toggles.withQuestToggle.Value) elseif Toggles.AutoFarmToggle.Value == false then game.Players.LocalPlayer.PlayerGui.UI.OffSet["Right_Main"].Quest.Visible = false end wait() end end) coroutine.resume(c1)
+local function refreshRankUP()
+	a.ProgressEnergy.Text = game.Players.LocalPlayer.PlayerGui.UI.OffSet.Frames.Rank.Main.ProgressEnergy.Text
+	a.ProgressBar.Insider.Size = game.Players.LocalPlayer.PlayerGui.UI.OffSet.Frames.Rank.Main.ProgressBar.Insider.Size
+	a.CurrentRank.Text = game.Players.LocalPlayer.PlayerGui.UI.OffSet.Frames.Rank.Main.CurrentRank.Text
+	a.NextRank.Text= game.Players.LocalPlayer.PlayerGui.UI.OffSet.Frames.Rank.Main.NextRank.Text
+end
+
+local c1 = coroutine.create(function() while true do if Toggles.AutoFarmToggle.Value == true then autoMobFunc(mobsArraySelected, Toggles.withTPToggle.Value, Toggles.withQuestToggle.Value) end wait() end end) coroutine.resume(c1)
 local c2 = coroutine.create(function() while true do if Toggles.AutoOFarmToggle.Value == true then game.ReplicatedStorage.Remotes.Server:FireServer({"MobHit", m, "WeaponAttack"}) onlyEnergyFunc(Options.areaMultiplierDropdown.Value) end wait() end end) coroutine.resume(c2)
 local c3 = coroutine.create(function() while true do if Toggles.AutoCollectToggle.Value == true then for i, v in pairs(workspace.Debris:GetChildren()) do if v:FindFirstChild("UID") then v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame end end end wait(0.1) end end) coroutine.resume(c3)
 local c4 = coroutine.create(function() while true do if Toggles.AutoSkillToggle.Value == true then autoSukunaBoostFunc() end wait(0.1) end end) coroutine.resume(c4)
-local c5 = coroutine.create(function() while true do if Toggles.AutoRankUpToggle.Value == true then game.ReplicatedStorage.Remotes.Server:FireServer({"RankUp"}) a.Visible = true a.ProgressEnergy.Text = game.Players.LocalPlayer.PlayerGui.UI.OffSet.Frames.Rank.Main.ProgressEnergy.Text elseif Toggles.AutoRankUpToggle.Value == false then a.Visible = false end wait(0.5) end end) coroutine.resume(c5)
+local c5 = coroutine.create(function() while true do if Toggles.AutoRankUpToggle.Value == true then game.ReplicatedStorage.Remotes.Server:FireServer({"RankUp"}) a.Visible = true refreshRankUP() elseif Toggles.AutoRankUpToggle.Value == false then a.Visible = false end wait(0.5) end end) coroutine.resume(c5)
 local c6 = coroutine.create(function() while true do if Toggles.AutoEasyFusionToggle.Value == true then easyFusionFunc() end wait(0.5) end end) coroutine.resume(c6)
 
 wait(1.5)
