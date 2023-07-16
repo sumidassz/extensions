@@ -249,7 +249,7 @@ local function easyFusionFunc()
 		if weapon:IsA("ImageLabel") then
 			if weapon.Frame.Shiny.Visible == false and weapon.Frame.Divine.Visible == false then game.ReplicatedStorage.Remotes.Server:FireServer({"WeaponStatus", "Shiny", tostring(weapon)}) end
 			if weapon.Frame.Shiny.Visible == true and weapon.Frame.Divine.Visible == false then game.ReplicatedStorage.Remotes.Server:FireServer({"WeaponStatus", "Divine", tostring(weapon)}) end
-			game.ReplicatedStorage.Remotes.Server:FireServer({"WeaponStatus", "Best", ""})
+			--game.ReplicatedStorage.Remotes.Server:FireServer({"WeaponStatus", "Best", ""})
 		end
 	end
 end
