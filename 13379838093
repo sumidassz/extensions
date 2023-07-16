@@ -132,7 +132,7 @@ miscGroupBox:AddToggle('AutoBuyGrimoireToggle', {
     Tooltip = 'Enable/Disable auto buy grimoire',
 })
 
-autoBossGroupBox:AddDropdown('AutoBuyGrimoireDropdown', {
+miscGroupBox:AddDropdown('AutoBuyGrimoireDropdown', {
 
     Values = grimoiresArrayTable,
     Default = 1, 
