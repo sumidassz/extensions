@@ -46,8 +46,8 @@ local function seeGrimoiresDropdown(dropdown)
 	table.clear(grimoiresArrayTable)
 	for _, v in pairs(game.Players.LocalPlayer.PlayerGui.UI.OffSet.Frames.TierGrimoires.Main:GetChildren()) do
 		if v:IsA("Frame") then
-			if not table.find(grimoiresArrayTable, v.Name.." ("..tostring(v.Rarity.Text)..")") then
-				table.insert(grimoiresArrayTable, tostring(v.Name).." ("..tostring(v.Rarity.Text)..")")
+			if not table.find(grimoiresArrayTable, v.Name.." ("..tostring(v.GrimoireRarity.Text)..")") then
+				table.insert(grimoiresArrayTable, tostring(v.Name).." ("..tostring(v.GrimoireRarity.Text)..")")
 				dropdown:SetValues(grimoiresArrayTable)
 			end
 		end
