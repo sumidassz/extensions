@@ -73,14 +73,16 @@ local Material = loadstring(game:HttpGet("https://pastebin.com/raw/vtqFazmD"))()
 local Menu = Material.Load({ Title = "sTempest Hub (KeySystem)", Style = 2, SizeX = 325, SizeY = 200, Theme = "Aqua", ColorOverrides = { MainFrame = Color3.fromRGB(235,235,235) }})
 local MainTab = Menu.New({ Title = "Key" })
 local mainKey = ""
-MainTab.TextField({
+local a = MainTab.TextField({
 	Text = "Put the Key",
 	Callback = function(Value)
 		mainKey = tostring(Value)
 		if tostring(Value) == "r513uBZDZ5Oz9ijxoUuR" then
 			notification("Opening sTempest Hub! (Correct Key)", 2)
 			wait(0.5)
-			loadstring(game:HttpGet("https://raw.githubusercontent.com/sTempestHUB/scripts/main/"..tostring(game.PlaceId)))() 
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/sTempestHUB/scripts/main/"..tostring(game.PlaceId)))()
+			wait(0.1)
+			a:Destroy()
 		end
 	end,
 	Menu = {
