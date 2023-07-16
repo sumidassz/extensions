@@ -46,7 +46,7 @@ local function seeGrimoiresDropdown(dropdown)
 	table.clear(grimoiresArrayTable)
 	for _, v in pairs(game.Players.LocalPlayer.PlayerGui.UI.OffSet.Frames.TierGrimoires.Main:GetChildren()) do
 		if v:IsA("Frame") then
-			if not table.find(grimoiresArrayTable, v.Name.." ("..tostring(v.GrimoireRarity.Text)..")") then
+			if not table.find(grimoiresArrayTable, tostring(v.Name).." ("..tostring(v.GrimoireRarity.Text)..")")then
 				table.insert(grimoiresArrayTable, tostring(v.Name).." ("..tostring(v.GrimoireRarity.Text)..")")
 				dropdown:SetValues(grimoiresArrayTable)
 			end
@@ -471,7 +471,7 @@ local c3 = coroutine.create(function() while true do if Toggles.AutoCollectToggl
 local c4 = coroutine.create(function() while true do if Toggles.AutoSkillToggle.Value == true then autoSukunaBoostFunc() end wait(0.1) end end) coroutine.resume(c4)
 local c5 = coroutine.create(function() while true do if Toggles.AutoRankUpToggle.Value == true then game.ReplicatedStorage.Remotes.Server:FireServer({"RankUp"}) a.Visible = true refreshRankUP() elseif Toggles.AutoRankUpToggle.Value == false then a.Visible = false end wait(0.5) end end) coroutine.resume(c5)
 local c6 = coroutine.create(function() while true do if Toggles.AutoEasyFusionToggle.Value == true then easyFusionFunc() end wait(0.5) end end) coroutine.resume(c6)
-local c7 = coroutine.create(function() while true do if Toggles.AutoBuyGrimoireToggle.Value == true then game.ReplicatedStorage.Remotes.Server:FireServer({"BuyGrimoire"}) seeGrimoiresDropdown(Options.AutoBuyGrimoireDropdown) end wait(0.5) end end) coroutine.resume(c7)
+local c7 = coroutine.create(function() while true do if Toggles.AutoBuyGrimoireToggle.Value == true then game.ReplicatedStorage.Remotes.Server:FireServer({"BuyGrimoire"}) end wait(0.5) end end) coroutine.resume(c7)
 
 wait(1.5)
 
