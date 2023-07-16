@@ -26,6 +26,7 @@ local timePlayedBox = Tabs.LB:AddRightGroupbox('Time Played')
 
 local mobArrayTable = {}
 local artefactsArray = {}
+local grimoiresArrayTable = {}
 
 local function mobDropdown(dropdown)
 	table.clear(mobArrayTable)
@@ -36,6 +37,18 @@ local function mobDropdown(dropdown)
 					table.insert(mobArrayTable, k.HumanoidRootPart.DefaultHud.Username.Text)
 					dropdown:SetValues(mobArrayTable)
 				end
+			end
+		end
+	end
+end
+
+local function seeGrimoiresDropdown(dropdown)
+	table.clear(grimoiresArrayTable)
+	for _, v in pairs(game.Players.LocalPlayer.PlayerGui.UI.OffSet.Frames.TierGrimoires.Main:GetChildren()) do
+		if v:IsA("Frame") then
+			if not table.find(grimoiresArrayTable, v.Name) then
+				table.insert(grimoiresArrayTable, v.Name)
+				dropdown:SetValues(grimoiresArrayTable)
 			end
 		end
 	end
@@ -119,6 +132,16 @@ miscGroupBox:AddToggle('AutoBuyGrimoireToggle', {
     Tooltip = 'Enable/Disable auto buy grimoire',
 })
 
+autoBossGroupBox:AddDropdown('AutoBuyGrimoireDropdown', {
+
+    Values = grimoiresArrayTable,
+    Default = 1, 
+    Multi = false,
+
+    Text = 'Just to see the grimoires in the moment',
+    Tooltip = 'Just to see the grimoires in the moment',
+})
+
 autoDungeonGroupBox:AddToggle('AutoDungeonToggle', {
     Text = 'Auto Dungeon',
     Default = false,
@@ -162,6 +185,8 @@ autoDungeonGroupBox:AddDropdown('afterWorldDungeonDropdown', {
 })
 
 mobDropdown(Options.autoFarmDropdown)
+seeGrimoiresDropdown(Options.AutoBuyGrimoireDropdown)
+
 local function getNearestAll(array, world)
     local dist, thing = math.huge
     for i, v in next, workspace.Client.Maps[tostring(world)].Mobs:GetChildren() do
@@ -443,7 +468,7 @@ local c3 = coroutine.create(function() while true do if Toggles.AutoCollectToggl
 local c4 = coroutine.create(function() while true do if Toggles.AutoSkillToggle.Value == true then autoSukunaBoostFunc() end wait(0.1) end end) coroutine.resume(c4)
 local c5 = coroutine.create(function() while true do if Toggles.AutoRankUpToggle.Value == true then game.ReplicatedStorage.Remotes.Server:FireServer({"RankUp"}) a.Visible = true refreshRankUP() elseif Toggles.AutoRankUpToggle.Value == false then a.Visible = false end wait(0.5) end end) coroutine.resume(c5)
 local c6 = coroutine.create(function() while true do if Toggles.AutoEasyFusionToggle.Value == true then easyFusionFunc() end wait(0.5) end end) coroutine.resume(c6)
-local c7 = coroutine.create(function() while true do if Toggles.AutoBuyGrimoireToggle.Value == true then game.ReplicatedStorage.Remotes.Server:FireServer({"BuyGrimoire"}) end wait(0.5) end end) coroutine.resume(c7)
+local c7 = coroutine.create(function() while true do if Toggles.AutoBuyGrimoireToggle.Value == true then game.ReplicatedStorage.Remotes.Server:FireServer({"BuyGrimoire"}) seeGrimoiresDropdown(Options.AutoBuyGrimoireDropdown) end wait(0.5) end end) coroutine.resume(c7)
 
 wait(1.5)
 
