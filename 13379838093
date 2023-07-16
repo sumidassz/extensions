@@ -46,8 +46,8 @@ local function seeGrimoiresDropdown(dropdown)
 	table.clear(grimoiresArrayTable)
 	for _, v in pairs(game.Players.LocalPlayer.PlayerGui.UI.OffSet.Frames.TierGrimoires.Main:GetChildren()) do
 		if v:IsA("Frame") then
-			if not table.find(grimoiresArrayTable, v.Name) then
-				table.insert(grimoiresArrayTable, v.Name)
+			if not table.find(grimoiresArrayTable, v.Name.." ("..tostring(v.Rarity.Text)..")") then
+				table.insert(grimoiresArrayTable, tostring(v.Name).." ("..tostring(v.Rarity.Text)..")")
 				dropdown:SetValues(grimoiresArrayTable)
 			end
 		end
@@ -141,6 +141,10 @@ miscGroupBox:AddDropdown('AutoBuyGrimoireDropdown', {
     Text = 'Just to see the grimoires in the moment',
     Tooltip = 'Just to see the grimoires in the moment',
 })
+
+miscGroupBox:AddButton('Refresh the grimoires', function()
+    seeGrimoiresDropdown(Options.AutoBuyGrimoireDropdown)
+end)
 
 autoDungeonGroupBox:AddToggle('AutoDungeonToggle', {
     Text = 'Auto Dungeon',
@@ -296,11 +300,10 @@ local function autoBossFunc(afterWorld, array)
 		end
 	end
 end
-local function autoDungeonFunc(afterWorld, artefactEnter, artefactExit)
-	game.ReplicatedStorage.Remotes.Server:FireServer({"Dungeon", "Enter"})
-	local world = workspace.Server.Mobs.Dungeon
-	local clientFolder = workspace.Client.Mobs
-	--for p, k in pairs(world:GetChildren()) do
+local orgnwwfw = false
+local function autoDungeonFunc(afterWorld)
+	if orgnwwfw == false then game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(427.73, 4.55746, -55.313) orgnwwfw = true end
+	for p, k in pairs(world:GetChildren()) do
 		for i, v in pairs(clientFolder:GetChildren()) do
 			if #world:GetChildren() >= 1 and world:FindFirstChild(tostring(getNearestAlla())) then
 				if table.find(artefactsArray, artefactEnter) then game.ReplicatedStorage.Remotes.Server:FireServer({"ArtefactStatus", "Equip", tostring(artefactEnter)}) end
@@ -309,7 +312,7 @@ local function autoDungeonFunc(afterWorld, artefactEnter, artefactExit)
 				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getNearestAlla().HumanoidRootPart.CFrame*CFrame.new(0.1,0,0)
 			end
 		end
-	--end
+	end
 	if game.Players.LocalPlayer.PlayerGui.UI.OffSet.Waves.Left.Shadow.Text == "60:58" and afterWorld ~= "" then 
 		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Server.Zones[tostring(afterWorld)].CFrame
 		if table.find(artefactsArray, artefactExit) then game.ReplicatedStorage.Remotes.Server:FireServer({"ArtefactStatus", "Equip", tostring(artefactExit)}) end
