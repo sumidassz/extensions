@@ -6,10 +6,47 @@ local EggTab = Menu.New({ Title = "Egg" })
 -- Variables
 
 -- Functions
-local function getNearestAll(world)
+local function mainFuncs(plr, farm, whoFarm)
+	if plr ~= nil then
+		if farm == true and whoFarm ~= "" then
+			for i, v in pairs(workspace.Worlds[tostring(plr.World.Value)].Enemies:GetChildren()) do
+				if v:IsA("Model") and v:FindFirstChild("Health") and v.Health.Value > 0 and v.Name == whoFarm then
+					for _,k in pairs(game:GetService("Workspace").Pets:GetChildren()) do
+						if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
+							game.ReplicatedStorage.Bindable.SendPet:Fire(v, false);
+							game.ReplicatedStorage.Remote.StartQuest:FireServer(workspace.Worlds[game.Players.LocalPlayer.World.Value][game.Players.LocalPlayer.World.Value])
+							game.ReplicatedStorage.Remote.FinishQuest:FireServer(workspace.Worlds[game.Players.LocalPlayer.World.Value][game.Players.LocalPlayer.World.Value])
+						end
+					end	
+					game:GetService("ReplicatedStorage").Remote.ClickerDamage:FireServer()
+				end
+			end
+		end
+	end
+end
+local function collectAllFunc(boolean)
+	if boolean == true then
+		for i, v in pairs(workspace.Effects:GetChildren()) do
+			if v.Name == "Yen" then
+				v.PrimaryPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+			end
+		end
+	end
+end
+local function eggFuncs(plr, maxOpen, eggOpen, muchEggOpens)
+	if plr ~= nil and muchEggOpens ~= nil then
+		if maxOpen == true then
+			game.ReplicatedStorage.Remote.AttemptMultiOpen:FireServer(tostring(plr.World.Value).."Egg")
+		end
+		if eggOpen == true and muchEggOpens ~= 0 then
+			game.ReplicatedStorage.Remote.OpenEgg:InvokeServer(workspace.Worlds:FindFirstChild(tostring(plr.World.Value))[tostring(plr.World.Value).."Egg"], muchEggOpens)
+		end
+	end
+end
+local function getNearestForQuest(world, mob)
     local dist, thing = math.huge
     for i, v in next, workspace.Worlds[tostring(world)].Enemies:GetChildren() do
-        if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Health") and tonumber(v.Health.Value) > 0 then
+        if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Health") and tonumber(v.Health.Value) > 0 and v.Name == mob then
             local mag =
                 (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).magnitude
             if mag < dist then
@@ -20,68 +57,29 @@ local function getNearestAll(world)
     end
     return thing
 end
-local function mainFuncs(plr, farm, wantChest)
-	if plr ~= nil then
-		if farm == true then
-			for i, v in pairs(workspace.Worlds[tostring(plr.World.Value)].Enemies:GetChildren()) do
-				if wantChest == true then
-					if v:IsA("Model") and v:FindFirstChild("Health") and v.Health.Value > 0 and v == getNearestAll(plr.World.Value) then
-						for _,k in pairs(game:GetService("Workspace").Pets:GetChildren()) do
-							if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
-								game.ReplicatedStorage.Bindable.SendPet:Fire(getNearestAll(plr.World.Value), false);
-								game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame
-							end
-						end	
-						game:GetService("ReplicatedStorage").Remote.ClickerDamage:FireServer()
-					end
-					if plr.World.Value == "Tower" then
-						for l, p in pairs(workspace.Worlds.Tower.Map:GetDescendants()) do
-							if p:IsA("ProximityPrompt") then
-								game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = p.Parent.CFrame
-								p:InputHoldBegin()
-							end
+local function questFunc(plr, farm)
+	if farm == true then
+		for i, v in pairs(workspace.Worlds[tostring(plr.World.Value)].Enemies:GetChildren()) do
+		if v:FindFirstChild("DisplayName") then
+			local a = string.match(string.sub(plr.PlayerGui.MainGui.Quest.Objectives.QuestText.Text, 2,3), "%d+")
+			local b = string.match(string.sub(plr.PlayerGui.MainGui.Quest.Objectives.QuestText.Text, 4,6), "%d+")
+			if tonumber(a) == tonumber(b) then
+				game.ReplicatedStorage.Remote.FinishQuest:FireServer(workspace.Worlds[game.Players.LocalPlayer.World.Value][game.Players.LocalPlayer.World.Value])
+				game.ReplicatedStorage.Remote.StartQuest:FireServer(workspace.Worlds[game.Players.LocalPlayer.World.Value][game.Players.LocalPlayer.World.Value])
+			end
+			if "["..tostring(a).."/"..tostring(b).."] "..tostring(v.DisplayName.Value) == tostring(game.Players.LocalPlayer.PlayerGui.MainGui.Quest.Objectives.QuestText.Text) then
+				--if string.sub(plr.PlayerGui.MainGui.Quest.Objectives.QuestText.Text, 2,2) == string.sub(plr.PlayerGui.MainGui.Quest.Objectives.QuestText.Text, 4,4) then end
+				if v:IsA("Model") and v:FindFirstChild("Health") and v.Health.Value > 0 and v == getNearestForQuest(plr.World.Value, v.Name) then
+					game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getNearestForQuest(plr.World.Value, v.Name).HumanoidRootPart.CFrame
+					for _,k in pairs(game:GetService("Workspace").Pets:GetChildren()) do
+						if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
+							game.ReplicatedStorage.Bindable.SendPet:Fire(getNearestForQuest(plr.World.Value, v.Name), false);
 						end
-					end
-				elseif wantChest == false then
-					if v:IsA("Model") and v.Name ~= "Chest" and v:FindFirstChild("Health") and v.Health.Value > 0 and v == getNearestAll(plr.World.Value) then
-						game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame
-						for _,k in pairs(game:GetService("Workspace").Pets:GetChildren()) do
-							if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
-								game.ReplicatedStorage.Bindable.SendPet:Fire(getNearestAll(plr.World.Value), false);
-							end
-						end	
-						game:GetService("ReplicatedStorage").Remote.ClickerDamage:FireServer()
-					end
-					if plr.World.Value == "Tower" then
-						for l, p in pairs(workspace.Worlds.Tower.Map:GetDescendants()) do
-							if p:IsA("ProximityPrompt") then
-								game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = p.Parent.CFrame
-								p:InputHoldBegin()
-							end
-						end
-					end
+					end	
+					game:GetService("ReplicatedStorage").Remote.ClickerDamage:FireServer()
 				end
 			end
 		end
-	end
-end
-local function getEgg(world)
-	if world == "DemonSlayer" then return "DemonEgg" end
-	if world == "MLP" then return end
-	if world == "BlackClover" then return "BCEgg" end
-	if world == "TokyoGhoul" then return "GhoulEgg" end
-	if world == "DBZ" then return "GokuEgg" end
-	if world == "Tower" or world == "Titan" or world == "TimeChamber" then return nil end
-	return tostring(world).."Egg"
-end
-
-local function eggFuncs(plr, maxOpen, eggOpen, muchEggOpens)
-	if plr ~= nil then
-		if maxOpen == true then
-			game.ReplicatedStorage.Remote.AttemptMultiOpen:FireServer(getEgg(plr.World.Value))
-		end
-		if eggOpen == true and muchEggOpens ~= 0 and getEgg(plr.World.Value) ~= nil then
-			game.ReplicatedStorage.Remote.OpenEgg:InvokeServer(workspace.Worlds:FindFirstChild(tostring(plr.World.Value))[getEgg(plr.World.Value)], muchEggOpens)
 		end
 	end
 end
@@ -94,7 +92,9 @@ for i, v in pairs(workspace.Worlds[tostring(game.Players.LocalPlayer.World.Value
 end
 -- MainTab
 local farmB = false
-local chestB = false
+local whatFarmS = ""
+local collectB = false
+local autoQuestB = false
 MainTab.DataTable({
 	Text = "Main",
 	Callback = function(ChipSet)
@@ -102,15 +102,18 @@ MainTab.DataTable({
 			if Option == "Auto Farm" then
 				farmB = Value
 			end
-			if Option == "attack chest?" then
-				chestB = Value
+			if Option == "Auto Collect" then
+				collectB = Value
+			end
+			if Option == "Auto Quest (don't need to use Auto Farm)" then
+				autoQuestB = Value
 			end
 		end)
 	end,
 	Options = {
 		["Auto Farm"] = false,
-		["attack chest?"] = false,
-		["Attack Everything"] = false
+		["Auto Quest (don't need to use Auto Farm)"] = false,
+		["Auto Collect"] = false
 	}
 })
 local enemieD = MainTab.Dropdown({
@@ -134,7 +137,7 @@ MainTab.Button({
 })
 -- EggTab
 local eggB, maxOpenB = false, false
-local muchEggN = 0
+local muchEggN = 1
 EggTab.DataTable({
 	Text = "Eggs",
 	Callback = function(ChipSet)
@@ -159,5 +162,7 @@ EggTab.TextField({
 		game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire(tostring(v).." eggs", true)
 	end
 })
-local c1 = coroutine.create(function() while true do mainFuncs(game.Players.LocalPlayer, farmB, chestB) wait() end end) coroutine.resume(c1)
+local c1 = coroutine.create(function() while true do mainFuncs(game.Players.LocalPlayer, farmB, tostring(whatFarmS)) wait() end end) coroutine.resume(c1)
 local c2 = coroutine.create(function() while true do eggFuncs(game.Players.LocalPlayer, maxOpenB, eggB, muchEggN) wait() end end) coroutine.resume(c2)
+local c3 = coroutine.create(function() while true do collectAllFunc(collectB) wait() end end) coroutine.resume(c3)
+local c4 = coroutine.create(function() while true do questFunc(game.Players.LocalPlayer, autoQuestB) wait() end end) coroutine.resume(c4)
