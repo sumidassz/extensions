@@ -33,13 +33,23 @@ local function collectAllFunc(boolean)
 		end
 	end
 end
+local function getEgg(world)
+	if world == "DemonSlayer" then return "DemonEgg" end
+	if world == "MLP" then return end
+	if world == "BlackClover" then return "BCEgg" end
+	if world == "TokyoGhoul" then return "GhoulEgg" end
+	if world == "DBZ" then return "GokuEgg" end
+	if world == "Tower" or world == "Titan" or world == "TimeChamber" then return nil end
+	return tostring(world).."Egg"
+end
+
 local function eggFuncs(plr, maxOpen, eggOpen, muchEggOpens)
-	if plr ~= nil and muchEggOpens ~= nil then
+	if plr ~= nil then
 		if maxOpen == true then
-			game.ReplicatedStorage.Remote.AttemptMultiOpen:FireServer(tostring(plr.World.Value).."Egg")
+			game.ReplicatedStorage.Remote.AttemptMultiOpen:FireServer(getEgg(plr.World.Value))
 		end
-		if eggOpen == true and muchEggOpens ~= 0 then
-			game.ReplicatedStorage.Remote.OpenEgg:InvokeServer(workspace.Worlds:FindFirstChild(tostring(plr.World.Value))[tostring(plr.World.Value).."Egg"], muchEggOpens)
+		if eggOpen == true and muchEggOpens ~= 0 and getEgg(plr.World.Value) ~= nil then
+			game.ReplicatedStorage.Remote.OpenEgg:InvokeServer(workspace.Worlds:FindFirstChild(tostring(plr.World.Value))[getEgg(plr.World.Value)], muchEggOpens)
 		end
 	end
 end
