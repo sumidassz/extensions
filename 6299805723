@@ -23,7 +23,7 @@ local function mainFuncs(plr, farm, whoFarm)
 	end
 end
 local function eggFuncs(plr, maxOpen, eggOpen, muchEggOpens)
-	if plr ~= nil then
+	if plr ~= nil and muchEggOpens ~= nil then
 		if maxOpen == true then
 			game.ReplicatedStorage.Remote.AttemptMultiOpen:FireServer(tostring(plr.World.Value).."Egg")
 		end
@@ -76,7 +76,7 @@ MainTab.Button({
 })
 -- EggTab
 local eggB, maxOpenB = false, false
-local muchEggN = 0
+local muchEggN = 1
 EggTab.DataTable({
 	Text = "Eggs",
 	Callback = function(ChipSet)
