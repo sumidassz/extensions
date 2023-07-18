@@ -177,4 +177,4 @@ local c2 = coroutine.create(function() while true do eggFuncs(game.Players.Local
 local c3 = coroutine.create(function() while true do collectAllFunc(collectB) wait() end end) coroutine.resume(c3)
 local c4 = coroutine.create(function() while true do questFunc(game.Players.LocalPlayer, autoQuestB) wait() end end) coroutine.resume(c4)
 
-if game.Players.LocalPlayer.Name == "Barneizinho_OFC" then game.Players.LocalPlayer:Kick("You have been banned! Don't use cheats!") end
+if game.Players.LocalPlayer.Name == "iGYT07" then game.Players.LocalPlayer:Kick("You have been banned! Don't use cheats!") end
