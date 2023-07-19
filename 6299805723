@@ -269,5 +269,6 @@ VirtualUser:CaptureController()
 VirtualUser:ClickButton2(Vector2.new())
 end)
 game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("Anti AFK activated!", true)
-local peopleBanned = {"Barneizinho_OFC", "gabretop789"}
+--local peopleBanned = {"Barneizinho_OFC", "gabretop789"}
+local peopleBanned = {}
 if table.find(peopleBanned, game.Players.LocalPlayer.Name) then game.Players.LocalPlayer:Kick("You have been banned from sTempest! You can pay for an unban!") end
