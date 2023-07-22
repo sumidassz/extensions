@@ -68,7 +68,7 @@ local function notification(notificationText, time)
 	screenGui:Destroy()
 end
 notification("Get key in official discord! (already coppied)", 2)
-setclipboard("https://discord.gg/56Df2qKMt5");
+setclipboard("https://discord.gg/P72M8DRCwz");
 local Material = loadstring(game:HttpGet("https://pastebin.com/raw/mGx5KLfU"))()
 local Menu = Material.Load({ Title = "sTempest Hub (KeySystem)", Style = 2, SizeX = 325, SizeY = 200, Theme = "Aqua", ColorOverrides = { MainFrame = Color3.fromRGB(235,235,235) }})
 local MainTab = Menu.New({ Title = "Key" })
@@ -78,7 +78,10 @@ local a = MainTab.TextField({
 	Callback = function(Value)
 		mainKey = tostring(Value)
 		if tostring(Value) == "r513uBZDZ5Oz9ijxoUuR" then
-			notification("Opening sTempest Hub! (Correct Key)", 2)
+			notification("Opening sTempest Hub! (Correct Key)", 1.89)
+			wait(0.01)
+			if game.CoreGui:FindFirstChild("sTempestHUB") then game.CoreGui.sTempestHUB:Destroy() end
+			wait(0.1)
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/sTempestHUB/scripts/main/"..tostring(game.PlaceId)))()
 		end
 	end,
@@ -86,7 +89,7 @@ local a = MainTab.TextField({
 		["Get Key in discord"] = function(self)
 			Menu.Banner({
 				Text = "Coppied a discord link to Ctrl+V",
-				setclipboard("https://discord.gg/56Df2qKMt5")
+				setclipboard("https://discord.gg/P72M8DRCwz")
 			})
 		end
 	}
@@ -95,7 +98,10 @@ MainTab.Button({
 	Text = "Confirm Key",
 	Callback = function(Value)
 		if tostring(mainKey) == "r513uBZDZ5Oz9ijxoUuR" then
-			notification("Opening sTempest Hub! (Correct Key)", 2)
+			notification("Opening sTempest Hub! (Correct Key)", 1.89)
+			wait(0.01)
+			if game.CoreGui:FindFirstChild("sTempestHUB") then game.CoreGui.sTempestHUB:Destroy() end
+			wait(0.1)
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/sTempestHUB/scripts/main/"..tostring(game.PlaceId)))()
 		end
 	end,
@@ -103,6 +109,6 @@ MainTab.Button({
 MainTab.Button({
 	Text = "Get Key",
 	Callback = function(Value)
-		setclipboard("https://discord.gg/56Df2qKMt5")
+		setclipboard("https://discord.gg/P72M8DRCwz")
 	end,
 })
