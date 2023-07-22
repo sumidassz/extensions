@@ -79,10 +79,7 @@ local a = MainTab.TextField({
 		mainKey = tostring(Value)
 		if tostring(Value) == "r513uBZDZ5Oz9ijxoUuR" then
 			notification("Opening sTempest Hub! (Correct Key)", 2)
-			wait(0.5)
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/sTempestHUB/scripts/main/"..tostring(game.PlaceId)))()
-			wait(0.1)
-			a:Destroy()
 		end
 	end,
 	Menu = {
@@ -98,8 +95,7 @@ MainTab.Button({
 	Text = "Confirm Key",
 	Callback = function(Value)
 		if tostring(mainKey) == "r513uBZDZ5Oz9ijxoUuR" then
-			notification("Opening sTempest Hub! (Correct Key)", 5)
-			wait(0.5)
+			notification("Opening sTempest Hub! (Correct Key)", 2)
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/sTempestHUB/scripts/main/"..tostring(game.PlaceId)))()
 		end
 	end,
