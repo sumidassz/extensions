@@ -294,7 +294,7 @@ local function autoDungeonFunc(plr, wantChest, equipName)
 		for i, v in pairs(workspace.Worlds["Dungeon"].Enemies:GetChildren()) do
 			if wantChest == false then
 				if v:IsA("Model") and v:FindFirstChild("Health") and v.Health.Value > 0 and v == getNearestForDungeon() then
-					game.Players.LocalPlayer.Character:PivotTo(getNearestForDungeon():GetPivot())
+					game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getNearestForDungeon():GetPivot()
 					for _,k in pairs(game:GetService("Workspace").Pets:GetChildren()) do
 						if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data:FindFirstChild("Attacking") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
 							game.ReplicatedStorage.Bindable.SendPet:Fire(getNearestForDungeon(), false);
@@ -302,7 +302,7 @@ local function autoDungeonFunc(plr, wantChest, equipName)
 					end	
 				end
                 if v:IsA("Model") and v.Name == "Chest" and v:FindFirstChild("Health") and v.Health.Value > 0 and v == getNearestForDungeon() then
-					game.Players.LocalPlayer.Character:PivotTo(getNearestForDungeon():GetPivot())
+					game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getNearestForDungeon():GetPivot()
                     autoEquipTeamFunc(equipName)
 					for _,k in pairs(game:GetService("Workspace").Pets:GetChildren()) do
 						if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data:FindFirstChild("Attacking") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
@@ -312,9 +312,9 @@ local function autoDungeonFunc(plr, wantChest, equipName)
 				end
 			elseif wantChest == true then
 				if v:IsA("Model") and v.Name ~= "Chest" and v:FindFirstChild("Health") and v.Health.Value > 0 and v == getNearestForDungeon() then
-					game.Players.LocalPlayer.Character:PivotTo(getNearestForDungeon():GetPivot())
+					game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getNearestForDungeon():GetPivot()
 					for _,k in pairs(game:GetService("Workspace").Pets:GetChildren()) do
-						if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data:FindFirstChild("Attacking") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
+						if k.Data:FindFirstChild("Owner") and k.Data:FindFirstChild("Attacking") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
 							game.ReplicatedStorage.Bindable.SendPet:Fire(getNearestForDungeon(), false);
 						end
 					end	
