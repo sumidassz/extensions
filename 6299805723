@@ -133,7 +133,7 @@ local function autoMobFunc(plr, array, acb, tpb)
 		for i, v in pairs(workspace.Worlds[tostring(plr.World.Value)].Enemies:GetChildren()) do
 			if v:IsA("Model") and v:FindFirstChild("Health") and v.Health.Value > 0 and v:FindFirstChild("DisplayName") and table.find(array, v.DisplayName.Value) then
 				for _,k in pairs(game:GetService("Workspace").Pets:GetChildren()) do
-					if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
+					if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data:FindFirstChild("Attacking") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
 						game.ReplicatedStorage.Bindable.SendPet:Fire(getNearestForFarm(plr.World.Value, array), false);
 					end
 				end	
@@ -202,7 +202,7 @@ local function attackEverythingFunc(plr, wantChest, tpb, acb)
 				if v:IsA("Model") and v:FindFirstChild("Health") and v.Health.Value > 0 and v == getNearestForAttackEverything(plr.World.Value) then
 					if tpb == true then game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getNearestForAttackEverything(plr.World.Value).HumanoidRootPart.CFrame end
 					for _,k in pairs(game:GetService("Workspace").Pets:GetChildren()) do
-						if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
+						if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data:FindFirstChild("Attacking") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
 							game.ReplicatedStorage.Bindable.SendPet:Fire(getNearestForAttackEverything(plr.World.Value), false);
 						end
 					end	
@@ -212,7 +212,7 @@ local function attackEverythingFunc(plr, wantChest, tpb, acb)
 				if v:IsA("Model") and v.Name ~= "Chest" and v:FindFirstChild("Health") and v.Health.Value > 0 and v == getNearestForAttackEverything(plr.World.Value) then
 					if tpb == true then game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getNearestForAttackEverything(plr.World.Value).HumanoidRootPart.CFrame end
 					for _,k in pairs(game:GetService("Workspace").Pets:GetChildren()) do
-						if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
+						if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data:FindFirstChild("Attacking") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
 							game.ReplicatedStorage.Bindable.SendPet:Fire(getNearestForAttackEverything(plr.World.Value), false);
 						end
 					end	
