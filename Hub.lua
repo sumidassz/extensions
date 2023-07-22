@@ -69,7 +69,7 @@ local function notification(notificationText, time)
 end
 notification("Get key in official discord! (already coppied)", 2)
 setclipboard("https://discord.gg/56Df2qKMt5");
-local Material = loadstring(game:HttpGet("https://pastebin.com/raw/vtqFazmD"))()
+local Material = loadstring(game:HttpGet("https://pastebin.com/raw/mGx5KLfU"))()
 local Menu = Material.Load({ Title = "sTempest Hub (KeySystem)", Style = 2, SizeX = 325, SizeY = 200, Theme = "Aqua", ColorOverrides = { MainFrame = Color3.fromRGB(235,235,235) }})
 local MainTab = Menu.New({ Title = "Key" })
 local mainKey = ""
