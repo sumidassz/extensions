@@ -14,7 +14,7 @@ local Tabs = {
 
 local autoFarmGroupBox = Tabs.Main:AddLeftGroupbox('Auto Farm')
 local miscGroupBox = Tabs.Main:AddLeftGroupbox('Misc')
-local autoTrialGroupBox = Tabs.Main:AddRightGroupbox('Auto Time Trial')
+local autoTrialGroupBox = Tabs.Main:AddRightGroupbox('Auto Dungeon')
 local autoEggGroupBox = Tabs.Egg:AddLeftGroupbox('Auto Eggs')
 
 -- MAIN
@@ -282,12 +282,12 @@ end
 local function autoDungeonFunc(plr, wantChest, equipName)
     for i,v in pairs(game.Workspace.Worlds.Dungeon:GetDescendants()) do
         if v:IsA("Part") and v:FindFirstChild("ProximityPrompt") then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame*CFrame.new(0,2,0)
             fireproximityprompt(v.ProximityPrompt)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame*CFrame.new(0,2,0)
         end
         if v:IsA("Part") and v:FindFirstChild("DungeonRoomDoorRemotePrompt") then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame*CFrame.new(0,2,0)
             fireproximityprompt(v.DungeonRoomDoorRemotePrompt)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame*CFrame.new(0,2,0)
         end
     end
     if plr.Character:FindFirstChild("HumanoidRootPart") then
