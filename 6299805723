@@ -20,7 +20,7 @@ local autoEggGroupBox = Tabs.Egg:AddLeftGroupbox('Auto Eggs')
 -- MAIN
 
 local mobArrayTable = {}
-local artefactsArray = {}
+local teamsListArray = {}
 
 local function mobDropdown(dropdown)
 	table.clear(mobArrayTable)
@@ -29,6 +29,17 @@ local function mobDropdown(dropdown)
 			if not table.find(mobArrayTable, k.DisplayName.Value) then
 				table.insert(mobArrayTable, k.DisplayName.Value)
 				dropdown:SetValues(mobArrayTable)
+			end
+		end
+	end
+end
+local function teamsDropdown(dropdown)
+	table.clear(teamsListArray)
+	for _, v in pairs(game.Players.LocalPlayer.PlayerGui.MainGui.Pets.TeamsList.Main.Scroll:GetChildren()) do
+		if v.Name == "TeamTemplate" and v:FindFirstChild("TeamName") then
+			if not table.find(teamsListArray, v.TeamName.Name) then
+				table.insert(teamsListArray, v.TeamName.Text)
+				dropdown:SetValues(teamsListArray)
 			end
 		end
 	end
@@ -66,11 +77,31 @@ autoFarmGroupBox:AddToggle('AttackEverythingToggle', {
     Tooltip = 'Enable/Disabled attack everything',
 })
 
-autoFarmGroupBox:AddToggle('IgnoreChestsToggle', {
+autoTrialGroupBox:AddToggle('AutoDungeonToggle', {
+    Text = 'Auto Dungeon',
+    Default = false,
+    Tooltip = 'Enable/Disabled auto dungeon',
+})
+
+autoTrialGroupBox:AddToggle('IgnoreChestsToggle', {
     Text = 'Ignore Chests',
     Default = false,
-    Tooltip = 'Enable/Disabled attack everything',
+    Tooltip = 'Enable/Disabled ignore chests in auto dungeon!',
 })
+
+autoTrialGroupBox:AddDropdown('equipTeamDungeonDropdown', {
+
+    Values = teamsListArray,
+    Default = 1, 
+    Multi = false,
+
+    Text = 'Choose the team to "kill" chests',
+    Tooltip = 'Choose the team to kill the chests',
+})
+
+autoTrialGroupBox:AddButton('Refresh the teams', function()
+    teamsDropdown(Options.equipTeamDungeonDropdown)
+end)
 
 miscGroupBox:AddToggle('AutoQuestToggle', {
     Text = 'Auto Quest',
@@ -114,6 +145,7 @@ autoEggGroupBox:AddInput('textBoxHowMuchOpen', {
 })
 
 mobDropdown(Options.autoFarmDropdown)
+teamsDropdown(Options.equipTeamDungeonDropdown)
 local function getNearestForFarm(world, array)
     local dist, thing = math.huge
     for i, v in next, workspace.Worlds[tostring(world)].Enemies:GetChildren() do
@@ -195,7 +227,7 @@ local function getNearestForAttackEverything(world)
     end
     return thing
 end
-local function attackEverythingFunc(plr, wantChest, tpb, acb)
+local function attackEverythingFunc(plr, wantChest, tpb)
 	if plr.Character:FindFirstChild("HumanoidRootPart") then
 		for i, v in pairs(workspace.Worlds[tostring(plr.World.Value)].Enemies:GetChildren()) do
 			if wantChest == false then
@@ -206,7 +238,6 @@ local function attackEverythingFunc(plr, wantChest, tpb, acb)
 							game.ReplicatedStorage.Bindable.SendPet:Fire(getNearestForAttackEverything(plr.World.Value), false);
 						end
 					end	
-					if acb == true then game:GetService("ReplicatedStorage").Remote.ClickerDamage:FireServer() end
 				end
 			elseif wantChest == true then
 				if v:IsA("Model") and v.Name ~= "Chest" and v:FindFirstChild("Health") and v.Health.Value > 0 and v == getNearestForAttackEverything(plr.World.Value) then
@@ -216,7 +247,6 @@ local function attackEverythingFunc(plr, wantChest, tpb, acb)
 							game.ReplicatedStorage.Bindable.SendPet:Fire(getNearestForAttackEverything(plr.World.Value), false);
 						end
 					end	
-					if acb == true then game:GetService("ReplicatedStorage").Remote.ClickerDamage:FireServer() end
 				end
 			end
 		end
@@ -229,7 +259,70 @@ local function collectAllFunc()
 		end
 	end
 end
-
+local function getNearestForDungeon()
+    local dist, thing = math.huge
+    for i, v in next, workspace.Worlds.Dungeon.Enemies:GetChildren() do
+        if v:FindFirstChild("Health") and tonumber(v.Health.Value) > 0 and v:FindFirstChild("DisplayName") then
+            local mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:GetPivot().Position).magnitude
+            if mag < dist then
+                dist = mag
+                thing = v
+            end
+        end
+    end
+    return thing
+end
+local function autoEquipTeamFunc(equipName)
+    for _,v in pairs(game.Players.LocalPlayer.PlayerGui.MainGui.Pets.TeamsList.Main.Scroll:GetChildren()) do
+        if v:IsA("Frame") and v:FindFirstChild("TeamName") and v.TeamName.Text == tostring(equipName) then
+            firesignal(v.Button.Activated)
+        end
+    end
+end
+local function autoDungeonFunc(plr, wantChest, equipName)
+    for i,v in pairs(game.Workspace.Worlds.Dungeon:GetDescendants()) do
+        if v:IsA("Part") and v:FindFirstChild("ProximityPrompt") then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame*CFrame.new(0,2,0)
+            fireproximityprompt(v.ProximityPrompt)
+        end
+        if v:IsA("Part") and v:FindFirstChild("DungeonRoomDoorRemotePrompt") then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame*CFrame.new(0,2,0)
+            fireproximityprompt(v.DungeonRoomDoorRemotePrompt)
+        end
+    end
+    if plr.Character:FindFirstChild("HumanoidRootPart") then
+		for i, v in pairs(workspace.Worlds["Dungeon"].Enemies:GetChildren()) do
+			if wantChest == false then
+				if v:IsA("Model") and v:FindFirstChild("Health") and v.Health.Value > 0 and v == getNearestForDungeon() then
+					game.Players.LocalPlayer.Character:PivotTo(getNearestForDungeon():GetPivot())
+					for _,k in pairs(game:GetService("Workspace").Pets:GetChildren()) do
+						if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data:FindFirstChild("Attacking") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
+							game.ReplicatedStorage.Bindable.SendPet:Fire(getNearestForDungeon(), false);
+						end
+					end	
+				end
+                if v:IsA("Model") and v.Name == "Chest" and v:FindFirstChild("Health") and v.Health.Value > 0 and v == getNearestForDungeon() then
+					game.Players.LocalPlayer.Character:PivotTo(getNearestForDungeon():GetPivot())
+                    autoEquipTeamFunc(equipName)
+					for _,k in pairs(game:GetService("Workspace").Pets:GetChildren()) do
+						if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data:FindFirstChild("Attacking") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
+							game.ReplicatedStorage.Bindable.SendPet:Fire(getNearestForDungeon(), false);
+						end
+					end	
+				end
+			elseif wantChest == true then
+				if v:IsA("Model") and v.Name ~= "Chest" and v:FindFirstChild("Health") and v.Health.Value > 0 and v == getNearestForDungeon() then
+					game.Players.LocalPlayer.Character:PivotTo(getNearestForDungeon():GetPivot())
+					for _,k in pairs(game:GetService("Workspace").Pets:GetChildren()) do
+						if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data:FindFirstChild("Attacking") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
+							game.ReplicatedStorage.Bindable.SendPet:Fire(getNearestForDungeon(), false);
+						end
+					end	
+				end
+			end
+		end
+	end
+end
 local function getEgg(world)
 	if world == "DemonSlayer" then return "DemonEgg" end
 	if world == "BlackClover" then return "BCEgg" end
@@ -253,13 +346,14 @@ Options.autoFarmDropdown:OnChanged(function()
     end
 end)
 
-local c1 = coroutine.create(function() while true do if Toggles.AutoFarmToggle.Value == true then autoMobFunc(game.Players.LocalPlayer, mobsArraySelected, Toggles.AutoClickToggle.Value, Toggles.withTPToggle.Value) end wait() end end) coroutine.resume(c1)
+local c1 = coroutine.create(function() while true do if Toggles.AutoFarmToggle.Value == true then autoMobFunc(game.Players.LocalPlayer, mobsArraySelected, Toggles.withTPToggle.Value) end wait() end end) coroutine.resume(c1)
 local c2 = coroutine.create(function() while true do if Toggles.AutoClickToggle.Value == true then game:GetService("ReplicatedStorage").Remote.ClickerDamage:FireServer() end wait() end end) coroutine.resume(c2)
 local c3 = coroutine.create(function() while true do if Toggles.AutoCollectToggle.Value == true then collectAllFunc() end wait(0.1) end end) coroutine.resume(c3)
 local c4 = coroutine.create(function() while true do if Toggles.autoEggOpenToggle.Value == true then autoEggFunc(Options.textBoxHowMuchOpen.Value) end wait(0.1) end end) coroutine.resume(c4)
 local c5 = coroutine.create(function() while true do if Toggles.autoMaxOpenToggle.Value == true then autoMaxOpenFunc() end wait(0.1) end end) coroutine.resume(c5)
-local c6 = coroutine.create(function() while true do if Toggles.AttackEverythingToggle.Value == true then attackEverythingFunc(game.Players.LocalPlayer, Toggles.IgnoreChestsToggle.Value, Toggles.withTPToggle.Value, Toggles.AutoClickToggle.Value) end wait() end end) coroutine.resume(c6)
+local c6 = coroutine.create(function() while true do if Toggles.AttackEverythingToggle.Value == true then attackEverythingFunc(game.Players.LocalPlayer, Toggles.IgnoreChestsToggle.Value, Toggles.withTPToggle.Value) end wait() end end) coroutine.resume(c6)
 local c7 = coroutine.create(function() while true do if Toggles.AutoQuestToggle.Value == true then questFunc(game.Players.LocalPlayer) end wait() end end) coroutine.resume(c7)
+local c8 = coroutine.create(function() while true do if Toggles.AutoDungeonToggle.Value == true then autoDungeonFunc(game.Players.LocalPlayer, Toggles.IgnoreChestsToggle.Value, Options.equipTeamDungeonDropdown.Value) end wait() end end) coroutine.resume(c8)
 
 wait(1.5)
 
