@@ -2,7 +2,7 @@ game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("sTempestHUB opening
 local Library = loadstring(game:HttpGet('https://pastebin.com/raw/qYTfV8u7'))()
 
 local Window = Library:CreateWindow({
-    Title = 'sTempestHub | [UPDATE 36] Anime Fighters Simulator',
+    Title = 'sTempestHub | [UPDATE 37] Anime Fighters Simulator',
     Center = true, 
     AutoShow = true,
 })
