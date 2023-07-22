@@ -77,13 +77,6 @@ local a = MainTab.TextField({
 	Text = "Put the Key",
 	Callback = function(Value)
 		mainKey = tostring(Value)
-		if tostring(Value) == "r513uBZDZ5Oz9ijxoUuR" then
-			notification("Opening sTempest Hub! (Correct Key)", 1.89)
-			wait(0.01)
-			if game.CoreGui:FindFirstChild("sTempestHUB") then game.CoreGui.sTempestHUB:Destroy() end
-			wait(0.1)
-			loadstring(game:HttpGet("https://raw.githubusercontent.com/sTempestHUB/scripts/main/"..tostring(game.PlaceId)))()
-		end
 	end,
 	Menu = {
 		["Get Key in discord"] = function(self)
