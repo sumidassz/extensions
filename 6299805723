@@ -371,7 +371,7 @@ local function autoRaidFunc(array, world)
     local currentWorld = workspace.Worlds.Raid.RaidData.CurrentWorld
     local timeLeft = workspace.Worlds.Raid.RaidData.TimeLeft
     local forcefield = workspace.Worlds.Raid.RaidData.Forcefield
-    if timeLeft.Value > 0 and timeLeft.Value < 60 and table.find(array, currentWorld.Value) then
+    if timeLeft.Value > 0 and timeLeft.Value < 30 and table.find(array, currentWorld.Value) then
         if game.Players.LocalPlayer.World.Value ~= "Raid" then
             game.ReplicatedStorage.Bindable.AttemptTravel:Fire("Raid")
             firesignal(game.Players.LocalPlayer.PlayerGui.MainGui.RaidTransport.Main.Yes.Activated)
@@ -381,7 +381,6 @@ local function autoRaidFunc(array, world)
         if #workspace.Worlds.Raid.Enemies:GetChildren() >= 2 then
             for _,k in pairs(game:GetService("Workspace").Pets:GetChildren()) do
                 if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
-                    
                     if bossMaxHealth.Value ~= enemie.MaxHealth.Value then
                         game.Players.LocalPlayer.Character:PivotTo(getNearestForRaid(bossMaxHealth.Value):GetPivot())
                         game.ReplicatedStorage.Bindable.SendPet:Fire(getNearestForRaid(bossMaxHealth.Value), false);
@@ -410,7 +409,6 @@ local function autoRaidFunc(array, world)
         end
     end
 end
-
 local function getEgg(world)
 	if world == "DemonSlayer" then return "DemonEgg" end
 	if world == "BlackClover" then return "BCEgg" end
