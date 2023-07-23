@@ -371,7 +371,7 @@ local function autoRaidFunc(world, array)
     local currentWorld = workspace.Worlds.Raid.RaidData.CurrentWorld
     local timeLeft = workspace.Worlds.Raid.RaidData.TimeLeft
     local forcefield = workspace.Worlds.Raid.RaidData.Forcefield
-    if timeLeft.Value > 0 and timeLeft.Value < 60and table.find(array, currentWorld.Value) then
+    if timeLeft.Value > 0 and timeLeft.Value < 60 and table.find(array, currentWorld.Value) then
         if game.Players.LocalPlayer.World.Value ~= "Raid" then
             game.ReplicatedStorage.Bindable.AttemptTravel:Fire("Raid")
             firesignal(game.Players.LocalPlayer.PlayerGui.MainGui.RaidTransport.Main.Yes.Activated)
