@@ -9,18 +9,20 @@ local Window = Library:CreateWindow({
 
 local Tabs = {
     Main = Window:AddTab('Main'),
-    Egg = Window:AddTab('Auto Eggs')
+    TDR = Window:AddTab('Auto Trial/Dungeon/Raid')
 }
 
 local autoFarmGroupBox = Tabs.Main:AddLeftGroupbox('Auto Farm')
 local miscGroupBox = Tabs.Main:AddLeftGroupbox('Misc')
-local autoTrialGroupBox = Tabs.Main:AddRightGroupbox('Auto Dungeon')
-local autoEggGroupBox = Tabs.Egg:AddLeftGroupbox('Auto Eggs')
+local autoEggGroupBox = Tabs.Main:AddRightGroupbox('Auto Eggs')
+local autoTrialGroupBox = Tabs.TDR:AddLeftGroupbox('Auto Dungeon')
+local autoRaidGroupBox = Tabs.TDR:AddRightGroupbox('Auto Raid')
 
 -- MAIN
 
 local mobArrayTable = {}
 local teamsListArray = {}
+local raidListArray = {}
 
 local function mobDropdown(dropdown)
 	table.clear(mobArrayTable)
@@ -40,6 +42,17 @@ local function teamsDropdown(dropdown)
 			if not table.find(teamsListArray, v.TeamName.Name) then
 				table.insert(teamsListArray, v.TeamName.Text)
 				dropdown:SetValues(teamsListArray)
+			end
+		end
+	end
+end
+local function raidDropdown(dropdown)
+	table.clear(raidListArray)
+	for _, v in pairs(workspace.Worlds:GetChildren()) do
+		if v:FindFirstChild("RaidBeacon") then
+			if not table.find(raidListArray, v.Name) then
+				table.insert(raidListArray, v.Name)
+				dropdown:SetValues(raidListArray)
 			end
 		end
 	end
@@ -102,6 +115,28 @@ autoTrialGroupBox:AddDropdown('equipTeamDungeonDropdown', {
 autoTrialGroupBox:AddButton('Refresh the teams', function()
     teamsDropdown(Options.equipTeamDungeonDropdown)
 end)
+
+autoRaidGroupBox:AddToggle('AutoRaidToggle', {
+    Text = 'Auto Raid',
+    Default = false,
+    Tooltip = 'Enable/Disabled auto raid!',
+})
+
+autoRaidGroupBox:AddDropdown('raidsToDoDropdown', {
+
+    Values = raidListArray,
+    Default = 1, 
+    Multi = true,
+
+    Text = 'Choose the worlds to do raid',
+    Tooltip = 'Choose the worlds to do raid',
+})
+local worldSaved = "DemonSlayer2"
+autoRaidGroupBox:AddButton('Save Position and World', function()
+    worldSaved = tostring(game.Players.LocalPlayer.World.Value)
+end)
+
+raidDropdown(Options.raidsToDoDropdown)
 
 miscGroupBox:AddToggle('AutoQuestToggle', {
     Text = 'Auto Quest',
@@ -317,12 +352,71 @@ local function autoDungeonFunc(plr, wantChest, equipName)
 		end
 	end
 end
+local function getNearestForRaid(max)
+    local dist, thing = math.huge
+    for i, v in next, workspace.Worlds["Raid"].Enemies:GetChildren() do
+        if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Health") and tonumber(v.Health.Value) > 0 and tonumber(v.MaxHealth.Value) ~= max then
+            local mag =
+                (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).magnitude
+            if mag < dist then
+                dist = mag
+                thing = v
+            end
+        end
+    end
+    return thing
+end
+local function autoRaidFunc(world, array)
+    local bossMaxHealth = workspace.Worlds.Raid.RaidData.BossMaxHealth
+    local currentWorld = workspace.Worlds.Raid.RaidData.CurrentWorld
+    local timeLeft = workspace.Worlds.Raid.RaidData.TimeLeft
+    local forcefield = workspace.Worlds.Raid.RaidData.Forcefield
+    if timeLeft.Value > 0 and timeLeft.Value < 60and table.find(array, currentWorld.Value) then
+        if game.Players.LocalPlayer.World.Value ~= "Raid" then
+            game.ReplicatedStorage.Bindable.AttemptTravel:Fire("Raid")
+            firesignal(game.Players.LocalPlayer.PlayerGui.MainGui.RaidTransport.Main.Yes.Activated)
+        end
+    end
+    for i, enemie in pairs(workspace.Worlds.Raid.Enemies:GetChildren()) do
+        if #workspace.Worlds.Raid.Enemies:GetChildren() >= 2 then
+            for _,k in pairs(game:GetService("Workspace").Pets:GetChildren()) do
+                if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
+                    
+                    if bossMaxHealth.Value ~= enemie.MaxHealth.Value then
+                        game.Players.LocalPlayer.Character:PivotTo(getNearestForRaid(bossMaxHealth.Value):GetPivot())
+                        game.ReplicatedStorage.Bindable.SendPet:Fire(getNearestForRaid(bossMaxHealth.Value), false);
+                    end
+                end
+            end
+        elseif #workspace.Worlds.Raid.Enemies:GetChildren() == 1 then
+            if bossMaxHealth.Value == enemie.MaxHealth.Value then
+                game.Players.LocalPlayer.Character:PivotTo(getNearestForRaid(1):GetPivot())
+                for _,k in pairs(game:GetService("Workspace").Pets:GetChildren()) do
+                    if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
+                        game.ReplicatedStorage.Bindable.SendPet:Fire(getNearestForRaid(1), false);
+                    end
+                end	
+            end
+            if forcefield.Value == true then
+                game.ReplicatedStorage.Bindable.WithdrawPets:Fire(enemie);
+            end
+        end
+    end
+    if #workspace.Worlds.Raid.Enemies:GetChildren() < 1 then
+        if game.Players.LocalPlayer.PlayerGui.RaidGui.RaidResults.Visible == true then
+            game.ReplicatedStorage.Bindable.AttemptTravel:Fire(tostring(world))
+            wait(0.1)
+            firesignal(game.Players.LocalPlayer.PlayerGui.RaidGui.RaidResults.Confirm.Activated)
+        end
+    end
+end
+
 local function getEgg(world)
 	if world == "DemonSlayer" then return "DemonEgg" end
 	if world == "BlackClover" then return "BCEgg" end
 	if world == "TokyoGhoul" then return "GhoulEgg" end
 	if world == "DBZ" then return "GokuEgg" end
-	if world == "Tower" or world == "Titan" or world == "TimeChamber" or world == "MLP" or world == "Raid" then return nil end
+	if world == "Tower" or world == "Titan" or world == "TimeChamber" or world == "MLP" or world == "Raid" then return end
 	return tostring(world).."Egg"
 end
 local function getManyEggs()
@@ -346,6 +440,17 @@ Options.autoFarmDropdown:OnChanged(function()
     end
 end)
 
+local rworldArraySelected = {}
+table.clear(rworldArraySelected)
+Options.raidsToDoDropdown:OnChanged(function()
+    table.clear(rworldArraySelected)
+    for key, value in next, Options.raidsToDoDropdown.Value do
+        if not table.find(rworldArraySelected, key) then
+        	table.insert(rworldArraySelected, key)
+        end
+    end
+end)
+
 local c1 = coroutine.create(function() while true do if Toggles.AutoFarmToggle.Value == true then autoMobFunc(game.Players.LocalPlayer, mobsArraySelected, Toggles.withTPToggle.Value) end wait() end end) coroutine.resume(c1)
 local c2 = coroutine.create(function() while true do if Toggles.AutoClickToggle.Value == true then game:GetService("ReplicatedStorage").Remote.ClickerDamage:FireServer() end wait() end end) coroutine.resume(c2)
 local c3 = coroutine.create(function() while true do if Toggles.AutoCollectToggle.Value == true then collectAllFunc() end wait(0.1) end end) coroutine.resume(c3)
@@ -354,6 +459,7 @@ local c5 = coroutine.create(function() while true do if Toggles.autoMaxOpenToggl
 local c6 = coroutine.create(function() while true do if Toggles.AttackEverythingToggle.Value == true then attackEverythingFunc(game.Players.LocalPlayer, Toggles.IgnoreChestsToggle.Value, Toggles.withTPToggle.Value) end wait() end end) coroutine.resume(c6)
 local c7 = coroutine.create(function() while true do if Toggles.AutoQuestToggle.Value == true then questFunc(game.Players.LocalPlayer) end wait() end end) coroutine.resume(c7)
 local c8 = coroutine.create(function() while true do if Toggles.AutoDungeonToggle.Value == true then autoDungeonFunc(game.Players.LocalPlayer, Toggles.IgnoreChestsToggle.Value, Options.equipTeamDungeonDropdown.Value) end wait() end end) coroutine.resume(c8)
+local c9 = coroutine.create(function() while true do if Toggles.AutoRaidToggle.Value == true then autoRaidFunc(rworldArraySelected, worldSaved) end wait() end end) coroutine.resume(c9)
 
 wait(1.5)
 
