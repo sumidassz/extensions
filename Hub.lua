@@ -91,9 +91,8 @@ MainTab.Button({
 	Text = "Confirm Key",
 	Callback = function(Value)
 		if tostring(mainKey) == "r513uBZDZ5Oz9ijxoUuR" then
-			notification("Opening sTempest Hub! (Correct Key)", 1.89)
-			wait(0.01)
 			if game.CoreGui:FindFirstChild("sTempestHUB") then game.CoreGui.sTempestHUB:Destroy() end
+			notification("Opening sTempest Hub! (Correct Key)", 1.9)
 			wait(0.1)
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/sTempestHUB/scripts/main/"..tostring(game.PlaceId)))()
 		end
