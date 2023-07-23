@@ -90,7 +90,7 @@ local a = MainTab.TextField({
 MainTab.Button({
 	Text = "Confirm Key",
 	Callback = function(Value)
-		if tostring(mainKey) == "r513uBZDZ5Oz9ijxoUuR" then
+		if tostring(mainKey) == "sTempest_93yj7458yj734yj79" then
 			if game.CoreGui:FindFirstChild("sTempestHUB") then game.CoreGui.sTempestHUB:Destroy() end
 			notification("Opening sTempest Hub! (Correct Key)", 1.9)
 			wait(0.1)
