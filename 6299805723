@@ -371,10 +371,10 @@ local function autoRaidFunc(array, world)
     local currentWorld = workspace.Worlds.Raid.RaidData.CurrentWorld
     local timeLeft = workspace.Worlds.Raid.RaidData.TimeLeft
     local forcefield = workspace.Worlds.Raid.RaidData.Forcefield
-    if timeLeft.Value > 0 and timeLeft.Value < 30 and table.find(array, currentWorld.Value) then
+    if timeLeft.Value > 0 and timeLeft.Value < 3000 and table.find(array, currentWorld.Value) then
         if game.Players.LocalPlayer.World.Value ~= "Raid" then
             game.ReplicatedStorage.Bindable.AttemptTravel:Fire("Raid")
-            firesignal(game.Players.LocalPlayer.PlayerGui.MainGui.RaidTransport.Main.Yes.Activated)
+            for b,y in pairs(getconnections(game.Players.LocalPlayer.PlayerGui.MainGui.RaidTransport.Main.Yes.Activated)) do y.Function() end
         end
     end
     for i, enemie in pairs(workspace.Worlds.Raid.Enemies:GetChildren()) do
@@ -405,7 +405,7 @@ local function autoRaidFunc(array, world)
         if game.Players.LocalPlayer.PlayerGui.RaidGui.RaidResults.Visible == true then
             game.ReplicatedStorage.Bindable.AttemptTravel:Fire(tostring(world))
             wait(0.1)
-            firesignal(game.Players.LocalPlayer.PlayerGui.RaidGui.RaidResults.Confirm.Activated)
+            for t,q in pairs(getconnections(game.Players.LocalPlayer.PlayerGui.RaidGui.RaidResults.Confirm.Activated)) do q.Function() end
         end
     end
 end
