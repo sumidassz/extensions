@@ -133,17 +133,6 @@ autoEggGroupBox:AddToggle('autoMaxOpenToggle', {
     Tooltip = 'Enable/Disabled auto collect',
 })
 
-autoEggGroupBox:AddInput('textBoxHowMuchOpen', {
-    Default = '1',
-    Numeric = true, -- true / false, only allows numbers
-    Finished = false, -- true / false, only calls callback when you press enter
-
-    Text = 'How much eggs do you open?',
-    Tooltip = 'Put the amount of eggs that you want to open!', -- Information shown when you hover over the textbox
-
-    Placeholder = 'Put a number',
-})
-
 mobDropdown(Options.autoFarmDropdown)
 teamsDropdown(Options.equipTeamDungeonDropdown)
 local function getNearestForFarm(world, array)
@@ -336,8 +325,14 @@ local function getEgg(world)
 	if world == "Tower" or world == "Titan" or world == "TimeChamber" or world == "MLP" or world == "Raid" then return nil end
 	return tostring(world).."Egg"
 end
-
-local function autoEggFunc(muchEggOpens) if muchEggOpens ~= nil or muchEggOpens ~= 0 or muchEggOpens ~= "" then game.ReplicatedStorage.Remote.OpenEgg:InvokeServer(workspace.Worlds:FindFirstChild(tostring(game.Players.LocalPlayer.World.Value))[getEgg(game.Players.LocalPlayer.World.Value)], muchEggOpens) end end
+local function getManyEggs()
+    for i, v in pairs(game.Players.LocalPlayer.PlayerGui.MainGui.Multipliers.List:GetChildren()) do
+        if v.Name == "MultTemplate" and v:FindFirstChild("Value") and v:FindFirstChild("Title") and v.Title.Text == "Opens:" then
+            return v.Value.Text
+        end
+    end
+end
+local function autoEggFunc() game.ReplicatedStorage.Remote.OpenEgg:InvokeServer(workspace.Worlds:FindFirstChild(tostring(game.Players.LocalPlayer.World.Value))[getEgg(game.Players.LocalPlayer.World.Value)], tonumber(getManyEggs())) end
 local function autoMaxOpenFunc() game.ReplicatedStorage.Remote.AttemptMultiOpen:FireServer(getEgg(game.Players.LocalPlayer.World.Value)) end
 
 local mobsArraySelected = {}
@@ -354,7 +349,7 @@ end)
 local c1 = coroutine.create(function() while true do if Toggles.AutoFarmToggle.Value == true then autoMobFunc(game.Players.LocalPlayer, mobsArraySelected, Toggles.withTPToggle.Value) end wait() end end) coroutine.resume(c1)
 local c2 = coroutine.create(function() while true do if Toggles.AutoClickToggle.Value == true then game:GetService("ReplicatedStorage").Remote.ClickerDamage:FireServer() end wait() end end) coroutine.resume(c2)
 local c3 = coroutine.create(function() while true do if Toggles.AutoCollectToggle.Value == true then collectAllFunc() end wait(0.1) end end) coroutine.resume(c3)
-local c4 = coroutine.create(function() while true do if Toggles.autoEggOpenToggle.Value == true then autoEggFunc(Options.textBoxHowMuchOpen.Value) end wait(0.1) end end) coroutine.resume(c4)
+local c4 = coroutine.create(function() while true do if Toggles.autoEggOpenToggle.Value == true then autoEggFunc() end wait(0.1) end end) coroutine.resume(c4)
 local c5 = coroutine.create(function() while true do if Toggles.autoMaxOpenToggle.Value == true then autoMaxOpenFunc() end wait(0.1) end end) coroutine.resume(c5)
 local c6 = coroutine.create(function() while true do if Toggles.AttackEverythingToggle.Value == true then attackEverythingFunc(game.Players.LocalPlayer, Toggles.IgnoreChestsToggle.Value, Toggles.withTPToggle.Value) end wait() end end) coroutine.resume(c6)
 local c7 = coroutine.create(function() while true do if Toggles.AutoQuestToggle.Value == true then questFunc(game.Players.LocalPlayer) end wait() end end) coroutine.resume(c7)
