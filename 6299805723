@@ -414,7 +414,7 @@ local function getEgg(world)
 	if world == "BlackClover" then return "BCEgg" end
 	if world == "TokyoGhoul" then return "GhoulEgg" end
 	if world == "DBZ" then return "GokuEgg" end
-	if world == "Tower" or world == "Titan" or world == "TimeChamber" or world == "MLP" or world == "Raid" then return end
+	if world == "Tower" or world == "Titan" or world == "TimeChamber" or world == "MLP" or world == "Raid" then return nil end
 	return tostring(world).."Egg"
 end
 local function getManyEggs()
@@ -424,7 +424,7 @@ local function getManyEggs()
         end
     end
 end
-local function autoEggFunc() game.ReplicatedStorage.Remote.OpenEgg:InvokeServer(workspace.Worlds:FindFirstChild(tostring(game.Players.LocalPlayer.World.Value))[getEgg(game.Players.LocalPlayer.World.Value)], tonumber(getManyEggs())) end
+local function autoEggFunc() if getEgg(game.Players.LocalPlayer.World.Value) ~= nil then game.ReplicatedStorage.Remote.OpenEgg:InvokeServer(workspace.Worlds:FindFirstChild(tostring(game.Players.LocalPlayer.World.Value))[getEgg(game.Players.LocalPlayer.World.Value)], tonumber(getManyEggs())) end end
 local function autoMaxOpenFunc() game.ReplicatedStorage.Remote.AttemptMultiOpen:FireServer(getEgg(game.Players.LocalPlayer.World.Value)) end
 
 local mobsArraySelected = {}
