@@ -95,7 +95,7 @@ autoTrialGroupBox:AddDropdown('equipTeamDungeonDropdown', {
     Default = 1, 
     Multi = false,
 
-    Text = 'Choose the team to "kill" chests',
+    Text = 'Choose the team to kill chests',
     Tooltip = 'Choose the team to kill the chests',
 })
 
