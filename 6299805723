@@ -366,7 +366,7 @@ local function getNearestForRaid(max)
     end
     return thing
 end
-local function autoRaidFunc(world, array)
+local function autoRaidFunc(array, world)
     local bossMaxHealth = workspace.Worlds.Raid.RaidData.BossMaxHealth
     local currentWorld = workspace.Worlds.Raid.RaidData.CurrentWorld
     local timeLeft = workspace.Worlds.Raid.RaidData.TimeLeft
