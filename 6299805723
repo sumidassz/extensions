@@ -355,7 +355,7 @@ end
 local function getNearestForRaid(max)
     local dist, thing = math.huge
     for i, v in next, workspace.Worlds["Raid"].Enemies:GetChildren() do
-        if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Health") and tonumber(v.Health.Value) > 0 and tonumber(v.MaxHealth.Value) ~= max then
+        if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Health") and v:FindFirstChild("MaxHealth") and tonumber(v.Health.Value) > 0 and tonumber(v.MaxHealth.Value) ~= max then
             local mag =
                 (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).magnitude
             if mag < dist then
@@ -381,14 +381,14 @@ local function autoRaidFunc(array, world)
         if #workspace.Worlds.Raid.Enemies:GetChildren() >= 2 then
             for _,k in pairs(game:GetService("Workspace").Pets:GetChildren()) do
                 if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
-                    if bossMaxHealth.Value ~= enemie.MaxHealth.Value then
+                    if enemie:FindFirstChild("MaxHealth") and bossMaxHealth.Value ~= enemie.MaxHealth.Value then
                         game.Players.LocalPlayer.Character:PivotTo(getNearestForRaid(bossMaxHealth.Value):GetPivot())
                         game.ReplicatedStorage.Bindable.SendPet:Fire(getNearestForRaid(bossMaxHealth.Value), false);
                     end
                 end
             end
         elseif #workspace.Worlds.Raid.Enemies:GetChildren() == 1 then
-            if bossMaxHealth.Value == enemie.MaxHealth.Value then
+            if enemie:FindFirstChild("MaxHealth") and bossMaxHealth.Value == enemie.MaxHealth.Value then
                 game.Players.LocalPlayer.Character:PivotTo(getNearestForRaid(1):GetPivot())
                 for _,k in pairs(game:GetService("Workspace").Pets:GetChildren()) do
                     if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
