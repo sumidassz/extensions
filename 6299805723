@@ -134,6 +134,7 @@ autoRaidGroupBox:AddDropdown('raidsToDoDropdown', {
 local worldSaved = "DemonSlayer2"
 autoRaidGroupBox:AddButton('Save Position and World', function()
     worldSaved = tostring(game.Players.LocalPlayer.World.Value)
+    print(tostring(worldSaved))
 end)
 
 raidDropdown(Options.raidsToDoDropdown)
