@@ -310,14 +310,19 @@ local function autoEquipTeamFunc(equipName)
 end
 local function autoDungeonFunc(plr, wantChest, equipName)
     for i,v in pairs(game.Workspace.Worlds.Dungeon:GetDescendants()) do
-	for k, enemie in pairs(workspace.Worlds["Dungeon"].Enemies:GetChildren()) do
-		if v:IsA("Part") and v:FindFirstChild("ProximityPrompt") and #workspace.Worlds["Dungeon"].Enemies:GetChildren() ~= 0 and enemie.Name == "Chest" then
-		    fireproximityprompt(v.ProximityPrompt)
-		    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame*CFrame.new(0,2,0)
-		end
-		if v:IsA("Part") and v:FindFirstChild("DungeonRoomDoorRemotePrompt") then
-		    fireproximityprompt(v.DungeonRoomDoorRemotePrompt)
-		    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame*CFrame.new(0,2,0)
+	if v:IsA("Part") and v:FindFirstChild("ProximityPrompt") then
+	    fireproximityprompt(v.ProximityPrompt)
+	    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame*CFrame.new(0,2,0)
+	end
+	if v:IsA("Part") and v:FindFirstChild("DungeonRoomDoorRemotePrompt") then
+		if v.Color == Color3.new(206, 46, 31) and game.Players.LocalPlayer.PlayerGui.DungeonMinimap.Key.Image == "rbxassetid://10021319916" then
+			return
+		elseif v.Color == Color3.new(206, 46, 31) and game.Players.LocalPlayer.PlayerGui.DungeonMinimap.Key.Image ~= "rbxassetid://10021319916" then
+	    		fireproximityprompt(v.DungeonRoomDoorRemotePrompt)
+	    		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame*CFrame.new(0,2,0)
+		elseif v.Color ~= Color3.new(206, 46, 31) then
+	    		fireproximityprompt(v.DungeonRoomDoorRemotePrompt)
+	    		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame*CFrame.new(0,2,0)
 		end
 	end
     end
