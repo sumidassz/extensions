@@ -381,14 +381,14 @@ local function autoRaidFunc(array, world)
         if #workspace.Worlds.Raid.Enemies:GetChildren() >= 2 then
             for _,k in pairs(game:GetService("Workspace").Pets:GetChildren()) do
                 if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
-                    if enemie:FindFirstChild("MaxHealth") and bossMaxHealth.Value ~= enemie.MaxHealth.Value then
+                    if enemie:FindFirstChild("MaxHealth") and bossMaxHealth.Value ~= enemie.MaxHealth.Value and enemie.Parent:FindFirstChild(tostring(getNearestForRaid(bossMaxHealth.Value).Name)) then
                         game.Players.LocalPlayer.Character:PivotTo(getNearestForRaid(bossMaxHealth.Value):GetPivot())
                         game.ReplicatedStorage.Bindable.SendPet:Fire(getNearestForRaid(bossMaxHealth.Value), false);
                     end
                 end
             end
         elseif #workspace.Worlds.Raid.Enemies:GetChildren() == 1 then
-            if enemie:FindFirstChild("MaxHealth") and bossMaxHealth.Value == enemie.MaxHealth.Value then
+            if enemie:FindFirstChild("MaxHealth") and bossMaxHealth.Value == enemie.MaxHealth.Value and enemie.Parent:FindFirstChild(tostring(getNearestForRaid(bossMaxHealth.Value).Name)) then
                 game.Players.LocalPlayer.Character:PivotTo(getNearestForRaid(1):GetPivot())
                 for _,k in pairs(game:GetService("Workspace").Pets:GetChildren()) do
                     if k:FindFirstChild("Data") and k.Data:FindFirstChild("Owner") and k.Data.Owner.Value == game.Players.LocalPlayer and not k.Data.Attacking.Value then
