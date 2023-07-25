@@ -311,7 +311,7 @@ local function autoEquipTeamFunc(equipName)
 end
 local function getNearestForPPDungeon()
     local dist, thing = math.huge
-    for i, v in pairs(game.Workspace.Worlds.Dungeon:GetDescendants()) do
+    for i, v in pairs(game.Workspace.Worlds.Dungeon.Map:GetDescendants()) do
 	if v:IsA("Part") and v:FindFirstChild("ProximityPrompt") then
             local mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).magnitude
             if mag < dist then
@@ -323,29 +323,35 @@ local function getNearestForPPDungeon()
     return thing
 end
 local function autoDungeonFunc(plr, wantChest, equipName)
-    for i, v in pairs(game.Workspace.Worlds.Dungeon:GetDescendants()) do
-	for _, k in pairs(game.Workspace.Worlds.Dungeon:GetDescendants()) do
-		if #workspace.Worlds.Dungeon.Enemies:GetChildren() == 0 then
-			if v:IsA("Part") and v:FindFirstChild("ProximityPrompt") and v == getNearestForPPDungeon() then
-			    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame*CFrame.new(0,2,0)
-			    wait(0.1)
-			    fireproximityprompt(v.ProximityPrompt)
-			end
-		end
-		if v:IsA("Part") and v:FindFirstChild("DungeonRoomDoorRemotePrompt") and k:IsA("Part") and k:FindFirstChild("DungeonRoomDoorRemotePrompt") then
-			if v.Color == Color3.new(206, 46, 31) and game.Players.LocalPlayer.PlayerGui.MainGui.DungeonMinimap.Key.Image == "rbxassetid://10021319916" then
-				return
-			elseif v.Color == Color3.new(206, 46, 31) and game.Players.LocalPlayer.PlayerGui.MainGui.DungeonMinimap.Key.Image ~= "rbxassetid://10021319916" and k ~= v then
-				return
-			elseif v.Color == Color3.new(206, 46, 31) and game.Players.LocalPlayer.PlayerGui.MainGui.DungeonMinimap.Key.Image ~= "rbxassetid://10021319916" and k == v then
-		    		fireproximityprompt(v.DungeonRoomDoorRemotePrompt)
-		    		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame*CFrame.new(0,2,0)
-			elseif v.Color ~= Color3.new(206, 46, 31) then
-		    		fireproximityprompt(v.DungeonRoomDoorRemotePrompt)
-		    		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame*CFrame.new(0,2,0)
-			end
-		end
-	end
+    for i, l in pairs(game.Workspace.Worlds.Dungeon.Map:GetChildren()) do
+        for _, u in pairs(game.Workspace.Worlds.Dungeon.Map:GetChildren()) do
+            for p, v in pairs(l:GetChildren()) do
+                for n, k in pairs(u:GetChildren()) do
+                    if #workspace.Worlds.Dungeon.Enemies:GetChildren() == 0 then
+                        if v:FindFirstChild("ConfirmPart") and v.ConfirmPart:FindFirstChild("ProximityPrompt") and v.ConfirmPart == getNearestForPPDungeon() then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.ConfirmPart.CFrame*CFrame.new(0,2,0)
+                            wait(0.05)
+                            fireproximityprompt(v.ConfirmPart.ProximityPrompt)
+                        end
+                    end
+                    if v:FindFirstChild("Door") and k:FindFirstChild("Door") and v.Door:IsA("Part") and k.Door:IsA("Part") then
+                        if v.Door:FindFirstChild("DungeonRoomDoorRemotePrompt") and k.Door:FindFirstChild("DungeonRoomDoorRemotePrompt") then
+                            if v.Door.Color == Color3.new(206, 46, 31) and game.Players.LocalPlayer.PlayerGui.MainGui.DungeonMinimap.Key.Image == "rbxassetid://10021319916" then
+                                return
+                            elseif v.Door.Color == Color3.new(206, 46, 31) and game.Players.LocalPlayer.PlayerGui.MainGui.DungeonMinimap.Key.Image ~= "rbxassetid://10021319916" and k.Door ~= v.Door then
+                                return
+                            elseif v.Door.Color == Color3.new(206, 46, 31) and game.Players.LocalPlayer.PlayerGui.MainGui.DungeonMinimap.Key.Image ~= "rbxassetid://10021319916" and k.Door == v.Door then
+                                    fireproximityprompt(v.Door.DungeonRoomDoorRemotePrompt)
+                                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Door.CFrame*CFrame.new(0,2,0)
+                            elseif v.Door.Color ~= Color3.new(206, 46, 31) then
+                                    fireproximityprompt(v.Door.DungeonRoomDoorRemotePrompt)
+                                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Door.CFrame*CFrame.new(0,2,0)
+                            end
+                        end
+                    end
+                end
+            end
+        end
     end
     if plr.Character:FindFirstChild("HumanoidRootPart") then
 		for i, v in pairs(workspace.Worlds["Dungeon"].Enemies:GetChildren()) do
