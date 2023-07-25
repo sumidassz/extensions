@@ -325,7 +325,7 @@ end
 local function autoDungeonFunc(plr, wantChest, equipName)
     for i, v in pairs(game.Workspace.Worlds.Dungeon:GetDescendants()) do
 	if v:IsA("Part") and v:FindFirstChild("ProximityPrompt") then
-	    fireproximityprompt(getNearestForPPDungeon.ProximityPrompt)
+	    fireproximityprompt(getNearestForPPDungeon().ProximityPrompt)
 	    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getNearestForPPDungeon().CFrame*CFrame.new(0,2,0)
 	end
 	if v:IsA("Part") and v:FindFirstChild("DungeonRoomDoorRemotePrompt") then
