@@ -305,15 +305,28 @@ end
 local function autoEquipTeamFunc(equipName)
     for _,v in pairs(game.Players.LocalPlayer.PlayerGui.MainGui.Pets.TeamsList.Main.Scroll:GetChildren()) do
         if v:IsA("Frame") and v:FindFirstChild("TeamName") and v.TeamName.Text == tostring(equipName) then
-            firesignal(v.Button.Activated)
+            for t,q in pairs(getconnections(v.Button.Activated)) do q.Function() end
         end
     end
 end
-local function autoDungeonFunc(plr, wantChest, equipName)
-    for i,v in pairs(game.Workspace.Worlds.Dungeon:GetDescendants()) do
+local function getNearestForPPDungeon()
+    local dist, thing = math.huge
+    for i, v in pairs(game.Workspace.Worlds.Dungeon:GetDescendants()) do
 	if v:IsA("Part") and v:FindFirstChild("ProximityPrompt") then
-	    fireproximityprompt(v.ProximityPrompt)
-	    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame*CFrame.new(0,2,0)
+            local mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).magnitude
+            if mag < dist then
+                dist = mag
+                thing = v
+            end
+        end
+    end
+    return thing
+end
+local function autoDungeonFunc(plr, wantChest, equipName)
+    for i, v in pairs(game.Workspace.Worlds.Dungeon:GetDescendants()) do
+	if v:IsA("Part") and v:FindFirstChild("ProximityPrompt") then
+	    fireproximityprompt(getNearestForPPDungeon.ProximityPrompt)
+	    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getNearestForPPDungeon().CFrame*CFrame.new(0,2,0)
 	end
 	if v:IsA("Part") and v:FindFirstChild("DungeonRoomDoorRemotePrompt") then
 		if v.Color == Color3.new(206, 46, 31) and game.Players.LocalPlayer.PlayerGui.DungeonMinimap.Key.Image == "rbxassetid://10021319916" then
