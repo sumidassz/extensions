@@ -326,19 +326,10 @@ local arrayTestDungeon = {}
 local function autoDungeonFunc(plr, wantChest, equipName)
     --table.clear(arrayTestDungeon)
     for i, v in pairs(game.Workspace.Worlds.Dungeon:GetDescendants()) do
-	for _, k in pairs(workspace.Worlds.Dungeon.Enemies:GetChildren()) do
-		if k.Name ~= "Chest" then table.insert(arrayTestDungeon, k.Name) end
-		if not table.find(arrayTestDungeon, k.Name) then
-			if v:IsA("Part") and v:FindFirstChild("ProximityPrompt") and v == getNearestForPPDungeon() then
-			    fireproximityprompt(v.ProximityPrompt)
-			    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame*CFrame.new(0,2,0)
-			end
-		end
-		if #workspace.Worlds.Dungeon.Enemies:GetChildren() == 0 then
-			if v:IsA("Part") and v:FindFirstChild("ProximityPrompt") and v == getNearestForPPDungeon() then
-			    fireproximityprompt(v.ProximityPrompt)
-			    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame*CFrame.new(0,2,0)
-			end
+	if #workspace.Worlds.Dungeon.Enemies:GetChildren() == 0 then
+		if v:IsA("Part") and v:FindFirstChild("ProximityPrompt") and v == getNearestForPPDungeon() then
+		    fireproximityprompt(v.ProximityPrompt)
+		    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame*CFrame.new(0,2,0)
 		end
 	end
 	if v:IsA("Part") and v:FindFirstChild("DungeonRoomDoorRemotePrompt") then
