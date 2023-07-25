@@ -324,7 +324,7 @@ local function getNearestForPPDungeon()
 end
 local arrayTestDungeon = {}
 local function autoDungeonFunc(plr, wantChest, equipName)
-    table.clear(arrayTestDungeon)
+    --table.clear(arrayTestDungeon)
     for i, v in pairs(game.Workspace.Worlds.Dungeon:GetDescendants()) do
 	for _, k in pairs(workspace.Worlds.Dungeon.Enemies:GetChildren()) do
 		if k.Name ~= "Chest" then table.insert(arrayTestDungeon, k.Name) end
