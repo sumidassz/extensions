@@ -334,9 +334,9 @@ local function autoDungeonFunc(plr, wantChest, equipName)
 		end
 	end
 	if v:IsA("Part") and v:FindFirstChild("DungeonRoomDoorRemotePrompt") then
-		if v.Color == Color3.new(206, 46, 31) and game.Players.LocalPlayer.PlayerGui.DungeonMinimap.Key.Image == "rbxassetid://10021319916" then
+		if v.Color == Color3.new(206, 46, 31) and game.Players.LocalPlayer.PlayerGui.MainGui.DungeonMinimap.Key.Image == "rbxassetid://10021319916" then
 			return
-		elseif v.Color == Color3.new(206, 46, 31) and game.Players.LocalPlayer.PlayerGui.DungeonMinimap.Key.Image ~= "rbxassetid://10021319916" then
+		elseif v.Color == Color3.new(206, 46, 31) and game.Players.LocalPlayer.PlayerGui.MainGui.DungeonMinimap.Key.Image ~= "rbxassetid://10021319916" then
 	    		fireproximityprompt(v.DungeonRoomDoorRemotePrompt)
 	    		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame*CFrame.new(0,2,0)
 		elseif v.Color ~= Color3.new(206, 46, 31) then
