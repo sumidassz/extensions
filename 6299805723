@@ -185,7 +185,7 @@ local function getNearestForFarm(world, array)
     end
     return thing
 end
-local function autoMobFunc(plr, array, acb, tpb)
+local function autoMobFunc(plr, array, tpb)
 	if plr.Character:FindFirstChild("HumanoidRootPart") then
 		for i, v in pairs(workspace.Worlds[tostring(plr.World.Value)].Enemies:GetChildren()) do
 			if v:IsA("Model") and v:FindFirstChild("Health") and v.Health.Value > 0 and v:FindFirstChild("DisplayName") and table.find(array, v.DisplayName.Value) then
@@ -194,7 +194,6 @@ local function autoMobFunc(plr, array, acb, tpb)
 						game.ReplicatedStorage.Bindable.SendPet:Fire(getNearestForFarm(plr.World.Value, array), false);
 					end
 				end	
-				if acb == true then game:GetService("ReplicatedStorage").Remote.ClickerDamage:FireServer() end
 				if tpb == true and (plr.Character.HumanoidRootPart.Position-getNearestForFarm(plr.World.Value, array).HumanoidRootPart.Position).magnitude > 15 then plr.Character.HumanoidRootPart.CFrame = getNearestForFarm(plr.World.Value, array).HumanoidRootPart.CFrame end
 			end
 		end
