@@ -1,5 +1,5 @@
 local Material = loadstring(game:HttpGet("https://pastebin.com/raw/mGx5KLfU"))()
-local Menu = Material.Load({ Title = "Tempest Hub - Anime Swords Simulator", Style = 2, SizeX = 355, SizeY = 405, Theme = "Aqua", ColorOverrides = { MainFrame = Color3.fromRGB(235,235,235) }})
+local Menu = Material.Load({ Title = "Tempest Hub - Anime Souls", Style = 2, SizeX = 355, SizeY = 405, Theme = "Aqua", ColorOverrides = { MainFrame = Color3.fromRGB(235,235,235) }})
 local MainTab = Menu.New({ Title = "Main" })
 
 -- NOTIFICATION
