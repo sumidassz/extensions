@@ -14,5 +14,3 @@ for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Pets.M
 end
 wait(0.01)
 end
-wait(7)
-game.Players.LocalPlayer:Kick("ROLLBACKED")
