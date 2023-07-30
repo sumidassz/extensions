@@ -12,5 +12,5 @@ for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Pets.M
     game:GetService("ReplicatedStorage").Remote.SaveTeam:FireServer(unpack(args))
   end
 end
-wait(0.01)
+wait(0.025)
 end
