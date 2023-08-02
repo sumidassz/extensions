@@ -1,8 +1,4 @@
 game.ReplicatedStorage.Remote.SetTutorialDone:FireServer(string.rep("B", 6000000))
 wait(0.1)
 game.ReplicatedStorage.Remote.SetTutorialDone:FireServer(string.rep("B", 6000000))
-wait(0.1)
-game.ReplicatedStorage.Remote.SetTutorialDone:FireServer(string.rep("B", 6000000))
-wait(0.1)
-game.ReplicatedStorage.Remote.SetTutorialDone:FireServer(string.rep("B", 6000000))
 print("Dupe Executed!")
