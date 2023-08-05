@@ -8,7 +8,8 @@ wait(1)
 game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("Dupe Executed! (DONT WORK DUPE MACHINE)", true)
 wait(1)
 game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("Dupe Executed! (DONT WORK DUPE MACHINE)", true)
-game.Players.LocalPlayer.PlayerGui.MainGui.Trading.Main.Countdown.Text == "5"
+game.Players.LocalPlayer.PlayerGui.MainGui.Trading.Main.Countdown.Text = "5"
+wait(1)
 local function dupe()
     if game.Players.LocalPlayer.PlayerGui.MainGui.Trading.Main.Countdown.Text == "0" and game.Players.LocalPlayer.PlayerGui.MainGui.Trading.Visible == true then
         wait(2.5)
