@@ -9,12 +9,11 @@ game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("Dupe Executed! (DON
 wait(1)
 game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("Dupe Executed! (DONT WORK DUPE MACHINE)", true)
 
-while true do
+local function dupe()
     if game.Players.LocalPlayer.PlayerGui.MainGui.Trading.Main.Countdown.Text == "0" and game.Players.LocalPlayer.PlayerGui.MainGui.Trading.Visible == true then
-        wait(0.5)
-        game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("DUPPING...", true)
-        wait(2)
+        wait(2.5)
         game.Players.LocalPlayer:Kick("Rollbacked!")
     end
-    wait()
 end
+local c1 = coroutine.create(function() while true do game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("DUPE WORKING...", true) wait(0.5) end end) coroutine.resume(c1)
+local c2 = coroutine.create(function() while true do dupe() wait() end end) coroutine.resume(c2)
