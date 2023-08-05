@@ -4,3 +4,7 @@ local args = {
 
 game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("SetTutorialDone"):FireServer(unpack(args))
 game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("Dupe Executed! (DONT WORK DUPE MACHINE)", true)
+wait(1)
+game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("Dupe Executed! (DONT WORK DUPE MACHINE)", true)
+wait(1)
+game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("Dupe Executed! (DONT WORK DUPE MACHINE)", true)
