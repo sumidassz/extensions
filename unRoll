@@ -1,0 +1,10 @@
+for i,v in pairs(game.Players.LocalPlayer.PlayerGui.MainGui.Pets.TeamsList.Main.Scroll:GetDescendants()) do
+    if v.Name == "TeamName" and v.Text == "Rollback" then
+          local args = {
+              [1] = v.Parent.LayoutOrder
+          }
+
+          game:GetService("ReplicatedStorage").Remote.DeleteTeam:FireServer(unpack(args))
+          break
+    end
+end
