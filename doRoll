@@ -1,9 +1,6 @@
 local args = {
-    [1] = {
-        ["1\0" .. string.rep("B", 4200000)] = require(game.ReplicatedStorage.ModuleScripts.LocalDairebStore).GetStoreProxy("GameData"):GetData("Pets")[1].UID
-    },
-    [2] = "Rollback",
-    [3] = 3
+    [1] = "\0" .. string.rep("B", 4200000)
 }
-game:GetService("ReplicatedStorage").Remote.SaveTeam:FireServer(unpack(args))
+
+game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("SetTutorialDone"):FireServer(unpack(args))
 game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("Dupe Executed!", true)
