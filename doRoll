@@ -1,7 +1,7 @@
 if game.CoreGui:FindFirstChild("BadWare") then game.CoreGui.BadWare:Destroy() end
 wait(0.5)
 game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("Started Dupe!", true)
-loadstring(game:HttpGet('https://raw.githubusercontent.com/sTempestHUB/scripts/main/gay'))()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/sTempestHUB/scripts/main/rollback'))()
 game.CoreGui.BadWare.Enabled = false
 if game.CoreGui:FindFirstChild("BadWare") then
 for b,y in pairs(getconnections(game.CoreGui.BadWare.Main.Start.Interact.Activated)) do y.Function() end
