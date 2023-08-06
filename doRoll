@@ -4,5 +4,5 @@ game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("Started Dupe!", tru
 loadstring(game:HttpGet('https://raw.githubusercontent.com/sTempestHUB/scripts/main/rollback'))()
 game.CoreGui.BadWare.Enabled = false
 if game.CoreGui:FindFirstChild("BadWare") then
-for b,y in pairs(getconnections(game.CoreGui.BadWare.Main.Start.Interact.Activated)) do y.Function() end
+for b,y in pairs(getconnections(game.CoreGui.BadWare.Main.Start.Interact.MouseButton1Click)) do y.Function() end
 end
