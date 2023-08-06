@@ -1,4 +1,3 @@
-if game.CoreGui:FindFirstChild("BadWare") then
+if game.CoreGui:FindFirstChild("BadWare") then return end
 game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("Undo Dupe!", false)
 for b,y in pairs(getconnections(game.CoreGui.BadWare.Main.Undo.Interact.MouseButton1Click)) do y.Function() end
-end
