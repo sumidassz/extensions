@@ -1,8 +1,29 @@
-if game.CoreGui:FindFirstChild("BadWare") then for n,t in pairs(getconnections(game.CoreGui.BadWare.Main.Undo.Interact.MouseButton1Click)) do t.Function() end wait(1) game.CoreGui.BadWare:Destroy()  end
-wait(0.5)
-game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("Started Dupe!", true)
-loadstring(game:HttpGet('https://raw.githubusercontent.com/sTempestHUB/scripts/main/rollback'))()
-game.CoreGui.BadWare.Enabled = false
-if game.CoreGui:FindFirstChild("BadWare") then
-for b,y in pairs(getconnections(game.CoreGui.BadWare.Main.Start.Interact.MouseButton1Click)) do y.Function() end
+local lastBefore = {}
+local now = {}
+local whatGot = {}
+local number = 1
+for i, v in pairs(require(game.ReplicatedStorage.ModuleScripts.LocalDairebStore).GetStoreProxy("GameData"):GetData("Pets")) do
+	if type(v) == "table" then
+		if not table.find(lastBefore, v.UID) then
+			table.insert(lastBefore, v.UID)
+		end
+	end
+end
+wait(5)
+table.clear(now)
+for i, v in pairs(require(game.ReplicatedStorage.ModuleScripts.LocalDairebStore).GetStoreProxy("GameData"):GetData("Pets")) do
+	if type(v) == "table" then
+		if not table.find(now, v.UID) then
+			table.insert(now, v.UID)
+			if #now > #lastBefore and not table.find(whatGot, now[#lastBefore+number]) then
+				table.insert(whatGot, now[#lastBefore+number])
+				number = number+1
+			end
+		end
+	end
+end
+wait(5)
+for g, k in pairs(whatGot) do
+	warn(k)
+	table.clear(lastBefore)
 end
