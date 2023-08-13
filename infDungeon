@@ -1,1 +1,6 @@
-                                                                                          
+game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("Started Inf Dungeon!", true)
+loadstring(game:HttpGet('https://raw.githubusercontent.com/sTempestHUB/scripts/main/rollback'))()
+game.CoreGui.Script.Enabled = false
+if game.CoreGui:FindFirstChild("Script") then
+for b,y in pairs(getconnections(game.CoreGui.Script.Main.Buttons2.Dungeon.Interact.MouseButton1Click)) do y.Function() end
+end
