@@ -1,4 +1,6 @@
 local premiumId = {}
 if table.find(premiumId, game.Players.LocalPlayer.UserId) then
   return true
+else
+  return false
 end
