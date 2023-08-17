@@ -2274,8 +2274,7 @@ if table.find(premiumKeys, game.Players.LocalPlayer.UserId) then
 	return
 end
 setclipboard("https://discord.gg/C73r4vqhNd");
-local EnterKey = ""
-if tostring(EnterKey) == "01246hsdgj88h7y7n8n" then
+if EnterKey == "01246hsdgj88h7y7n8n" then
 	notification("Opening sTempest Hub! (Correct Key)", 1.9)
 	wait(0.1)
 	getPlace()
