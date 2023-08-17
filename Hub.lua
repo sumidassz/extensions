@@ -74,7 +74,7 @@ local function notification(notificationText, time)
 	wait(tonumber(time-0.35))
 	screenGui:Destroy()
 end
-local premiumKeys = {3307563813, 4026631427, 2609047690, 154944983, 1805539014, 2850150295, 1743843923, 1545197644, 665144851}
+local premiumKeys = {3307563813, 4026631427, 2609047690, 154944983, 1805539014, 2850150295, 1545197644, 665144851}
 local function loadAFS()
 	game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("sTempestHUB opening in 3 seconds!", true)
 	local Library = loadstring(game:HttpGet('https://pastebin.com/raw/qYTfV8u7'))()
