@@ -78,7 +78,6 @@ local premiumKeys = {3307563813, 4026631427, 2609047690, 154944983, 1805539014, 
 local function loadAFS()
 	game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("sTempestHUB opening in 3 seconds!", true)
 	local Library = loadstring(game:HttpGet('https://pastebin.com/raw/qYTfV8u7'))()
-	if game.CoreGui:FindFirstChild("sTempest") then Library:Unload() wait(1) end
 	local Window = Library:CreateWindow({
 	    Title = 'sTempestHub | [UPD 40 + x5] Anime Fighters Simulator',
 	    Center = true, 
