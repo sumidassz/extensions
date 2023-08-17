@@ -3,7 +3,7 @@ if table.find(peopleBanned, game.Players.LocalPlayer.Name) then game.Players.Loc
 local VirtualUser = game:GetService('VirtualUser')
 game.Players.LocalPlayer.Idled:Connect(function()
 VirtualUser:CaptureController()
-VirtualUser:ClickButton2(Vector2.new())
+	VirtualUser:ClickButton2(Vector2.new())
 end)
 local function notification(notificationText, time)
 	local screenGui = Instance.new("ScreenGui", game.Players.LocalPlayer.PlayerGui)
