@@ -2273,7 +2273,6 @@ if table.find(premiumKeys, game.Players.LocalPlayer.UserId) then
 	getPlace()
 	return
 end
-notification("Get key in official discord! (already coppied)", 2)
 setclipboard("https://discord.gg/C73r4vqhNd");
 local EnterKey = ""
 if tostring(EnterKey) == "01246hsdgj88h7y7n8n" then
