@@ -79,7 +79,7 @@ local function loadAFS()
 	game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("sTempestHUB opening in 3 seconds!", true)
 	local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/sTempestHUB/scripts/main/library'))()
 	local Window = Library:CreateWindow({
-	    Title = 'sTempestHub | [UPD 41 + x3] Anime Fighters Simulator',
+	    Title = 'sTempestHub | [UPD 41 + x3] Anime Fighters Simulator | MIRA GAY',
 	    Center = true, 
 	    AutoShow = true,
 	})
@@ -896,7 +896,7 @@ local function loadAFS()
 						gotIt = false
 						if not table.find(passiveArray, passiveChoosed) then
 							game.ReplicatedStorage.Remote.RollPassive:FireServer(tonumber(fighterUID), k, type, 2)
-							labelText:SetText(tostring(getPassive(tostring(v.Passives["2"].Image), tostring(colorOverall))))
+							labelText:SetText(tostring(passiveChoosed))
 						end
 					elseif passiveChoosed ~= nil and table.find(passiveArray, passiveChoosed) and gotIt == false then
 						gotIt = true
@@ -916,7 +916,7 @@ local function loadAFS()
 						wait()
 						if not table.find(passiveArray, passiveChoosed) then
 							game.ReplicatedStorage.Remote.RollPassive:FireServer(tonumber(fighterUID), k, type, 1)
-							labelText:SetText(tostring(getPassive(tostring(v.Passives["1"].Image), tostring(colorOverall))))
+							labelText:SetText(tostring(passiveChoosed))
 						end
 					elseif passiveChoosed ~= nil and table.find(passiveArray, passiveChoosed) and gotIt == false then
 						gotIt = true
