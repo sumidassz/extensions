@@ -894,11 +894,13 @@ local function loadAFS()
 					local passiveChoosed = getPassive(tostring(v.Passives["2"].Image), tostring(colorOverall))
 					if not table.find(passiveArray, passiveChoosed) then
 						gotIt = false
-						game.ReplicatedStorage.Remote.RollPassive:FireServer(tonumber(fighterUID), k, type, 2)
-						labelText:SetText(tostring(getPassive(tostring(v.Passives["2"].Image), tostring(colorOverall))))
+						if not table.find(passiveArray, passiveChoosed) then
+							game.ReplicatedStorage.Remote.RollPassive:FireServer(tonumber(fighterUID), k, type, 2)
+							labelText:SetText(tostring(getPassive(tostring(v.Passives["2"].Image), tostring(colorOverall))))
+						end
 					elseif passiveChoosed ~= nil and table.find(passiveArray, passiveChoosed) and gotIt == false then
 						gotIt = true
-	                    game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("You got "..passiveChoosed.." on the "..fighter, true)
+	                    			game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("You got "..passiveChoosed.." on the "..fighter, true)
 						if webhook == true and webhookURL ~= 'None' and webhookUserId ~= 'None' then
 							sendWebhookForPassive(fighter, passiveChoosed, webhookURL, webhookUserId)
 						end
@@ -911,11 +913,14 @@ local function loadAFS()
 					local passiveChoosed = getPassive(tostring(v.Passives["1"].Image), tostring(colorOverall))
 					if not table.find(passiveArray, passiveChoosed) then
 						gotIt = false
-						game.ReplicatedStorage.Remote.RollPassive:FireServer(tonumber(fighterUID), k, type, 1)
-						labelText:SetText(tostring(getPassive(tostring(v.Passives["1"].Image), tostring(colorOverall))))
+						wait()
+						if not table.find(passiveArray, passiveChoosed) then
+							game.ReplicatedStorage.Remote.RollPassive:FireServer(tonumber(fighterUID), k, type, 1)
+							labelText:SetText(tostring(getPassive(tostring(v.Passives["1"].Image), tostring(colorOverall))))
+						end
 					elseif passiveChoosed ~= nil and table.find(passiveArray, passiveChoosed) and gotIt == false then
 						gotIt = true
-	                    game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("You got "..passiveChoosed.." on the "..fighter, true)
+	                    			game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("You got "..passiveChoosed.." on the "..fighter, true)
 						if webhook == true and webhookURL ~= 'None' and webhookUserId ~= 'None' then
 							sendWebhookForPassive(fighter, passiveChoosed, webhookURL, webhookUserId)
 						end
@@ -1042,7 +1047,7 @@ local function loadAFS()
 	local c9 = coroutine.create(function() while true do if Toggles.AutoRaidToggle.Value == true then autoRaidFunc(rworldArraySelected, worldSaved) end wait() end end) coroutine.resume(c9)
 	local c10 = coroutine.create(function() while true do if Toggles.AutoDefenseToggle.Value == true then autoDefenseFunc(Options.defenseToDoDropdown.Value, worldSaved2, Toggles.AutoDefenseFriendToggle.Value) end wait() end end) coroutine.resume(c10)
 	local c11 = coroutine.create(function() while true do if Toggles.autoEggOpenToggle.Value == true or Toggles.autoMaxOpenToggle.Value == true then eggBreakdownLabel:SetText(getEggCountBreakdown(game.Players.LocalPlayer.World.Value)) elseif Toggles.autoMaxOpenToggle.Value == false and Toggles.autoEggOpenToggle.Value == false then eggBreakdownLabel:SetText("Not Opening") end wait(2) end end) coroutine.resume(c11)
-	local c12 = coroutine.create(function() while true do if Toggles.autoRollPassiveToggle.Value == true then rerollPassive(Options.whoPetPassiveRerollDropdown.Value, rPassivesArraySelected, Options.withWhatPassiveRerollDropdown.Value, Options.whichSlotPassiveRerollDropdown.Value, passiveRerollLabel, Toggles.autoRollPassiveWebhookToggle.Value, Options.webhookURL.Value, Options.webhookUserId.Value) elseif Toggles.autoRollPassiveToggle.Value == false then passiveRerollLabel:SetText("Not Rolling Passive") wait(5) end wait(0.5) end end) coroutine.resume(c12)
+	local c12 = coroutine.create(function() while true do if Toggles.autoRollPassiveToggle.Value == true then rerollPassive(Options.whoPetPassiveRerollDropdown.Value, rPassivesArraySelected, Options.withWhatPassiveRerollDropdown.Value, Options.whichSlotPassiveRerollDropdown.Value, passiveRerollLabel, Toggles.autoRollPassiveWebhookToggle.Value, Options.webhookURL.Value, Options.webhookUserId.Value) elseif Toggles.autoRollPassiveToggle.Value == false then passiveRerollLabel:SetText("Not Rolling Passive") wait(5) end wait(0.3) end end) coroutine.resume(c12)
 end
 local function loadAW()
 	local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/sTempestHUB/scripts/main/library'))()
