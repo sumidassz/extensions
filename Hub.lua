@@ -892,7 +892,7 @@ local function loadAFS()
 					local colorB = v.Passives["2"].ImageColor3.B*255
 					local colorOverall = math.round(colorR)..", "..math.round(colorG)..", "..math.round(colorB)
 					local passiveChoosed = getPassive(tostring(v.Passives["2"].Image), tostring(colorOverall))
-					if not table.find(passiveArray, passiveChoosed) then
+					if passiveChoosed ~= nil and not table.find(passiveArray, passiveChoosed) then
 						gotIt = false
 						if not table.find(passiveArray, passiveChoosed) then
 							game.ReplicatedStorage.Remote.RollPassive:FireServer(tonumber(fighterUID), k, type, 2)
@@ -911,7 +911,7 @@ local function loadAFS()
 					local colorB = v.Passives["1"].ImageColor3.B*255
 					local colorOverall = math.round(colorR)..", "..math.round(colorG)..", "..math.round(colorB)
 					local passiveChoosed = getPassive(tostring(v.Passives["1"].Image), tostring(colorOverall))
-					if not table.find(passiveArray, passiveChoosed) then
+					if passiveChoosed ~= nil and not table.find(passiveArray, passiveChoosed) then
 						gotIt = false
 						wait()
 						if not table.find(passiveArray, passiveChoosed) then
