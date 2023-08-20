@@ -79,7 +79,7 @@ local function loadAFS()
 	game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("sTempestHUB opening in 3 seconds!", true)
 	local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/sTempestHUB/scripts/main/library'))()
 	local Window = Library:CreateWindow({
-	    Title = 'sTempestHub | [UPD 41 + x3] Anime Fighters Simulator | MIRA GAY',
+	    Title = 'sTempestHub | [UPD 41 + x3] Anime Fighters Simulator',
 	    Center = true, 
 	    AutoShow = true,
 	})
