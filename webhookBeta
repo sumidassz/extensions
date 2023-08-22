@@ -1,8 +1,6 @@
 local beforeList = {}
---local afterList = {{"Test", "Secret", 952859, "412"}}
 local afterList = {}
-local snumber = 0
-local number = 0
+local whatGot = {}
 function PetToRarity(Pet)
     for _, Worlds in pairs(game.ReplicatedStorage.ModuleScripts.PetStats:GetChildren()) do
         for __, Stats in pairs(require(Worlds)) do
@@ -74,8 +72,7 @@ local function before()
 	    if Pet:IsA("ImageButton") then
 	        for _, Pets in pairs(require(game.ReplicatedStorage.ModuleScripts.LocalDairebStore).GetStoreProxy("GameData"):GetData("Pets")) do
 	            if Pet.UID.Value == Pets.UID then
-	                table.insert(beforeList,  {Pet.PetName.Text; PetToRarity(Pet.PetName.Text); Pets.UID; Pets.Level })
-	                snumber = #beforeList
+	                table.insert(before,  {Pet.PetName.Text, PetToRarity(Pet.PetName.Text), Pets.UID, Pets.Level })
 	            end
 	        end
 	    end
@@ -86,19 +83,39 @@ local function after()
 	    if Pet:IsA("ImageButton") then
 	        for _, Pets in pairs(require(game.ReplicatedStorage.ModuleScripts.LocalDairebStore).GetStoreProxy("GameData"):GetData("Pets")) do
 	            if Pet.UID.Value == Pets.UID then
-	                table.insert(afterList,  {Pet.PetName.Text; PetToRarity(Pet.PetName.Text); Pets.UID; Pets.Level })
-	                number = #afterList
+	                table.insert(after,  {Pet.PetName.Text, PetToRarity(Pet.PetName.Text), Pets.UID, Pets.Level })
 	            end
 	        end
 	    end
 	end
 end
-before()
-wait(0.1)
-after()
-if number > snumber then
-    print(tostring(afterList[number][2]))
-    if table.find(raritySelected, tostring(afterList[number][2])) then
-    	sendWebhookForEgg(afterList[number], webhookURL, webhookID)
+local function compare()
+    table.clear(whatGot)
+    for i, v in ipairs(after) do
+        local found = false
+        for j, w in ipairs(before) do
+            if #v == #w then 
+                local equal = true
+                for k = 1, #v do
+                    if v[k] ~= w[k] then
+                        equal = false
+                        break
+                    end
+                end
+                if equal then
+                    found = true
+                    break
+                end
+            end
+        end
+        if not found then
+            table.insert(whatGot, v)
+        end
+    end
+end
+
+for i, v in ipairs(whatGot) do
+    if table.find(raritySelected, tostring(v[2])) then
+       sendWebhookForEgg(v, webhookURL, webhookID)
     end
 end
