@@ -1,6 +1,6 @@
 local beforeList = {}
---local afterList = {{"Test", "Divine", 952859, "412"}}
-local afterList = {}
+local afterList = {{"Test", "Secret", 952859, "412"}}
+--local afterList = {}
 local snumber = 0
 local number = 0
 function PetToRarity(Pet)
