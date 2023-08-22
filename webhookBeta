@@ -14,8 +14,8 @@ function PetToRarity(Pet)
 end
 
 local function sendWebhookForEgg(fighter, webhookURL, webhookUserId)
-    if webhookURL == nil then return end
-    if webhookUserId == nil then return end
+    if webhookURL == nil then print("Webhook URL nil") return end
+    if webhookUserId == nil then print("Webhook User Id nil") return end
     local embed = {
         ["username"] = "sTempest Hub Webhook",
         ["avatar_url"] = "https://cdn.discordapp.com/icons/1135648588408565831/a_652f8c5f23c144f4bf43cb98fea4421f.gif",
