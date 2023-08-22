@@ -1,5 +1,5 @@
-local beforeList = {}
-local afterList = {}
+local before = {}
+local after = {}
 local whatGot = {}
 function PetToRarity(Pet)
     for _, Worlds in pairs(game.ReplicatedStorage.ModuleScripts.PetStats:GetChildren()) do
@@ -67,7 +67,7 @@ local function sendWebhookForEgg(fighter, webhookURL, webhookUserId)
     }
     http_request({Url = tostring(webhookURL), Method = "POST", Headers = { ["Content-Type"] =  "application/json" }, Body = game:GetService('HttpService'):JSONEncode(embed)})
 end
-local function before()
+local function beforeF()
 	for _, Pet in pairs(game.Players.LocalPlayer.PlayerGui.MainGui.Pets.Main.Scroll:GetChildren()) do
 	    if Pet:IsA("ImageButton") then
 	        for _, Pets in pairs(require(game.ReplicatedStorage.ModuleScripts.LocalDairebStore).GetStoreProxy("GameData"):GetData("Pets")) do
@@ -78,7 +78,7 @@ local function before()
 	    end
 	end
 end
-local function after()
+local function afterF()
 	for _, Pet in pairs(game.Players.LocalPlayer.PlayerGui.MainGui.Pets.Main.Scroll:GetChildren()) do
 	    if Pet:IsA("ImageButton") then
 	        for _, Pets in pairs(require(game.ReplicatedStorage.ModuleScripts.LocalDairebStore).GetStoreProxy("GameData"):GetData("Pets")) do
@@ -113,7 +113,10 @@ local function compare()
         end
     end
 end
-
+beforeF()
+wait(0.1)
+afterF()
+compare()
 for i, v in ipairs(whatGot) do
     if table.find(raritySelected, tostring(v[2])) then
        sendWebhookForEgg(v, webhookURL, webhookID)
