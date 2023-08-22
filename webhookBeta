@@ -1,6 +1,6 @@
 local beforeList = {}
-local afterList = {{"Test", "Secret", 952859, "412"}}
---local afterList = {}
+--local afterList = {{"Test", "Secret", 952859, "412"}}
+local afterList = {}
 local snumber = 0
 local number = 0
 function PetToRarity(Pet)
@@ -96,8 +96,9 @@ end
 before()
 wait()
 after()
+wait(0.1)
 if number > snumber then
-	if table.find(raritySelected, tostring(afterList[number][2])) then
+    if table.find(raritySelected, tostring(afterList[number][2])) then
     	sendWebhookForEgg(afterList[number], webhookURL, webhookID)
     end
 end
