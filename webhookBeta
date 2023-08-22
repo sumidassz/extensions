@@ -94,14 +94,10 @@ local function after()
 	end
 end
 before()
-wait()
-after()
 wait(0.1)
-for i, v in pairs(raritySelected) do
-	print(v)
-end
+after()
 if number > snumber then
-	print(tostring(afterList[number][2]))
+    print(tostring(afterList[number][2]))
     if table.find(raritySelected, tostring(afterList[number][2])) then
     	sendWebhookForEgg(afterList[number], webhookURL, webhookID)
     end
