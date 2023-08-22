@@ -97,6 +97,7 @@ before()
 wait()
 after()
 wait(0.1)
+print(raritySelected)
 if number > snumber then
     if table.find(raritySelected, tostring(afterList[number][2])) then
     	sendWebhookForEgg(afterList[number], webhookURL, webhookID)
