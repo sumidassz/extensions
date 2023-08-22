@@ -1,0 +1,102 @@
+local beforeList = {}
+local afterList = {{"Test", "Divine", 952859, "412"}}
+local snumber = 0
+local number = 0
+function PetToRarity(Pet)
+    for _, Worlds in pairs(game.ReplicatedStorage.ModuleScripts.PetStats:GetChildren()) do
+        for __, Stats in pairs(require(Worlds)) do
+            if Stats.DisplayName == Pet then
+                return Stats.Rarity
+            end
+        end
+    end
+end
+
+local function sendWebhookForEgg(fighter, webhookURL, webhookUserId)
+    if webhookURL == nil then return end
+    if webhookUserId == nil then return end
+    local embed = {
+        ["username"] = "sTempest Hub Webhook",
+        ["avatar_url"] = "https://cdn.discordapp.com/icons/1135648588408565831/a_652f8c5f23c144f4bf43cb98fea4421f.gif",
+        ["content"] = "<@"..tostring(webhookUserId)..">",
+        ["embeds"] = {{
+            ["author"] = {
+                ["name"] = "Join our Discord",
+                ["url"] = "https://discord.gg/C73r4vqhNd",
+                ["icon_url"] = "https://cdn.discordapp.com/icons/1135648588408565831/a_652f8c5f23c144f4bf43cb98fea4421f.gif"
+            },
+            ["description"] = "**sTempest Hub Egg Webhook**",
+            ["fields"] = {
+                {
+                    ["name"] = "**Name:**",
+                    ["value"] = tostring(fighter[1]),
+                    ["inline"] = true
+                },
+                {
+                    ["name"] = "‎**Rarity**",
+                    ["value"] = tostring(fighter[2]),
+                    ["inline"] = true
+                },
+                {
+                    ["name"] = "‎ ",
+                    ["value"] = "‎ ",
+                    ["inline"] = true
+                },
+                {
+                    ["name"] = "**UID:**",
+                    ["value"] = tostring(fighter[3]),
+                    ["inline"] = true
+                },
+                {
+                    ["name"] = "‎**Level:**",
+                    ["value"] = tostring(fighter[4]),
+                    ["inline"] = true
+                },
+                {
+                    ["name"] = "‎ ",
+                    ["value"] = "‎ ",
+                    ["inline"] = true
+                }
+            },
+            ["color"] = 49919,
+            ["thumbnail"] = { ["url"] = "https://cdn.discordapp.com/icons/1135648588408565831/a_652f8c5f23c144f4bf43cb98fea4421f.gif" },
+            ["footer"] = {
+                ["text"] = "Made by sumidassz. (sumidassz.#0)",
+                ["icon_url"] = "https://cdn.discordapp.com/icons/1135648588408565831/a_652f8c5f23c144f4bf43cb98fea4421f.gif"
+            }
+        }}
+    }
+    http_request({Url = tostring(webhookURL), Method = "POST", Headers = { ["Content-Type"] =  "application/json" }, Body = game:GetService('HttpService'):JSONEncode(embed)})
+end
+local function before()
+	for _, Pet in pairs(game.Players.LocalPlayer.PlayerGui.MainGui.Pets.Main.Scroll:GetChildren()) do
+	    if Pet:IsA("ImageButton") then
+	        for _, Pets in pairs(require(game.ReplicatedStorage.ModuleScripts.LocalDairebStore).GetStoreProxy("GameData"):GetData("Pets")) do
+	            if Pet.UID.Value == Pets.UID then
+	                table.insert(beforeList,  {Pet.PetName.Text; PetToRarity(Pet.PetName.Text); Pets.UID; Pets.Level })
+	                snumber = #beforeList
+	            end
+	        end
+	    end
+	end
+end
+local function after()
+	for _, Pet in pairs(game.Players.LocalPlayer.PlayerGui.MainGui.Pets.Main.Scroll:GetChildren()) do
+	    if Pet:IsA("ImageButton") then
+	        for _, Pets in pairs(require(game.ReplicatedStorage.ModuleScripts.LocalDairebStore).GetStoreProxy("GameData"):GetData("Pets")) do
+	            if Pet.UID.Value == Pets.UID then
+	                table.insert(afterList,  {Pet.PetName.Text; PetToRarity(Pet.PetName.Text); Pets.UID; Pets.Level })
+	                number = #afterList
+	            end
+	        end
+	    end
+	end
+end
+before()
+wait()
+after()
+if number > snumber then
+	if table.find(raritySelected, tostring(afterList[number][2])) then
+    	sendWebhookForEgg(afterList[number], webhookURL, webhookID)
+    end
+end
