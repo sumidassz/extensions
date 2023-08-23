@@ -37,18 +37,18 @@ local function sendWebhookForEgg(fighter, webhookURL, webhookUserId)
                     ["inline"] = true
                 },
                 {
-                    ["name"] = "‎ ",
-                    ["value"] = "‎ ",
-                    ["inline"] = true
-                },
-                {
-                    ["name"] = "**UID:**",
+                    ["name"] = "‎**Shiny**",
                     ["value"] = tostring(fighter[3]),
                     ["inline"] = true
                 },
                 {
-                    ["name"] = "‎**Level:**",
+                    ["name"] = "**UID:**",
                     ["value"] = tostring(fighter[4]),
+                    ["inline"] = true
+                },
+                {
+                    ["name"] = "‎**Level:**",
+                    ["value"] = tostring(fighter[5]),
                     ["inline"] = true
                 },
                 {
@@ -72,7 +72,7 @@ local function beforeF()
 	    if Pet:IsA("ImageButton") then
 	        for _, Pets in pairs(require(game.ReplicatedStorage.ModuleScripts.LocalDairebStore).GetStoreProxy("GameData"):GetData("Pets")) do
 	            if Pet.UID.Value == Pets.UID then
-	                table.insert(before,  {Pet.PetName.Text, PetToRarity(Pet.PetName.Text), Pets.UID, Pets.Level })
+	                table.insert(before,  {Pet.PetName.Text, PetToRarity(Pet.PetName.Text), Pets.Shiny, Pets.UID, Pets.Level })
 	            end
 	        end
 	    end
@@ -83,7 +83,7 @@ local function afterF()
 	    if Pet:IsA("ImageButton") then
 	        for _, Pets in pairs(require(game.ReplicatedStorage.ModuleScripts.LocalDairebStore).GetStoreProxy("GameData"):GetData("Pets")) do
 	            if Pet.UID.Value == Pets.UID then
-	                table.insert(after,  {Pet.PetName.Text, PetToRarity(Pet.PetName.Text), Pets.UID, Pets.Level })
+	                table.insert(after,  {Pet.PetName.Text, PetToRarity(Pet.PetName.Text), Pets.Shiny, Pets.UID, Pets.Level })
 	            end
 	        end
 	    end
