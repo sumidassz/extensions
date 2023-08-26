@@ -3,11 +3,7 @@ local after = {}
 local whatGot = {}
 function PetToRarity(Pet)
     for _, Worlds in pairs(game.ReplicatedStorage.ModuleScripts.PetStats:GetChildren()) do
-        for __, Stats in pairs(require(Worlds)) do
-            if Stats.DisplayName == Pet then
-                return Stats.Rarity
-            end
-        end
+        return require(Worlds)[Pet].Rarity
     end
 end
 
