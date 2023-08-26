@@ -68,24 +68,16 @@ local function sendWebhookForEgg(fighter, webhookURL, webhookUserId)
     http_request({Url = tostring(webhookURL), Method = "POST", Headers = { ["Content-Type"] =  "application/json" }, Body = game:GetService('HttpService'):JSONEncode(embed)})
 end
 local function beforeF()
-	for _, Pet in pairs(game.Players.LocalPlayer.PlayerGui.MainGui.Pets.Main.Scroll:GetChildren()) do
-	    if Pet:IsA("ImageButton") then
-	        for _, Pets in pairs(require(game.ReplicatedStorage.ModuleScripts.LocalDairebStore).GetStoreProxy("GameData"):GetData("Pets")) do
-	            if Pet.UID.Value == Pets.UID then
-	                table.insert(before,  {Pet.PetName.Text, PetToRarity(Pet.PetName.Text), Pets.Shiny, Pets.UID, Pets.Level })
-	            end
-	        end
+	for _, Pets in pairs(require(game.ReplicatedStorage.ModuleScripts.LocalDairebStore).GetStoreProxy("GameData"):GetData("Pets")) do
+	    if Pet.UID.Value == Pets.UID then
+		table.insert(before,  {Pets.PetId, PetToRarity(Pets.PetId), Pets.Shiny, Pets.UID, Pets.Level })
 	    end
 	end
 end
 local function afterF()
-	for _, Pet in pairs(game.Players.LocalPlayer.PlayerGui.MainGui.Pets.Main.Scroll:GetChildren()) do
-	    if Pet:IsA("ImageButton") then
-	        for _, Pets in pairs(require(game.ReplicatedStorage.ModuleScripts.LocalDairebStore).GetStoreProxy("GameData"):GetData("Pets")) do
-	            if Pet.UID.Value == Pets.UID then
-	                table.insert(after,  {Pet.PetName.Text, PetToRarity(Pet.PetName.Text), Pets.Shiny, Pets.UID, Pets.Level })
-	            end
-	        end
+	for _, Pets in pairs(require(game.ReplicatedStorage.ModuleScripts.LocalDairebStore).GetStoreProxy("GameData"):GetData("Pets")) do
+	    if Pet.UID.Value == Pets.UID then
+		table.insert(after,  {Pets.PetId, PetToRarity(Pets.PetId), Pets.Shiny, Pets.UID, Pets.Level })
 	    end
 	end
 end
