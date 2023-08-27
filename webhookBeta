@@ -65,16 +65,12 @@ local function sendWebhookForEgg(fighter, webhookURL, webhookUserId)
 end
 local function beforeF()
 	for _, Pets in pairs(require(game.ReplicatedStorage.ModuleScripts.LocalDairebStore).GetStoreProxy("GameData"):GetData("Pets")) do
-	    if Pet.UID.Value == Pets.UID then
 		table.insert(before,  {Pets.PetId, PetToRarity(Pets.PetId), Pets.Shiny, Pets.UID, Pets.Level })
-	    end
 	end
 end
 local function afterF()
 	for _, Pets in pairs(require(game.ReplicatedStorage.ModuleScripts.LocalDairebStore).GetStoreProxy("GameData"):GetData("Pets")) do
-	    if Pet.UID.Value == Pets.UID then
-		table.insert(after,  {Pets.PetId, PetToRarity(Pets.PetId), Pets.Shiny, Pets.UID, Pets.Level })
-	    end
+		table.insert(after,  {Pets.PetId, PetToRarity(Pets.PetId), Pets.Shiny, Pets.UID, Pets.Level 
 	end
 end
 local function compare()
