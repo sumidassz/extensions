@@ -100,7 +100,7 @@ local function compare()
     end
 end
 beforeF()
-wait(3)
+wait(1)
 afterF()
 compare()
 for i, v in ipairs(whatGot) do
