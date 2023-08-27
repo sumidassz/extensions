@@ -1,0 +1,159 @@
+local function getPassive(passiveImage, passiveColor)
+    if game.Players.LocalPlayer.World.Value ~= "Summer2" then
+        if passiveImage == "rbxassetid://7375247842" and passiveColor == "194, 194, 194" then return "Rich I"
+        elseif passiveImage == "rbxassetid://7375247348" and passiveColor == "194, 194, 194" then return "Strong I"
+        elseif passiveImage == "rbxassetid://7375248119" and passiveColor == "194, 194, 194" then return "Genius I"
+        elseif passiveImage == "rbxassetid://7375577988" and passiveColor == "194, 194, 194" then return "Tactical I"
+        elseif passiveImage == "rbxassetid://10003795304" and passiveColor == "21, 173, 255" then return "Diligent I"
+        elseif passiveImage == "rbxassetid://7375578212" and passiveColor == "21, 173, 255" then return "Collector I"
+        elseif passiveImage == "rbxassetid://8608070794" and passiveColor == "21, 173, 255" then return "Lucky I"
+        elseif passiveImage == "rbxassetid://8172421057" and passiveColor == "21, 173, 255" then return "Leader I"
+        elseif passiveImage == "rbxassetid://8062985782" and passiveColor == "21, 173, 255" then return "Sorcerer I"
+        elseif passiveImage == "rbxassetid://7375247505" and passiveColor == "142, 6, 238" then return "Speedy"
+        elseif passiveImage == "rbxassetid://7375247842" and passiveColor == "21, 173, 255" then return "Rich II"
+        elseif passiveImage == "rbxassetid://7375577988" and passiveColor == "142, 6, 238" then return "Tactical II"
+        elseif passiveImage == "rbxassetid://8172421057" and passiveColor == "142, 6, 238" then return "Leader II"
+        elseif passiveImage == "rbxassetid://7375578212" and passiveColor == "142, 6, 238" then return "Collector II"
+        elseif passiveImage == "rbxassetid://7375247348" and passiveColor == "21, 173, 255" then return "Strong II"
+        elseif passiveImage == "rbxassetid://7375248119" and passiveColor == "21, 173, 255" then return "Genius II"
+        elseif passiveImage == "rbxassetid://8062985782" and passiveColor == "255, 119, 0" then return "Sorcerer II"
+        elseif passiveImage == "rbxassetid://10003795304" and passiveColor == "255, 119, 0" then return "Diligent II"
+        elseif passiveImage == "rbxassetid://8608070794" and passiveColor == "255, 119, 0" then return "Lucky II"
+        elseif passiveImage == "rbxassetid://7375247348" and passiveColor == "142, 6, 238" then return "Strong III"
+        elseif passiveImage == "rbxassetid://7375247842" and passiveColor == "142, 6, 238" then return "Rich III"
+        elseif passiveImage == "rbxassetid://7375248119" and passiveColor == "255, 119, 0" then return "Genius III"
+        elseif passiveImage == "rbxassetid://7375578212" and passiveColor == "255, 119, 0" then return "Collector III"
+        elseif passiveImage == "rbxassetid://7375577988" and passiveColor == "255, 119, 0" then return "Tactical III"
+        elseif passiveImage == "rbxassetid://7375247232" and passiveColor == "255, 119, 0" then return "Tank"
+        elseif passiveImage == "rbxassetid://7375247081" and passiveColor == "255, 119, 0" then return "Tiny"
+        elseif passiveImage == "rbxassetid://7375247939" and passiveColor == "255, 119, 0" then return "Giant"
+        elseif passiveImage == "rbxassetid://8062985782" and passiveColor == "255, 255, 255" then return "Sorcerer III"
+        elseif passiveImage == "rbxassetid://8608070794" and passiveColor == "255, 255, 255" then return "Lucky III"
+        elseif passiveImage == "rbxassetid://8172421057" and passiveColor == "255, 255, 255" then return "Leader III"
+        elseif passiveImage == "rbxassetid://10003795304" and passiveColor == "255, 255, 255" then return "Diligent III"
+        elseif passiveImage == "rbxassetid://10146075798" and passiveColor == "255, 255, 255" then return "Mercenary"
+        elseif passiveImage == "rbxassetid://7375248582" and passiveColor == "255, 255, 255" then return "Blessing"
+        elseif passiveImage == "rbxassetid://10009294507" and passiveColor == "255, 255, 255" then return "Prodigy"
+        elseif passiveImage == "rbxassetid://7505462153" and passiveColor == "255, 255, 255" then return "Ghostly"
+        elseif passiveImage == "rbxassetid://7375578335" and passiveColor == "255, 255, 255" then return "Solid Gold"
+        elseif passiveImage == "rbxassetid://8996757627" and passiveColor == "255, 255, 255" then return "Draconic"
+        elseif passiveImage == "rbxassetid://8163499249" and passiveColor == "255, 255, 255" then return "Ace"
+        elseif passiveImage == "rbxassetid://8317975282" then return "God"
+        elseif passiveImage == "rbxassetid://10497512115" then return "Lightspeed"
+        elseif passiveImage == "rbxassetid://10416789581" then return "Protagonist"
+        elseif passiveImage == "rbxassetid://9473480980" then return "Monster"
+        elseif passiveImage == "rbxassetid://9495501830" then return "Time Lord" end
+    elseif game.Players.LocalPlayer.World.Value == "Summer2" then
+        if passiveImage == "rbxassetid://10497483822" then return "Summer Fighter"
+        elseif passiveImage == "rbxassetid://7375247348" and passiveColor == "21, 173, 255" then return "Summer Strong"
+        elseif passiveImage == "rbxassetid://7375247842" and passiveColor == "21, 173, 255" then return "Summer Rich"
+        elseif passiveImage == "rbxassetid://7375248119" and passiveColor == "21, 173, 255" then return "Summer Genius"
+        elseif passiveImage == "rbxassetid://7375577988" and passiveColor == "21, 173, 255" then return "Summer Tactical"
+        elseif passiveImage == "rbxassetid://7375578212" and passiveColor == "142, 6, 238" then return "Summer Collector"
+        elseif passiveImage == "rbxassetid://8062985782" and passiveColor == "142, 6, 238" then return "Summer Sorcerer"
+        elseif passiveImage == "rbxassetid://8608070794" and passiveColor == "255, 119, 0" then return "Summer Lucky"
+        elseif passiveImage == "rbxassetid://8172421057" and passiveColor == "255, 119, 0" then return "Summer Leader"
+        elseif passiveImage == "rbxassetid://10497570620" and passiveColor == "255, 255, 255" then return "Flaming"
+        elseif passiveImage == "rbxassetid://10497570394" and passiveColor == "255, 255, 255" then return "Relaxed"
+        elseif passiveImage == "rbxassetid://10497668451" and passiveColor == "255, 255, 255" then return "General"
+        elseif passiveImage == "rbxassetid://7375247348" then return "Crew Leader" end
+    end
+end
+local function sendWebhookForPassive(fighter, passive, webhookURL, webhookUserId)
+  if webhookURL == nil then return end
+  if webhookUserId == nil then return end
+  local embed = {
+    ["username"] = "sTempest Hub Webhook",
+    ["avatar_url"] = "https://cdn.discordapp.com/icons/1135648588408565831/a_652f8c5f23c144f4bf43cb98fea4421f.gif",
+    ["content"] = "<@"..tostring(webhookUserId)..">",
+    ["embeds"] = {{
+        ["author"] = {
+            ["name"] = "Join our Discord",
+            ["url"] = "https://discord.gg/C73r4vqhNd",
+            ["icon_url"] = "https://cdn.discordapp.com/icons/1135648588408565831/a_652f8c5f23c144f4bf43cb98fea4421f.gif"
+          },
+      ["description"] = "**sTempest Hub Passive Webhook**",
+      ["fields"] = {
+          {
+            ["name"] = "**Fighter:**",
+            ["value"] = tostring(fighter),
+            ["inline"] = true
+          },
+          {
+            ["name"] = "‎ ",
+            ["value"] = "‎ ",
+            ["inline"] = true
+          },
+          {
+            ["name"] = "**Passive:**",
+            ["value"] = tostring(passive),
+            ["inline"] = true
+          }
+        },
+      ["color"] = 49919,
+      ["thumbnail"] = { ["url"] = "https://cdn.discordapp.com/icons/1135648588408565831/a_652f8c5f23c144f4bf43cb98fea4421f.gif" },
+      ["footer"] = {
+        ["text"] = "Made by sumidassz. (sumidassz.#0)",
+        ["icon_url"] = "https://cdn.discordapp.com/icons/1135648588408565831/a_652f8c5f23c144f4bf43cb98fea4421f.gif"
+      }
+    }}
+  }
+  http_request({Url = tostring(webhookURL), Method = "POST", Headers = { ["Content-Type"] =  "application/json" }, Body = game:GetService('HttpService'):JSONEncode(embed)})
+end
+local gotIt = false
+local function rerollPassive(fighter, passiveArray, tokenOrShard, slot, webhook, webhookURL, webhookUserId)
+  local fighterUID = string.match(string.sub(string.match(tostring(fighter), "%s%p%d+%p"), 3, 10), "%d+")
+  local type = t
+  local k
+  if tokenOrShard == "Shards" then type = t
+  elseif tokenOrShard == "Token" then type = true end
+  if game.Players.LocalPlayer.World.Value == "Summer2" then k = "Summer"
+  elseif  game.Players.LocalPlayer.World.Value == "MadeInAbyss" then k = "Requiem" end
+  for i, v in pairs(game.Players.LocalPlayer.PlayerGui.MainGui.Pets.Main.Scroll:GetChildren()) do
+    if v:IsA("ImageButton") and v:FindFirstChild("UID") and v:FindFirstChild("PetName") and v:FindFirstChild("Passives") then
+      if tostring(fighterUID) == tostring(v.UID.Value) and slot == "Slot 2" and v.Passives:FindFirstChild("2") then
+        local colorR = v.Passives["2"].ImageColor3.R*255
+        local colorG = v.Passives["2"].ImageColor3.G*255
+        local colorB = v.Passives["2"].ImageColor3.B*255
+        local colorOverall = math.round(colorR)..", "..math.round(colorG)..", "..math.round(colorB)
+        local passiveChoosed = getPassive(tostring(v.Passives["2"].Image), tostring(colorOverall))
+        if not table.find(passiveArray, passiveChoosed) then
+          gotIt = false
+          if not table.find(passiveArray, passiveChoosed) then
+            game.ReplicatedStorage.Remote.RollPassive:FireServer(tonumber(fighterUID), k, type, 2)
+          end
+        elseif passiveChoosed ~= nil and table.find(passiveArray, passiveChoosed) and gotIt == false then
+          gotIt = true
+                          game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("You got "..passiveChoosed.." on the "..fighter, true)
+          if webhook == true and webhookURL ~= 'None' and webhookUserId ~= 'None' then
+            sendWebhookForPassive(fighter, passiveChoosed, webhookURL, webhookUserId)
+          end
+        end
+      elseif tostring(fighterUID) == tostring(v.UID.Value) and slot == "Slot 1" and v.Passives:FindFirstChild("1") then
+        local colorR = v.Passives["1"].ImageColor3.R*255
+        local colorG = v.Passives["1"].ImageColor3.G*255
+        local colorB = v.Passives["1"].ImageColor3.B*255
+        local colorOverall = math.round(colorR)..", "..math.round(colorG)..", "..math.round(colorB)
+        local passiveChoosed = getPassive(tostring(v.Passives["1"].Image), tostring(colorOverall))
+        if not table.find(passiveArray, passiveChoosed) then
+          gotIt = false
+          wait()
+          if not table.find(passiveArray, passiveChoosed) then
+            game.ReplicatedStorage.Remote.RollPassive:FireServer(tonumber(fighterUID), k, type, 1)
+          end
+        elseif passiveChoosed ~= nil and table.find(passiveArray, passiveChoosed) and gotIt == false then
+          gotIt = true
+                          game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("You got "..passiveChoosed.." on the "..fighter, true)
+          if webhook == true and webhookURL ~= 'None' and webhookUserId ~= 'None' then
+            sendWebhookForPassive(fighter, passiveChoosed, webhookURL, webhookUserId)
+          end
+        end
+      elseif tostring(fighterUID) == tostring(v.UID.Value) and slot == "Slot 1" and not v.Passives:FindFirstChild("1") then
+        game.ReplicatedStorage.Remote.RollPassive:FireServer(tonumber(fighterUID), k, type, 1)
+      elseif tostring(fighterUID) == tostring(v.UID.Value) and slot == "Slot 2" and not v.Passives:FindFirstChild("2") then
+        game.ReplicatedStorage.Remote.RollPassive:FireServer(tonumber(fighterUID), k, type, 2)
+      end
+    end
+  end
+end
+rerollPassive(fighterRoll, passiveList, typeRoll, slotRoll, webhookToggle, webhookURL, webhookUserId)
