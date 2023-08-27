@@ -156,4 +156,4 @@ local function rerollPassive(fighter, passiveArray, tokenOrShard, slot, webhook,
     end
   end
 end
-rerollPassive(fighterRoll, passiveList, typeRoll, slotRoll, webhookToggle, webhookURL, webhookUserId)
+rerollPassive(fighterRoll, passiveList, typeRoll, slotRoll, webhookToggle, webhookURLENV, webhookUserIdENV)
