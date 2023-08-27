@@ -70,7 +70,7 @@ local function beforeF()
 end
 local function afterF()
 	for _, Pets in pairs(require(game.ReplicatedStorage.ModuleScripts.LocalDairebStore).GetStoreProxy("GameData"):GetData("Pets")) do
-		table.insert(after,  {Pets.PetId, PetToRarity(Pets.PetId), Pets.Shiny, Pets.UID, Pets.Level 
+		table.insert(after,  {Pets.PetId, PetToRarity(Pets.PetId), Pets.Shiny, Pets.UID, Pets.Level })
 	end
 end
 local function compare()
