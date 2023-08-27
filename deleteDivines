@@ -1,6 +1,7 @@
 local before = {}
 local after = {}
 local whatGot = {}
+local trueNameDivines = {Vegito = { DisplayName = "Vegetable"}, Madara = { DisplayName = "Great Ninja"}, Pucci = { DisplayName = "Hernando"}, Mewtwo = { DisplayName = "Engineered Alien (Mewtwo)"}, Femto = { DisplayName = "Red Bat"}, Endeavor = { DisplayName = "Flaming Hero"}, Gigamesh = { DisplayName = "True Golden King"}, Kaido = { DisplayName = "Dragon-King"}, Gyomei = { DisplayName = "Sensitive Slayer"}, Sakuya = { DisplayName = "Chief Maid"}, Rien = { DisplayName = "Rean"}, Raizo = { DisplayName = "Daizo"}, YhwachBTYBW = { DisplayName = "Judano"}, GojoYoung = { DisplayName = "Gojou"}}
 local function beforeF()
 	for _, Pets in pairs(require(game.ReplicatedStorage.ModuleScripts.LocalDairebStore).GetStoreProxy("GameData"):GetData("Pets")) do
 		if trueNameDivines[Pets.PetId] ~= nil then
