@@ -100,7 +100,6 @@ local function sendWebhookForPassive(fighter, passive, webhookURL, webhookUserId
   }
   http_request({Url = tostring(webhookURL), Method = "POST", Headers = { ["Content-Type"] =  "application/json" }, Body = game:GetService('HttpService'):JSONEncode(embed)})
 end
-local gotIt = false
 local function rerollPassive(fighter, passiveArray, tokenOrShard, slot, webhook, webhookURL, webhookUserId)
   local fighterUID = string.match(string.sub(string.match(tostring(fighter), "%s%p%d+%p"), 3, 10), "%d+")
   local type = t
