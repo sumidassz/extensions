@@ -14,15 +14,15 @@ local function sendWebhookForEgg(fighter, webhookURL, webhookUserId)
     if webhookUserId == nil then print("Webhook User Id nil") return end
     local embed = {
         ["username"] = "dps penso Hub Webhook",
-        ["avatar_url"] = "https://cdn.discordapp.com/icons/1135648588408565831/a_652f8c5f23c144f4bf43cb98fea4421f.gif",
+        ["avatar_url"] = "https://media.discordapp.net/attachments/1145042891123740742/1145765058924785675/Sem_Titulo-1.png?width=768&height=768",
         ["content"] = "<@"..tostring(webhookUserId)..">",
         ["embeds"] = {{
             ["author"] = {
                 ["name"] = "Join our Discord",
                 ["url"] = "https://discord.gg/FnBwqhW66r",
-                ["icon_url"] = "https://cdn.discordapp.com/icons/1135648588408565831/a_652f8c5f23c144f4bf43cb98fea4421f.gif"
+                ["icon_url"] = "https://media.discordapp.net/attachments/1145042891123740742/1145765058924785675/Sem_Titulo-1.png?width=768&height=768"
             },
-            ["description"] = "**dps penso Hub Star Webhook**",
+            ["description"] = "**Ender Hub Star Webhook**",
             ["fields"] = {
                 {
                     ["name"] = "**Name:**",
@@ -56,9 +56,9 @@ local function sendWebhookForEgg(fighter, webhookURL, webhookUserId)
                 }
             },
             ["color"] = 49919,
-            ["thumbnail"] = { ["url"] = "https://cdn.discordapp.com/icons/1135648588408565831/a_652f8c5f23c144f4bf43cb98fea4421f.gif" },
+            ["thumbnail"] = { ["url"] = "https://media.discordapp.net/attachments/1145042891123740742/1145765058924785675/Sem_Titulo-1.png?width=768&height=768" },
             ["footer"] = {
-                ["text"] = "Made by sumidassz. (sumidassz.#0)",
+                ["text"] = "Made by sumidassz. (sumidassz.#0) | Ender Hub",
                 ["icon_url"] = "https://cdn.discordapp.com/icons/1135648588408565831/a_652f8c5f23c144f4bf43cb98fea4421f.gif"
             }
         }}
