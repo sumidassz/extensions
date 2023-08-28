@@ -19,7 +19,7 @@ local function sendWebhookForEgg(fighter, webhookURL, webhookUserId)
         ["embeds"] = {{
             ["author"] = {
                 ["name"] = "Join our Discord",
-                ["url"] = "https://discord.gg/C73r4vqhNd",
+                ["url"] = "https://discord.gg/FnBwqhW66r",
                 ["icon_url"] = "https://cdn.discordapp.com/icons/1135648588408565831/a_652f8c5f23c144f4bf43cb98fea4421f.gif"
             },
             ["description"] = "**dps penso Hub Star Webhook**",
