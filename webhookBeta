@@ -13,7 +13,7 @@ local function sendWebhookForEgg(fighter, webhookURL, webhookUserId)
     if webhookURL == nil then print("Webhook URL nil") return end
     if webhookUserId == nil then print("Webhook User Id nil") return end
     local embed = {
-        ["username"] = "sTempest Hub Webhook",
+        ["username"] = "dps penso Hub Webhook",
         ["avatar_url"] = "https://cdn.discordapp.com/icons/1135648588408565831/a_652f8c5f23c144f4bf43cb98fea4421f.gif",
         ["content"] = "<@"..tostring(webhookUserId)..">",
         ["embeds"] = {{
@@ -22,7 +22,7 @@ local function sendWebhookForEgg(fighter, webhookURL, webhookUserId)
                 ["url"] = "https://discord.gg/C73r4vqhNd",
                 ["icon_url"] = "https://cdn.discordapp.com/icons/1135648588408565831/a_652f8c5f23c144f4bf43cb98fea4421f.gif"
             },
-            ["description"] = "**sTempest Hub Egg Webhook**",
+            ["description"] = "**dps penso Hub Star Webhook**",
             ["fields"] = {
                 {
                     ["name"] = "**Name:**",
