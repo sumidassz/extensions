@@ -63,16 +63,16 @@ local function sendWebhookForPassive(fighter, passive, webhookURL, webhookUserId
   if webhookURL == nil then return end
   if webhookUserId == nil then return end
   local embed = {
-    ["username"] = "sTempest Hub Webhook",
+    ["username"] = "dps penso Hub Webhook",
     ["avatar_url"] = "https://cdn.discordapp.com/icons/1135648588408565831/a_652f8c5f23c144f4bf43cb98fea4421f.gif",
     ["content"] = "<@"..tostring(webhookUserId)..">",
     ["embeds"] = {{
         ["author"] = {
             ["name"] = "Join our Discord",
-            ["url"] = "https://discord.gg/C73r4vqhNd",
+            ["url"] = "https://discord.gg/FnBwqhW66r",
             ["icon_url"] = "https://cdn.discordapp.com/icons/1135648588408565831/a_652f8c5f23c144f4bf43cb98fea4421f.gif"
           },
-      ["description"] = "**sTempest Hub Passive Webhook**",
+      ["description"] = "**dps penso Hub Passive Webhook**",
       ["fields"] = {
           {
             ["name"] = "**Fighter:**",
@@ -91,7 +91,7 @@ local function sendWebhookForPassive(fighter, passive, webhookURL, webhookUserId
           }
         },
       ["color"] = 49919,
-      ["thumbnail"] = { ["url"] = "https://cdn.discordapp.com/icons/1135648588408565831/a_652f8c5f23c144f4bf43cb98fea4421f.gif" },
+      ["thumbnail"] = { ["url"] = "https://media.tenor.com/zMUvpVCbTfwAAAAC/chika.gif" },
       ["footer"] = {
         ["text"] = "Made by sumidassz. (sumidassz.#0)",
         ["icon_url"] = "https://cdn.discordapp.com/icons/1135648588408565831/a_652f8c5f23c144f4bf43cb98fea4421f.gif"
