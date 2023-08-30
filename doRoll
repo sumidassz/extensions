@@ -1,8 +1,0 @@
-if game.CoreGui:FindFirstChild("Script") then for n,t in pairs(getconnections(game.CoreGui.Script.Main.Buttons.Undo.Interact.MouseButton1Click)) do t.Function() end wait(1) game.CoreGui.Script:Destroy()  end
-wait(0.5)
-game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("Started Dupe!", true)
-loadstring(game:HttpGet('https://raw.githubusercontent.com/sTempestHUB/scripts/main/rollback'))()
-game.CoreGui.Script.Enabled = false
-if game.CoreGui:FindFirstChild("Script") then
-for b,y in pairs(getconnections(game.CoreGui.Script.Main.Buttons.Start.Interact.MouseButton1Click)) do y.Function() end
-end
