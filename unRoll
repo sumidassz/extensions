@@ -1,3 +1,0 @@
-if not game.CoreGui:FindFirstChild("Script") then return end
-game.Players.LocalPlayer.PlayerGui.MainGui.SendMessage:Fire("Undo Dupe!", false)
-for n,t in pairs(getconnections(game.CoreGui.Script.Main.Buttons.Undo.Interact.MouseButton1Click)) do t.Function() end
