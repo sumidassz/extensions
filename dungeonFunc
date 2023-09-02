@@ -14,6 +14,7 @@ if #dungeonEnemies:GetChildren() == 0 then
             if roomItem.Name == 'DungeonRoomDoorRemotePrompt' and roomItem:IsA('ProximityPrompt') then
                 game.Players.LocalPlayer.Character:PivotTo(roomItem.Parent:GetPivot())
                 fireproximityprompt(roomItem)
+                wait(0.01)
             end
         end
     end
