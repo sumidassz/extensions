@@ -1,56 +1,124 @@
-local dungeonWorld = workspace.Worlds['Dungeon']
-local dungeonEnemies = dungeonWorld.Enemies
-local dungeonMap = dungeonWorld.Map.Model
-local dungeonRooms = dungeonMap:GetChildren()
-if #dungeonEnemies:GetChildren() == 0 then
-    for _, room in ipairs(dungeonRooms) do
-        if room:FindFirstChild('ConfirmPart') and room.ConfirmPart:FindFirstChild('ProximityPrompt') then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = room.ConfirmPart.CFrame*CFrame.new(0,2,0)
-            wait()
-            fireproximityprompt(room.ConfirmPart.ProximityPrompt)
-            wait(0.25)
-        end
-        for key, roomItem in ipairs(room:GetDescendants()) do
-            if roomItem.Name == 'DungeonRoomDoorRemotePrompt' and roomItem:IsA('ProximityPrompt') then
-                game.Players.LocalPlayer.Character:PivotTo(roomItem.Parent:GetPivot())
-                fireproximityprompt(roomItem)
-                wait(0.25)
-            end
-        end
-    end
-else
-    for _, enemy in ipairs(dungeonEnemies:GetChildren()) do
-        game.Players.LocalPlayer.Character:PivotTo(enemy:GetPivot())
-        if enemy:FindFirstChild('HumanoidRootPart') and enemy:FindFirstChild('Health') and enemy.Health.Value > 0 then
-            if enemy:FindFirstChild('Attackers') then
-                if teamForChests ~= "None" and teamForDmg ~= "None" then
-                    if enemy.Name == 'Chest' then
-                        for teamName, teamButton in pairs(playerTeams) do
-                            if teamName == teamForChests then
-                                for i, button in pairs(getconnections(teamButton.Activated)) do
-                                    if i == 1 then
-                                        button:Fire()
-                                    end
-                                end
-                            end
-                        end
-                    else
-                        for teamName, teamButton in pairs(playerTeams) do
-                            if teamName == teamForDmg then
-                                for i, button in pairs(getconnections(teamButton.Activated)) do
-                                    if i == 1 then
-                                        button:Fire()
-                                    end
-                                end
-                            end
-                        end
-                    end
-                    game.ReplicatedStorage.Bindable.SendPet:Fire(enemy, true)
-                else
-                    game.ReplicatedStorage.Bindable.SendPet:Fire(enemy, true)
+local function getNearestMob(ignoreTable, world, exclusiveMob)
+    local dist, thing = math.huge
+    for i, v in next, workspace.Worlds[tostring(world)].Enemies:GetChildren() do
+        if v.PrimaryPart ~= nil then
+            if exclusiveMob == "" and v:FindFirstChild("Health") and tonumber(v.Health.Value) > 0 and v:FindFirstChild("DisplayName") and not table.find(ignoreTable, v.DisplayName.Value) then
+                local mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.PrimaryPart.Position).magnitude
+                if mag < dist then
+                    dist = mag
+                    thing = v
+                end
+            elseif exclusiveMob ~= "" and v:FindFirstChild("Health") and tonumber(v.Health.Value) > 0 and v:FindFirstChild("DisplayName") and exclusiveMob == v.DisplayName.Value then
+                local mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.PrimaryPart.Position).magnitude
+                if mag < dist then
+                    dist = mag
+                    thing = v
                 end
             end
-            wait()
         end
     end
+    return thing
+end
+local function sendPets(mob)
+    for _, pets in pairs(game:GetService("Workspace").Pets:GetChildren()) do
+        if pets:FindFirstChild("Data") and pets.Data:FindFirstChild("Owner") and pets.Data:FindFirstChild("Attacking") and pets.Data.Owner.Value == game.Players.LocalPlayer and not pets.Data.Attacking.Value then
+            game.ReplicatedStorage.Bindable.SendPet:Fire(mob, false);
+        end
+    end
+end
+local function autoFarmEverythingFunc(ignoreChest, tp)
+    if game.Players.LocalPlayer.Character ~= nil and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        if ignoreChest then
+            sendPets(getNearestMob({"Chest"}, game.Players.LocalPlayer.World.Value, ""))
+            if tp then game.Players.LocalPlayer.Character:PivotTo(getNearestMob({"Chest"}, game.Players.LocalPlayer.World.Value, ""):GetPivot()) end
+        else 
+            sendPets(getNearestMob({""}, game.Players.LocalPlayer.World.Value, ""))
+            if tp then game.Players.LocalPlayer.Character:PivotTo(getNearestMob({""}, game.Players.LocalPlayer.World.Value, ""):GetPivot()) end
+        end
+    end
+end
+local function getNearestForDungeon(type)
+    local dist, thing = math.huge
+    for i, v in pairs(workspace.Worlds.Dungeon.Map:GetDescendants()) do
+        if v:IsA("Part") then
+            if type == "ConfirmPart" and v:FindFirstChild("ProximityPrompt") then
+                local mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:GetPivot().Position).magnitude
+                if mag < dist then
+                    dist = mag
+                    thing = v
+                end
+            elseif type == "Door" and v:FindFirstChild("DungeonRoomDoorRemotePrompt") then
+                local mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:GetPivot().Position).magnitude
+                if mag < dist then
+                    dist = mag
+                    thing = v
+                end
+            end
+        end
+    end
+    return thing
+end
+local autoDungeonTable = {}
+for _, mobs in pairs(workspace.Worlds.Dungeon.Enemies:GetChildren()) do
+    if mobs.Name == "Chest" then
+        if not table.find(autoDungeonTable, mobs.Name) then
+            table.insert(autoDungeonTable, mobs.Name)
+        end
+    else
+        table.insert(autoDungeonTable, mobs.Name)
+    end
+end
+for _, numericMap in pairs(workspace.Worlds.Dungeon.Map:GetDescendants()) do
+    if numericMap:FindFirstChild("ConfirmPart") and numericMap.ConfirmPart:FindFirstChild("ProximityPrompt") then
+        if not table.find(autoDungeonTable, "ConfirmPart") then
+            table.insert(autoDungeonTable, "ConfirmPart")
+        end
+    end
+    for i, door in pairs(numericMap:GetChildren()) do
+        if door:IsA("Model") and door:FindFirstChild("Door") and door.Door:IsA("Part") and door.Door:FindFirstChild("DungeonRoomDoorRemotePrompt") then
+            local overallColor = math.round((door.Door.Color.R*255))..", "..math.round((door.Door.Color.G*255))..", "..math.round((door.Door.Color.B*255))
+            if tostring(overallColor) == "217, 182, 56" and not table.find(autoDungeonTable, "GoldenDoor") then
+                table.insert(autoDungeonTable, "GoldenDoor")
+            elseif tostring(overallColor) == "206, 46, 31" and not table.find(autoDungeonTable, "BossDoor") and game.Players.LocalPlayer.PlayerGui.MainGui.DungeonMinimap.Key.Image == "rbxassetid://10021306822" then
+                table.insert(autoDungeonTable, "BossDoor")
+            elseif tostring(overallColor) == "234, 209, 21" and not table.find(autoDungeonTable, "BossDoor") and game.Players.LocalPlayer.PlayerGui.MainGui.DungeonMinimap.Key.Image == "rbxassetid://10021306822" then
+                table.insert(autoDungeonTable, "BossGoldenDoor")
+            end
+        end
+    end
+end
+if #autoDungeonTable == 1 and autoDungeonTable[1] == "BossDoor" then
+    game.Players.LocalPlayer.Character:PivotTo(getNearestForDungeon("Door"):GetPivot())
+    fireproximityprompt(getNearestForDungeon("Door").DungeonRoomDoorRemotePrompt)
+elseif #autoDungeonTable == 1 and autoDungeonTable[1] == "BossGoldenDoor" then
+    game.Players.LocalPlayer.Character:PivotTo(getNearestForDungeon("Door"):GetPivot())
+    fireproximityprompt(getNearestForDungeon("Door").DungeonRoomDoorRemotePrompt)
+elseif #autoDungeonTable >= 1 and table.find(autoDungeonTable, "GoldenDoor") and table.find(autoDungeonTable, "BossDoor") and not table.find(autoDungeonTable, "ConfirmPart") then
+    game.Players.LocalPlayer.Character:PivotTo(getNearestForDungeon("Door"):GetPivot())
+    fireproximityprompt(getNearestForDungeon("Door").DungeonRoomDoorRemotePrompt)
+elseif #autoDungeonTable >= 1 and table.find(autoDungeonTable, "Chest") and not table.find(autoDungeonTable, "ConfirmPart") then
+    for teamName, teamButton in pairs(playerTeams) do
+        if teamName == teamForChests then
+            for i, button in pairs(getconnections(teamButton.Activated)) do
+                if i == 1 then
+                    button:Fire()
+                end
+            end
+        end
+    end
+    attackEverythingFunc(false, true)
+elseif #autoDungeonTable >= 1 and table.find(autoDungeonTable, "ConfirmPart") then
+    game.Players.LocalPlayer.Character:PivotTo(getNearestForDungeon("ConfirmPart"):GetPivot())
+    fireproximityprompt(getNearestForDungeon("ConfirmPart").ProximityPrompt)
+elseif #autoDungeonTable >= 1 then
+    for teamName, teamButton in pairs(playerTeams) do
+        if teamName == teamForDmg then
+            for i, button in pairs(getconnections(teamButton.Activated)) do
+                if i == 1 then
+                    button:Fire()
+                end
+            end
+        end
+    end
+    attackEverythingFunc(true, true)
 end
