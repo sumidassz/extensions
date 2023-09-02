@@ -106,7 +106,7 @@ elseif #autoDungeonTable >= 1 and table.find(autoDungeonTable, "Chest") and not 
             end
         end
     end
-    attackEverythingFunc(false, true)
+    autoFarmEverythingFunc(false, true)
 elseif #autoDungeonTable >= 1 and table.find(autoDungeonTable, "ConfirmPart") then
     game.Players.LocalPlayer.Character:PivotTo(getNearestForDungeon("ConfirmPart"):GetPivot())
     fireproximityprompt(getNearestForDungeon("ConfirmPart").ProximityPrompt)
@@ -120,5 +120,5 @@ elseif #autoDungeonTable >= 1 then
             end
         end
     end
-    attackEverythingFunc(true, true)
+    autoFarmEverythingFunc(true, true)
 end
