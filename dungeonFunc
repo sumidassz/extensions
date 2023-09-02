@@ -8,6 +8,7 @@ if #dungeonEnemies:GetChildren() == 0 then
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = room.ConfirmPart.CFrame*CFrame.new(0,2,0)
             wait()
             fireproximityprompt(room.ConfirmPart.ProximityPrompt)
+            wait(0.1)
         end
         for key, roomItem in ipairs(room:GetDescendants()) do
             if roomItem.Name == 'DungeonRoomDoorRemotePrompt' and roomItem:IsA('ProximityPrompt') then
