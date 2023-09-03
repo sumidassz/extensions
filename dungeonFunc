@@ -22,10 +22,10 @@ local function sendPets(mob)
 end
 local function autoFarmEverythingFunc(ignoreChest, tp)
     if game.Players.LocalPlayer.Character ~= nil and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
-        if ignoreChest then
+        if ignoreChest and getNearestMob({"Chest"}, game.Players.LocalPlayer.World.Value, "") ~= nil then
             sendPets(getNearestMob({"Chest"}, game.Players.LocalPlayer.World.Value, ""))
             if tp then game.Players.LocalPlayer.Character:PivotTo(getNearestMob({"Chest"}, game.Players.LocalPlayer.World.Value, ""):GetPivot()) end
-        else 
+        elseif not ignoreChest and getNearestMob({""}, game.Players.LocalPlayer.World.Value, "") ~= nil then
             sendPets(getNearestMob({""}, game.Players.LocalPlayer.World.Value, ""))
             if tp then game.Players.LocalPlayer.Character:PivotTo(getNearestMob({""}, game.Players.LocalPlayer.World.Value, ""):GetPivot()) end
         end
