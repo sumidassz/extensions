@@ -1,3 +1,5 @@
+if game.Players.LocalPlayer.World.Value ~= "Dungeon" then return end
+if workspace.Camera.CameraType ~= Enum.CameraType.Attach then workspace.Camera.CameraType = Enum.CameraType.Attach end
 local function getNearestMob(ignoreTable, world, exclusiveMob)
     local dist, thing = math.huge
     for i, v in next, workspace.Worlds[tostring(world)].Enemies:GetChildren() do
@@ -31,88 +33,22 @@ local function autoFarmEverythingFunc(ignoreChest, tp)
         end
     end
 end
-local function getNearestForDungeon(type)
-    local dist, thing = math.huge
-    for i, v in pairs(workspace.Worlds.Dungeon.Map:GetDescendants()) do
-        if v:IsA("Part") then
-            if type == "ConfirmPart" and v:FindFirstChild("ProximityPrompt") then
-                local mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:GetPivot().Position).magnitude
-                if mag < dist then
-                    dist = mag
-                    thing = v
-                end
-            elseif type == "Door" and v:FindFirstChild("DungeonRoomDoorRemotePrompt") then
-                local mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:GetPivot().Position).magnitude
-                if mag < dist then
-                    dist = mag
-                    thing = v
-                end
-            end
-        end
-    end
-    return thing
-end
-local autoDungeonTable = {}
-for _, mobs in pairs(workspace.Worlds.Dungeon.Enemies:GetChildren()) do
-    if mobs.Name == "Chest" then
-        if not table.find(autoDungeonTable, mobs.Name) then
-            table.insert(autoDungeonTable, mobs.Name)
-        end
-    else
-        table.insert(autoDungeonTable, mobs.Name)
+for _, enemy in pairs(workspace.Worlds.Dungeon.Enemies:GetChildren()) do
+    if enemy.Name == "Chest" then
+        autoFarmEverythingFunc(false, true)
+    elseif enemy.Name ~= "Chest" then
+        autoFarmEverythingFunc(true, true)
     end
 end
-for _, numericMap in pairs(workspace.Worlds.Dungeon.Map:GetDescendants()) do
-    if numericMap:FindFirstChild("ConfirmPart") and numericMap.ConfirmPart:FindFirstChild("ProximityPrompt") then
-        if not table.find(autoDungeonTable, "ConfirmPart") then
-            table.insert(autoDungeonTable, "ConfirmPart")
-        end
-    end
-    for i, door in pairs(numericMap:GetChildren()) do
-        if door:IsA("Model") and door:FindFirstChild("Door") and door.Door:IsA("Part") and door.Door:FindFirstChild("DungeonRoomDoorRemotePrompt") then
-            local overallColor = math.round((door.Door.Color.R*255))..", "..math.round((door.Door.Color.G*255))..", "..math.round((door.Door.Color.B*255))
-            if tostring(overallColor) == "217, 182, 56" and not table.find(autoDungeonTable, "GoldenDoor") then
-                table.insert(autoDungeonTable, "GoldenDoor")
-            elseif tostring(overallColor) == "206, 46, 31" and not table.find(autoDungeonTable, "BossDoor") and game.Players.LocalPlayer.PlayerGui.MainGui.DungeonMinimap.Key.Image == "rbxassetid://10021306822" then
-                table.insert(autoDungeonTable, "BossDoor")
-            elseif tostring(overallColor) == "234, 209, 21" and not table.find(autoDungeonTable, "BossDoor") and game.Players.LocalPlayer.PlayerGui.MainGui.DungeonMinimap.Key.Image == "rbxassetid://10021306822" then
-                table.insert(autoDungeonTable, "BossGoldenDoor")
+for _, pp in pairs(workspace.Worlds.Dungeon.Map.Model:GetDescendants()) do
+    if pp:IsA("ProximityPrompt") and pp.Parent:IsA("Part") then
+        if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position-pp.Parent.Position).magnitude > 15 then
+            if pp.Parent.Color ~= Color3.fromRGB(206, 46, 31) then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pp.Parent.CFrame*CFrame.new(0,2,0)
+            elseif pp.Parent.Color == Color3.fromRGB(206, 46, 31) and game.Players.LocalPlayer.PlayerGui.MainGui.DungeonMinimap.Key.Image == "rbxassetid://10021306822" then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pp.Parent.CFrame*CFrame.new(0,2,0)
             end
         end
+        fireproximityprompt(pp, 1)
     end
-end
-if #autoDungeonTable == 1 and autoDungeonTable[1] == "BossDoor" then
-    game.Players.LocalPlayer.Character:PivotTo(getNearestForDungeon("Door"):GetPivot())
-    fireproximityprompt(getNearestForDungeon("Door").DungeonRoomDoorRemotePrompt)
-elseif #autoDungeonTable == 1 and autoDungeonTable[1] == "BossGoldenDoor" then
-    game.Players.LocalPlayer.Character:PivotTo(getNearestForDungeon("Door"):GetPivot())
-    fireproximityprompt(getNearestForDungeon("Door").DungeonRoomDoorRemotePrompt)
-elseif #autoDungeonTable >= 1 and table.find(autoDungeonTable, "GoldenDoor") and table.find(autoDungeonTable, "BossDoor") and not table.find(autoDungeonTable, "ConfirmPart") then
-    game.Players.LocalPlayer.Character:PivotTo(getNearestForDungeon("Door"):GetPivot())
-    fireproximityprompt(getNearestForDungeon("Door").DungeonRoomDoorRemotePrompt)
-elseif #autoDungeonTable >= 1 and table.find(autoDungeonTable, "Chest") and not table.find(autoDungeonTable, "ConfirmPart") then
-    for teamName, teamButton in pairs(playerTeams) do
-        if teamName == teamForChests then
-            for i, button in pairs(getconnections(teamButton.Activated)) do
-                if i == 1 then
-                    button:Fire()
-                end
-            end
-        end
-    end
-    autoFarmEverythingFunc(false, true)
-elseif #autoDungeonTable >= 1 and table.find(autoDungeonTable, "ConfirmPart") then
-    game.Players.LocalPlayer.Character:PivotTo(getNearestForDungeon("ConfirmPart"):GetPivot())
-    fireproximityprompt(getNearestForDungeon("ConfirmPart").ProximityPrompt)
-elseif #autoDungeonTable >= 1 then
-    for teamName, teamButton in pairs(playerTeams) do
-        if teamName == teamForDmg then
-            for i, button in pairs(getconnections(teamButton.Activated)) do
-                if i == 1 then
-                    button:Fire()
-                end
-            end
-        end
-    end
-    autoFarmEverythingFunc(true, true)
 end
