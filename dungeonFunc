@@ -3,13 +3,11 @@ if workspace.Camera.CameraType ~= Enum.CameraType.Attach then workspace.Camera.C
 local function getNearestMob(ignoreTable, world, exclusiveMob)
     local dist, thing = math.huge
     for i, v in next, workspace.Worlds[tostring(world)].Enemies:GetChildren() do
-        if v.PrimaryPart ~= nil then
-            if exclusiveMob == "" and v:FindFirstChild("Health") and tonumber(v.Health.Value) > 0 and v:FindFirstChild("DisplayName") and not table.find(ignoreTable, v.DisplayName.Value) then
-                local mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:GetPivot().Position).magnitude
-                if mag < dist then
-                    dist = mag
-                    thing = v
-                end
+        if exclusiveMob == "" and v:FindFirstChild("Health") and tonumber(v.Health.Value) > 0 and v:FindFirstChild("DisplayName") and not table.find(ignoreTable, v.DisplayName.Value) then
+            local mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:GetPivot().Position).magnitude
+            if mag < dist then
+                dist = mag
+                thing = v
             end
         end
     end
