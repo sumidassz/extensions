@@ -33,9 +33,27 @@ local function autoFarmEverythingFunc(ignoreChest, tp)
 end
 for _, enemy in pairs(workspace.Worlds.Dungeon.Enemies:GetChildren()) do
     if enemy.Name == "Chest" then
+        for teamName, teamButton in pairs(playerTeams) do
+            if teamName == teamForChests then
+                for i, button in pairs(getconnections(teamButton.Activated)) do
+                    if i == 1 then
+                        button:Fire()
+                    end
+                end
+            end
+        end
         autoFarmEverythingFunc(false, true)
     elseif enemy.Name ~= "Chest" then
         autoFarmEverythingFunc(true, true)
+        for teamName, teamButton in pairs(playerTeams) do
+            if teamName == teamForDmg then
+                for i, button in pairs(getconnections(teamButton.Activated)) do
+                    if i == 1 then
+                        button:Fire()
+                    end
+                end
+            end
+        end
     end
 end
 if #workspace.Worlds.Dungeon.Enemies:GetChildren() == 0 then
