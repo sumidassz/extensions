@@ -47,9 +47,11 @@ for _, pp in pairs(workspace.Worlds.Dungeon.Map.Model:GetDescendants()) do
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pp.Parent.CFrame*CFrame.new(0,2,0)
             elseif pp.Parent.Color == Color3.fromRGB(206, 46, 31) and game.Players.LocalPlayer.PlayerGui.MainGui.DungeonMinimap.Key.Image == "rbxassetid://10021306822" then
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pp.Parent.CFrame*CFrame.new(0,2,0)
+                print("Boss Door")
             end
         end
+        print("Test")
         fireproximityprompt(pp, 1)
-        wait(0.4)
+        wait(0.5)
     end
 end
