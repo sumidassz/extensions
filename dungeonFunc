@@ -50,7 +50,8 @@ for _, pp in pairs(workspace.Worlds.Dungeon.Map.Model:GetDescendants()) do
                 print("Boss Door")
             end
         end
-        fireproximityprompt(pp, 1)
+        wait(0.25)
+        fireproximityprompt(pp, 10)
         wait(0.5)
     end
 end
