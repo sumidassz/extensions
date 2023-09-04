@@ -67,9 +67,9 @@ if #workspace.Worlds.Dungeon.Enemies:GetChildren() == 0 then
                     print("Boss Door")
                 end
             end
-            wait(0.25)
+            wait(0.1)
             fireproximityprompt(pp, 10)
-            wait(0.5)
+            wait(0.25)
         end
     end
 end
