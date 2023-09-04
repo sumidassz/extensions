@@ -50,5 +50,6 @@ for _, pp in pairs(workspace.Worlds.Dungeon.Map.Model:GetDescendants()) do
             end
         end
         fireproximityprompt(pp, 1)
+        wait(0.4)
     end
 end
