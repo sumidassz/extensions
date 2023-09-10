@@ -58,18 +58,20 @@ for _, enemy in pairs(workspace.Worlds.Dungeon.Enemies:GetChildren()) do
 end
 if #workspace.Worlds.Dungeon.Enemies:GetChildren() == 0 then
     for _, pp in pairs(workspace.Worlds.Dungeon.Map.Model:GetDescendants()) do
-        if pp:IsA("ProximityPrompt") and pp.Parent:IsA("Part") then
-            if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position-pp.Parent.Position).magnitude > 15 then
-                if pp.Parent.Color ~= Color3.fromRGB(206, 46, 31) then
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pp.Parent.CFrame*CFrame.new(0,2,0)
-                elseif pp.Parent.Color == Color3.fromRGB(206, 46, 31) and game.Players.LocalPlayer.PlayerGui.MainGui.DungeonMinimap.Key.Image == "rbxassetid://10021306822" then
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pp.Parent.CFrame*CFrame.new(0,2,0)
-                    print("Boss Door")
+        if pp ~= nil then
+            if pp:IsA("ProximityPrompt") and pp.Parent:IsA("Part") then
+                if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position-pp.Parent.Position).magnitude > 15 then
+                    if pp.Parent.Color ~= Color3.fromRGB(206, 46, 31) then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pp.Parent.CFrame*CFrame.new(0,2,0)
+                    elseif pp.Parent.Color == Color3.fromRGB(206, 46, 31) and game.Players.LocalPlayer.PlayerGui.MainGui.DungeonMinimap.Key.Image == "rbxassetid://10021306822" then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pp.Parent.CFrame*CFrame.new(0,2,0)
+                        print("Boss Door")
+                    end
                 end
+                wait(0.1)
+                fireproximityprompt(pp, 10)
+                wait(0.25)
             end
-            wait(0.1)
-            fireproximityprompt(pp, 10)
-            wait(0.25)
         end
     end
 end
