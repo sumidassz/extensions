@@ -1,4 +1,4 @@
-if game.Players.LocalPlayer.World.Value ~= "Dungeon" then return end
+if game.Players.LocalPlayer.World.Value ~= "Dungeon" then game.ReplicatedStorage.Bindable.AttemptTravel:Fire("Dungeon") end
 if workspace.Camera.CameraType ~= Enum.CameraType.Attach then workspace.Camera.CameraType = Enum.CameraType.Attach end
 local function getNearestMob(ignoreTable, world, exclusiveMob)
     local dist, thing = math.huge
