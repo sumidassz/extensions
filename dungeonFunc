@@ -1,9 +1,9 @@
 if game.Players.LocalPlayer.World.Value ~= "Dungeon" then game.ReplicatedStorage.Bindable.AttemptTravel:Fire("Dungeon") end
 if workspace.Camera.CameraType ~= Enum.CameraType.Attach then workspace.Camera.CameraType = Enum.CameraType.Attach end
-local function getNearestMob(ignoreTable, world, exclusiveMob)
+local function getNearestMob(ignoreTable, world)
     local dist, thing = math.huge
     for i, v in next, workspace.Worlds[tostring(world)].Enemies:GetChildren() do
-        if exclusiveMob == "" and v:FindFirstChild("Health") and tonumber(v.Health.Value) > 0 and v:FindFirstChild("DisplayName") and not table.find(ignoreTable, v.DisplayName.Value) then
+        if v:FindFirstChild("DisplayName") and not table.find(ignoreTable, v.DisplayName.Value) and v:FindFirstChild("Health") and tonumber(v.Health.Value) > 0 then
             local mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:GetPivot().Position).magnitude
             if mag < dist then
                 dist = mag
@@ -20,24 +20,26 @@ local function sendPets(mob)
         end
     end
 end
-local function autoFarmEverythingFunc(ignoreChest, tp)
+local function autoFarmEverythingFunc(ignoreChest)
     if game.Players.LocalPlayer.Character ~= nil and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
-        if ignoreChest and getNearestMob({"Chest"}, game.Players.LocalPlayer.World.Value, "") ~= nil then
-            sendPets(getNearestMob({"Chest"}, game.Players.LocalPlayer.World.Value, ""))
-            if tp then game.Players.LocalPlayer.Character:PivotTo(getNearestMob({"Chest"}, game.Players.LocalPlayer.World.Value, ""):GetPivot()) end
-        elseif not ignoreChest and getNearestMob({""}, game.Players.LocalPlayer.World.Value, "") ~= nil then
-            sendPets(getNearestMob({""}, game.Players.LocalPlayer.World.Value, ""))
-            if tp then game.Players.LocalPlayer.Character:PivotTo(getNearestMob({""}, game.Players.LocalPlayer.World.Value, ""):GetPivot()) end
+        if ignoreChest and getNearestMob({"Chest"}, game.Players.LocalPlayer.World.Value) ~= nil then
+            sendPets(getNearestMob({"Chest"}, game.Players.LocalPlayer.World.Value))
+            game.Players.LocalPlayer.Character:PivotTo(getNearestMob({"Chest"}, game.Players.LocalPlayer.World.Value):GetPivot())
+        elseif not ignoreChest and getNearestMob({""}, game.Players.LocalPlayer.World.Value) ~= nil then
+            sendPets(getNearestMob({""}, game.Players.LocalPlayer.World.Value))
+            game.Players.LocalPlayer.Character:PivotTo(getNearestMob({""}, game.Players.LocalPlayer.World.Value):GetPivot())
         end
     end
 end
 for _, enemy in pairs(workspace.Worlds.Dungeon.Enemies:GetChildren()) do
     if enemy.Name == "Chest" then
-        for teamName, teamButton in pairs(playerTeams) do
-            if teamName == teamForChests then
-                for i, button in pairs(getconnections(teamButton.Activated)) do
-                    if i == 1 then
-                        button:Fire()
+        if teamForChests ~= "None" then
+            for teamName, teamButton in pairs(playerTeams) do
+                if teamName == teamForChests then
+                    for i, button in pairs(getconnections(teamButton.Activated)) do
+                        if i == 1 then
+                            button:Fire()
+                        end
                     end
                 end
             end
@@ -45,11 +47,13 @@ for _, enemy in pairs(workspace.Worlds.Dungeon.Enemies:GetChildren()) do
         autoFarmEverythingFunc(false, true)
     elseif enemy.Name ~= "Chest" then
         autoFarmEverythingFunc(true, true)
-        for teamName, teamButton in pairs(playerTeams) do
-            if teamName == teamForDmg then
-                for i, button in pairs(getconnections(teamButton.Activated)) do
-                    if i == 1 then
-                        button:Fire()
+        if teamForDmg ~= "None" then
+            for teamName, teamButton in pairs(playerTeams) do
+                if teamName == teamForDmg then
+                    for i, button in pairs(getconnections(teamButton.Activated)) do
+                        if i == 1 then
+                            button:Fire()
+                        end
                     end
                 end
             end
