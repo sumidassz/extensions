@@ -87,9 +87,9 @@ end
 
 local mobsArrayAA = {}
 table.clear(mobsArrayAA)
-Options.autoFarmDropdown:OnChanged(function()
+Options.autoMobDropdown:OnChanged(function()
     table.clear(mobsArrayAA)
-    for key, value in next, Options.autoFarmDropdown.Value do
+    for key, value in next, Options.autoMobDropdown.Value do
         if not table.find(mobsArrayAA, key) then
             table.insert(mobsArrayAA, key)
         end
@@ -97,4 +97,4 @@ Options.autoFarmDropdown:OnChanged(function()
 end)
 
 coroutine.resume(coroutine.create(function() while not Fluent.Unloaded do if Options.autoEnergy.Value then game:GetService("ReplicatedStorage").Remotes.Server:FireServer({"Click"}) end wait() end end))
-coroutine.resume(coroutine.create(function() while not Fluent.Unloaded do if Options.autoMob.Value then attackMob(mobsArrayAA) end wait(0.2) end end))
+coroutine.resume(coroutine.create(function() while not Fluent.Unloaded do if Options.autoMob.Value then attackMob(mobsArrayAA) end wait() end end))
