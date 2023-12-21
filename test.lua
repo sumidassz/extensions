@@ -49,7 +49,7 @@ function getNearestEnemy(array)
 end
 
 function attackMob(array)
-    if getNearestEnemy(array) == nil then return end
+    if getNearestEnemy(array) == nil then print("Mob nil") return end
     game:GetService("ReplicatedStorage").Remotes.Server:FireServer({"Mob", getNearestEnemy(array)})
 end
 
@@ -97,4 +97,4 @@ Options.autoFarmDropdown:OnChanged(function()
 end)
 
 coroutine.resume(coroutine.create(function() while not Fluent.Unloaded do if Options.autoEnergy.Value then game:GetService("ReplicatedStorage").Remotes.Server:FireServer({"Click"}) end wait() end end))
-coroutine.resume(coroutine.create(function() while not Fluent.Unloaded do if Options.autoMob.Value then attackMob(mobsArrayAA) end wait() end end))
+coroutine.resume(coroutine.create(function() while not Fluent.Unloaded do if Options.autoMob.Value then attackMob(mobsArrayAA) end wait(0.2) end end))
